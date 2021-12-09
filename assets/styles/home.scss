@@ -1,0 +1,36 @@
+.home {
+  margin:0;
+  background: $bg-home;
+  color: $primary;
+  font-family: 'Mulish', serif;
+  font-style: normal;
+  font-weight: bold;
+  text-align: center;
+
+    .h1 {
+      font-size: 36px;
+      line-height: 45px;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    .btn-home-registration-white {
+      width: 450px;
+      height: 84px;
+      background: #FDFDFD;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+    }
+    .btn-home-yellow {
+      width: 450px;
+      height: 84px;
+      background: $bg-home;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+    }
+    .btn-home-purple {
+      width: 450px;
+      height: 84px;
+      background: linear-gradient(90deg, #B59BFF 0%, #AF49FF 54.69%, #DD53FF 100%);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+    }
+}
