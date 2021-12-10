@@ -1,21 +1,13 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Accueil{% endblock %}
-
-
 {% block body %}
 <div class="home d-flex flex-column justify-content-center">
-    <h1 class="m-3">
-      Bienvenue sur EASI-DESTI
-    </h1>
-    <h2 class="mb-5">
-        Le jeu qui t'aide à mieux lire !
-    </h2>
+    <h1 class="m-3">Bienvenue sur EASI-DESTI</h1>
+    <h2 class="mb-5">Le jeu qui t'aide à mieux lire !</h2>
     <div class="m-5">
         <button type="button" class="btn-home-registration-white">
-            <img src="assets/images/favicon.png" alt="livres"> Je m'inscris pour la première fois !
+            <img src="{{ asset ('build/images/favicon.png') }}" alt="livres"> Je m'inscris pour la première fois !
         </button>
     </div>
-
 </div>
 {% endblock %}
