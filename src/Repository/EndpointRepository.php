@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\EndPoint;
+use App\Entity\Endpoint;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method EndPoint|null find($id, $lockMode = null, $lockVersion = null)
- * @method EndPoint|null findOneBy(array $criteria, array $orderBy = null)
- * @method EndPoint[]    findAll()
- * @method EndPoint[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Endpoint|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Endpoint|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Endpoint[]    findAll()
+ * @method Endpoint[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EndPointRepository extends ServiceEntityRepository
+class EndpointRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EndPoint::class);
+        parent::__construct($registry, Endpoint::class);
     }
 
     // /**
-    //  * @return EndPoint[] Returns an array of EndPoint objects
+    //  * @return Endpoint[] Returns an array of Endpoint objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class EndPointRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?EndPoint
+    public function findOneBySomeField($value): ?Endpoint
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

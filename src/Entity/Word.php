@@ -17,50 +17,43 @@ class Word
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $content;
+    private string $content;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $definition;
+    private ?string $definition;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $audio;
+    private ?string $audio;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Letter::class, mappedBy="word")
+     * @ORM\OneToMany(targetEntity=MuteLetter::class, mappedBy="word")
      */
-    private $letters;
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity=EndPoint::class, inversedBy="word")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $endPoint;
+    private Collection $muteLetters;
 
     /**
-     * @ORM\OneToMany(targetEntity=EndPoint::class, mappedBy="word")
+     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="word", orphanRemoval=true)
      */
-    private $endPoints;
+    private Collection $letters;
 
     /**
-     * @ORM\OneToMany(targetEntity=MuteLetter::class, mappedBy="word", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Endpoint::class, mappedBy="word", orphanRemoval=true)
      */
-    private $muteLetters;
+    private Collection $endpoints;
 
     public function __construct()
     {
-        $this->letters = new ArrayCollection();
-        $this->endPoints = new ArrayCollection();
         $this->muteLetters = new ArrayCollection();
+        $this->letters = new ArrayCollection();
+        $this->endpoints = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,7 +78,7 @@ class Word
         return $this->definition;
     }
 
-    public function setDefinition(string $definition): self
+    public function setDefinition(?string $definition): self
     {
         $this->definition = $definition;
 
@@ -97,78 +90,9 @@ class Word
         return $this->audio;
     }
 
-    public function setAudio(string $audio): self
+    public function setAudio(?string $audio): self
     {
         $this->audio = $audio;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Letter[]
-     */
-    public function getLetters(): Collection
-    {
-        return $this->letters;
-    }
-
-    public function addLetter(Letter $letter): self
-    {
-        if (!$this->letters->contains($letter)) {
-            $this->letters[] = $letter;
-            $letter->addWord($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLetter(Letter $letter): self
-    {
-        if ($this->letters->removeElement($letter)) {
-            $letter->removeWord($this);
-        }
-
-        return $this;
-    }
-
-    public function getEndPoint(): ?EndPoint
-    {
-        return $this->endPoint;
-    }
-
-    public function setEndPoint(?EndPoint $endPoint): self
-    {
-        $this->endPoint = $endPoint;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|EndPoint[]
-     */
-    public function getEndPoints(): Collection
-    {
-        return $this->endPoints;
-    }
-
-    public function addEndPoint(EndPoint $endPoint): self
-    {
-        if (!$this->endPoints->contains($endPoint)) {
-            $this->endPoints[] = $endPoint;
-            $endPoint->setWord($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEndPoint(EndPoint $endPoint): self
-    {
-        if ($this->endPoints->removeElement($endPoint)) {
-            // set the owning side to null (unless already changed)
-            if ($endPoint->getWord() === $this) {
-                $endPoint->setWord(null);
-            }
-        }
 
         return $this;
     }
@@ -197,6 +121,66 @@ class Word
             // set the owning side to null (unless already changed)
             if ($muteLetter->getWord() === $this) {
                 $muteLetter->setWord(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getLetters(): Collection
+    {
+        return $this->letters;
+    }
+
+    public function addLetter(Letter $letter): self
+    {
+        if (!$this->letters->contains($letter)) {
+            $this->letters[] = $letter;
+            $letter->setWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLetter(Letter $letter): self
+    {
+        if ($this->letters->removeElement($letter)) {
+            // set the owning side to null (unless already changed)
+            if ($letter->getWord() === $this) {
+                $letter->setWord(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Endpoint[]
+     */
+    public function getEndpoints(): Collection
+    {
+        return $this->endpoints;
+    }
+
+    public function addEndpoint(Endpoint $endpoint): self
+    {
+        if (!$this->endpoints->contains($endpoint)) {
+            $this->endpoints[] = $endpoint;
+            $endpoint->setWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEndpoint(Endpoint $endpoint): self
+    {
+        if ($this->endpoints->removeElement($endpoint)) {
+            // set the owning side to null (unless already changed)
+            if ($endpoint->getWord() === $this) {
+                $endpoint->setWord(null);
             }
         }
 

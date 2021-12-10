@@ -2,45 +2,46 @@
 
 namespace App\Entity;
 
-use App\Repository\EndPointRepository;
+use App\Repository\EndpointRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EndPointRepository::class)
+ * @ORM\Entity(repositoryClass=EndpointRepository::class)
  */
-class EndPoint
+class Endpoint
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $endpointPosition;
+    private int $position;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Word::class, inversedBy="endPoints")
+     * @ORM\ManyToOne(targetEntity=Word::class, inversedBy="endpoints")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $word;
+    private ?Word $word;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEndpointPosition(): ?int
+    public function getPosition(): ?int
     {
-        return $this->endpointPosition;
+        return $this->position;
     }
 
-    public function setEndpointPosition(int $endpointPosition): self
+    public function setPosition(int $position): self
     {
-        $this->endpointPosition = $endpointPosition;
+        $this->position = $position;
 
         return $this;
     }

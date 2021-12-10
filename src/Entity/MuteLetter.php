@@ -15,32 +15,31 @@ class MuteLetter
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $letterPosition;
+    private int $position;
 
     /**
      * @ORM\ManyToOne(targetEntity=Word::class, inversedBy="muteLetters")
-     * @ORM\JoinColumn(nullable=false)
      */
-    private $word;
+    private ?Word $word;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLetterPosition(): ?int
+    public function getPosition(): ?int
     {
-        return $this->letterPosition;
+        return $this->position;
     }
 
-    public function setLetterPosition(?int $letterPosition): self
+    public function setPosition(int $position): self
     {
-        $this->letterPosition = $letterPosition;
+        $this->position = $position;
 
         return $this;
     }
