@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\LetterRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,22 +15,18 @@ class Letter
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=1)
      */
-    private $content;
+    private string $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Word::class, inversedBy="letters")
+     * @ORM\ManyToOne(targetEntity=Word::class, inversedBy="letters")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $word;
-
-    public function __construct()
-    {
-        $this->word = new ArrayCollection();
-    }
+    private ?Word $word;
 
     public function getId(): ?int
     {
@@ -51,26 +45,14 @@ class Letter
         return $this;
     }
 
-    /**
-     * @return Collection|Word[]
-     */
-    public function getWord(): Collection
+    public function getWord(): ?Word
     {
         return $this->word;
     }
 
-    public function addWord(Word $word): self
+    public function setWord(?Word $word): self
     {
-        if (!$this->word->contains($word)) {
-            $this->word[] = $word;
-        }
-
-        return $this;
-    }
-
-    public function removeWord(Word $word): self
-    {
-        $this->word->removeElement($word);
+        $this->word = $word;
 
         return $this;
     }
