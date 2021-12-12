@@ -1,6 +1,14 @@
 .easi {
-  background-color: $bg-easi;
+  background: $bg-easi;
+  position : fixed;
+  width : 100%;
+  height: 100%;
+  color: $secondary;
+  font-family: 'Mulish', serif;
+  font-style: normal;
+  font-weight: bold;
     .btn-easi-pink {
+      color: $primary;
       width: 140px;
       height: 96px;
       background: linear-gradient(0deg, #FDA085, #FDA085);
@@ -50,6 +58,8 @@
       border-radius: 20px;
     }
     .btn-easi-white-help {
+      text-align: center;
+      color: $primary;
       width: 150px;
       height: 150px;
       background: #FFFFFF;
