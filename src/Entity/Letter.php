@@ -15,12 +15,17 @@ class Letter
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=1)
      */
     private string $content;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Word::class, inversedBy="letters")
@@ -41,6 +46,18 @@ class Letter
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

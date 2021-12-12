@@ -16,7 +16,7 @@ class Endpoint
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="integer")
@@ -28,6 +28,11 @@ class Endpoint
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Word $word;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private \DateTimeInterface $createdAt;
 
     public function getId(): ?int
     {
@@ -54,6 +59,18 @@ class Endpoint
     public function setWord(?Word $word): self
     {
         $this->word = $word;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
