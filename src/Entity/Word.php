@@ -17,7 +17,7 @@ class Word
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -48,6 +48,11 @@ class Word
      * @ORM\OneToMany(targetEntity=Endpoint::class, mappedBy="word", orphanRemoval=true)
      */
     private Collection $endpoints;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private \DateTimeInterface $createdAt;
 
     public function __construct()
     {
@@ -183,6 +188,18 @@ class Word
                 $endpoint->setWord(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
