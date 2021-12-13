@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="easi">
+        <div class="d-flex flex-row justify-content-between p-3">
+            <img src="{{ asset('build/images/image_a.png') }}" alt="image lettre a">
+            <h2>EASI</h2>
+        </div>
+        <div class="d-flex flex-column">
+            <h1 class="text-center"> Explication des différents phonèmes possibles avec la lettre A</h1>
+            <!--<audio src="{{ asset('build/audios/explication_phoneme.mp3') }}" autoplay></audio>-->
+            <div class="offset-5">
+                <a href=""><img class="w-25" src="{{ asset('build/images/logo-hear.png') }}" alt="logo écouter"></a>
+            </div>
+        </div>
+        <div class="col-12 d-flex flex-row mt-5">
+            <div class="btn-easi-white-propositions">
+                <h4><img class="w-25" src alt="emoji aide"></h4>
+                <p class="d-flex flex-row mt-4">
+                    <img class="w-75" src="{{ asset('build/images/aide1_ciseaux.png') }}" alt="ciseaux">
+                    <img class="w-75" src="{{ asset('build/images/aide1_chut.png') }}" alt="chut">
+                </p>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
