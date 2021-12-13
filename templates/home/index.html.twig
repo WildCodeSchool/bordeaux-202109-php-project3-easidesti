@@ -4,23 +4,17 @@
 <div class="home">
     <div class="d-flex flex-row justify-content-end mb-3">
         <div class="title-home offset-5 col-3">EASI - DESTI</div>
-        <button class="btn-home-connection-white offset-3 col-2 py-2">
-            {% if app.user %}
-                <a href="{{ path('app_logout') }}">Se déconnecter</a>
-            {% else %}
-                <a href="{{ path('login') }}">Se connecter</a>
-            {% endif %}
-        </button>
+        <button class="btn-home-connection-white offset-3 col-2 py-2">Se connecter</button>
     </div>
     <div class="d-flex flex-column justify-content-center" >
-        <h1 class="m-3">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1>
+        <h1 class="m-3">Bienvenue sur EASI-DESTI</h1>
         <h2 class="mb-5">Le jeu qui t'aide à mieux lire !</h2>
     </div>
     <div class="d-flex justify-content-between pb-5 mx-5">
         <img src="{{ asset('build/images/humaaan-3.png') }}" alt="homme debout">
-        <a href="{{ path('app_register') }}"><button type="button" class="btn-home-registration-white m-4">
+        <button type="button" class="btn-home-registration-white m-4">
                 <img src="{{ asset('build/images/favicon.png') }}" alt="livres"> Je m'inscris pour la première fois !
-        </button></a>
+        </button>
         <img src="{{ asset('build/images/sitting.png') }}" alt="femme assise">
     </div>
 </div>
