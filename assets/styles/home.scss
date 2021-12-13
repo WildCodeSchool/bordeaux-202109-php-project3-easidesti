@@ -1,56 +1,63 @@
 .home {
-  background: $bg-home;
-  position : fixed;
-  width : 100%;
-  height: 100%;
-  color: $primary;
-  font-family: 'Mulish', serif;
-  font-style: normal;
-  font-weight: bold;
-  text-align: center;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: $bg-home;
+    position : fixed;
+    width : 100%;
+    height: 100%;
+    color: $primary;
+    font-family: 'Mulish', serif;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
     .title-home {
-      margin-top: 1%;
-      font-style: italic;
-      font-weight: bold;
-      font-size: 22px;
-      line-height: 28px;
+        margin-top: 1%;
+        font-style: italic;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 28px;
     }
+
     h1 {
-      font-size: 48px;
+        font-size: 48px;
     }
+
     h2 {
-      font-size: 24px
+        font-size: 24px
     }
+
     .btn-home-registration-white {
-      width: 450px;
-      height: 84px;
-      font-size: 20px;
-      background: #FDFDFD;
-      border-radius: 20px;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        width: 450px;
+        height: 84px;
+        font-size: 20px;
+        background: #FDFDFD;
+        border-radius: 20px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
+
     .btn-home-connection-white {
-      margin-top: 1%;
-      margin-right: 2%;
-      width: 170px;
-      height: 50px;
-      font-size: 18px;
-      background: #FFFFFF;
-      border-radius: 20px;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        margin-top: 1%;
+        margin-right: 2%;
+        width: 170px;
+        height: 50px;
+        font-size: 18px;
+        background: #FFFFFF;
+        border-radius: 20px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
+
     .btn-home-yellow {
-      width: 450px;
-      height: 84px;
-      background: $bg-home;
-      border-radius: 20px;
+        width: 450px;
+        height: 84px;
+        background: $bg-home;
+        border-radius: 20px;
     }
+
     .btn-home-purple {
-      width: 450px;
-      height: 84px;
-      background: linear-gradient(90deg, #B59BFF 0%, #AF49FF 54.69%, #DD53FF 100%);
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      border-radius: 20px;
+        width: 450px;
+        height: 84px;
+        background: linear-gradient(90deg, #B59BFF 0%, #AF49FF 54.69%, #DD53FF 100%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 20px;
     }
 }
