@@ -54,6 +54,11 @@ class Word
      */
     private \DateTimeInterface $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $picture;
+
     public function __construct()
     {
         $this->muteLetters = new ArrayCollection();
@@ -200,6 +205,18 @@ class Word
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
