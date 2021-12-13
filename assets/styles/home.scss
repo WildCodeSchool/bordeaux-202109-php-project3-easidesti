@@ -1,5 +1,19 @@
+.elementor-shape-top {
+    top: -1px;
+}
+.elementor-shape {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    direction: ltr;
+    fill: white;
+    z-index: -1;
+}
 .home {
-    background: $bg-home;
+    background: url("https://pallikoodam.wpengine.com/wp-content/uploads/2019/09/footer-pattern.png") no-repeat left top, linear-gradient(90deg, #F6D365 0%, #FDA085 100%);
+    background-size: cover;
     position : fixed;
     width : 100%;
     height: 100%;
@@ -17,7 +31,12 @@
         font-size: 22px;
         line-height: 28px;
     }
-
+    .btn-primary {
+        width: 600px;
+        margin: 15px;
+        text-shadow: none;
+        font-size: 1.2rem;
+    }
     h1 {
         font-size: 48px;
     }

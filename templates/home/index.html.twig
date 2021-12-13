@@ -2,13 +2,9 @@
 {% block title %}Accueil{% endblock %}
 {% block body %}
 <div class="home">
-    <div class="d-flex flex-row justify-content-center justify-content-md-end my-3">
-        <div class="col-3">
-            <button class="btn btn-app btn-home-connection-white mx-auto py-2">Se connecter</button>
-        </div>
-    </div>
+    {% include 'components/_wave.html.twig' %}
     <div class="row my-5" >
-        <h1 class="m-3 mx-auto">Bienvenue sur EASI-DESTI</h1>
+        <h1 class="m-3 mx-auto my-5">Bienvenue sur EASI-DESTI</h1>
         <h2 class="mb-5 mx-auto">Le jeu qui t'aide à mieux lire !</h2>
     </div>
     <div class="d-flex justify-content-around align-items-center pb-5">
@@ -16,13 +12,18 @@
             <img class="image-home" src="{{ asset('build/images/humaaan-3.png') }}" alt="homme debout">
         </div>
         <div class="col-5">
-            <button class="btn btn-app btn-home-registration-white">
+            <div>
+            <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn btn-primary">
                 <img src="{{ asset('build/images/favicon.png') }}" alt="livres"> Je m'inscris pour la première fois !
-            </button>
+            </a>
+            </div>
         </div>
         <div class="col-3 me-5">
             <img class="image-home" src="{{ asset('build/images/sitting.png') }}" alt="femme assise">
         </div>
     </div>
 </div>
+
+
 {% endblock %}
