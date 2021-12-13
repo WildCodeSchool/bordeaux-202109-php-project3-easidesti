@@ -23,4 +23,12 @@ class HomeController extends AbstractController
     {
         return $this->render('home/help.html.twig');
     }
+
+    /**
+     * @Route("/phoneme", name="phoneme")
+     */
+    public function showPhonemes(): Response
+    {
+        return $this->render('home/phoneme.html.twig');
+    }
 }
