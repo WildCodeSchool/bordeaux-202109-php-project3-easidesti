@@ -35,7 +35,10 @@
         width: 600px;
         margin: 15px;
         text-shadow: none;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        .fa-star, .fa-book {
+            color: $gold;
+        }
     }
     h1 {
         font-size: 48px;
