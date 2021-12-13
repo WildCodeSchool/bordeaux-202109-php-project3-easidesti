@@ -27,37 +27,31 @@
     }
 
     .btn-home-registration-white {
-        width: 450px;
-        height: 84px;
         font-size: 20px;
         background: #FDFDFD;
-        border-radius: 20px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        padding: 1em;
     }
 
     .btn-home-connection-white {
-        margin-top: 1%;
-        margin-right: 2%;
         width: 170px;
         height: 50px;
         font-size: 18px;
         background: #FFFFFF;
-        border-radius: 20px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 
     .btn-home-yellow {
         width: 450px;
         height: 84px;
         background: $bg-home;
-        border-radius: 20px;
     }
 
     .btn-home-purple {
         width: 450px;
         height: 84px;
         background: linear-gradient(90deg, #B59BFF 0%, #AF49FF 54.69%, #DD53FF 100%);
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-radius: 20px;
+    }
+
+    .image-home {
+      max-width: 25vw;
     }
 }
