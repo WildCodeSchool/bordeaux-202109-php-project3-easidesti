@@ -1,40 +1,39 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
-    <div class="easi">
-        <div class="d-flex flex-row justify-content-between p-3">
-            <img src="{{ asset('build/images/image_a.png') }}" alt="image lettre a">
-            <h2>EASI</h2>
-        </div>
-        <div class="d-flex flex-column">
-            <h1 class="text-center"> Explication des différentes aides possibles avec la lettre A</h1>
-            <!--<audio src="{{ asset('build/audios/explication-help.mp3') }}" autoplay></audio>-->
-            <div class="offset-5">
-               <a href=""><img class="w-25" src="{{ asset('build/images/logo-hear.png') }}" alt="logo écouter"></a>
-            </div>
-        </div>
-        <div class="col-12 d-flex flex-row mt-5">
-            <div class="btn-easi-white-help offset-3 col-2 p-2">
-                <h4><img class="w-25" src="{{ asset('build/images/emoji_help.png') }}" alt="emoji aide">Aide n°1</h4>
-                <p class="d-flex flex-row mt-4">
-                    <img class="w-75" src="{{ asset('build/images/aide1_ciseaux.png') }}" alt="ciseaux">
-                    <img class="w-75" src="{{ asset('build/images/aide1_chut.png') }}" alt="chut">
-                </p>
-            </div>
-            <div class="btn-easi-white-help offset-1 col-2 p-2">
-                <h4><img class="w-25" src="{{ asset('build/images/emoji_help.png') }}" alt="emoji aide">Aide n°2</h4>
-                <p class="d-flex flex-row mt-3">
-                    <img class="w-50" src="{{ asset('build/images/aide2_dessin.png') }}" alt="dessin">
-                    <img class="w-50" src="{{ asset('build/images/aide2_livre.png') }}" alt="livre">
-                </p>
-            </div>
-            <div class="btn-easi-white-help offset-1 col-2 p-2">
-                <h4><img class="w-25" src="{{ asset('build/images/emoji_help.png') }}" alt="emoji aide">Aide n°3</h4>
-                <p class="mt-4">
-                    <img class="w-50" src="{{ asset('build/images/aide3_frequence.png') }}" alt="frequence">
-                </p>
-            </div>
-        </div>
-
+<div class="easi">
+    <div class="d-flex flex-row justify-content-between p-3">
+        <img src="{{ asset('build/images/image_a.png') }}" alt="image lettre a">
+        <h2>EASI</h2>
     </div>
+    <div class="d-flex flex-column mx-5">
+        <h1 class="text-center mx-5"> Explication des différentes aides possibles avec la lettre A</h1>
+        <!--<audio src="{{ asset('build/audios/explication-help.mp3') }}" autoplay></audio>-->
+        <div class="mx-auto">
+           <a href=""><img class="w-100" src="{{ asset('build/images/logo-hear.png') }}" alt="logo écouter"></a>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-around mt-5">
+        <div class="btn-app btn-easi-white-help p-2">
+            <h4><img class="w-25" src="{{ asset('build/images/emoji_help.png') }}" alt="emoji aide">Aide n°1</h4>
+            <p class="d-flex flex-row mt-4">
+                <img class="w-75" src="{{ asset('build/images/aide1_ciseaux.jpg') }}" alt="ciseaux">
+                <img class="w-75" src="{{ asset('build/images/aide1_chut.png') }}" alt="chut">
+            </p>
+        </div>
+        <div class="btn-app btn-easi-white-help p-2">
+            <h4><img class="w-25" src="{{ asset('build/images/emoji_help.png') }}" alt="emoji aide">Aide n°2</h4>
+            <p class="d-flex flex-row mt-3">
+                <img class="w-50" src="{{ asset('build/images/aide2_dessin.jpg') }}" alt="dessin">
+                <img class="w-50" src="{{ asset('build/images/aide2_livre.png') }}" alt="livre">
+            </p>
+        </div>
+        <div class="btn-app btn-easi-white-help p-2">
+            <h4><img class="w-25" src="{{ asset('build/images/emoji_help.png') }}" alt="emoji aide">Aide n°3</h4>
+            <p class="mt-4 mx-auto">
+                <img class="w-50" src="{{ asset('build/images/aide3_frequence.png') }}" alt="frequence">
+            </p>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
