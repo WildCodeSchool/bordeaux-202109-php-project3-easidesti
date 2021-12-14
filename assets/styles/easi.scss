@@ -10,6 +10,14 @@
 
     .proposition {
         width : 10vw;
+
+    .word {
+        color: $primary;
+        background-color: $secondary;
+        padding: .3em 3em;
+        border-radius: 20px;
+        box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.25);
+        margin-top: 4em;
     }
 
     .btn-easi-pink {
@@ -51,12 +59,14 @@
         background: #FFFFFF;
         border-radius: 20px;
     }
+
     .btn-easi-white-word {
         width: 553px;
         height: 92px;
         background: #F9F9F9;
         box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.25);
         border-radius: 20px;
+        color: $primary;
     }
 
     .easi-white-propositions {
@@ -68,8 +78,16 @@
         border-radius: 20px;
     }
 
+
     .easi-white-help {
         max-width: 15%;
+
+    .response {
+        border-radius: 20px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    
         color: $primary;
         background: #FFFFFF;
         box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
