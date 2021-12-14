@@ -40,11 +40,6 @@ class Word
     private Collection $muteLetters;
 
     /**
-     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="word", orphanRemoval=true)
-     */
-    private Collection $letters;
-
-    /**
      * @ORM\OneToMany(targetEntity=Endpoint::class, mappedBy="word", orphanRemoval=true)
      */
     private Collection $endpoints;
@@ -58,6 +53,11 @@ class Word
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $picture;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Letter::class, mappedBy="words")
+     */
+    private Collection $letters;
 
     public function __construct()
     {
@@ -138,36 +138,6 @@ class Word
     }
 
     /**
-     * @return Collection|Letter[]
-     */
-    public function getLetters(): Collection
-    {
-        return $this->letters;
-    }
-
-    public function addLetter(Letter $letter): self
-    {
-        if (!$this->letters->contains($letter)) {
-            $this->letters[] = $letter;
-            $letter->setWord($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLetter(Letter $letter): self
-    {
-        if ($this->letters->removeElement($letter)) {
-            // set the owning side to null (unless already changed)
-            if ($letter->getWord() === $this) {
-                $letter->setWord(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Endpoint[]
      */
     public function getEndpoints(): Collection
@@ -217,6 +187,33 @@ class Word
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getLetters(): Collection
+    {
+        return $this->letters;
+    }
+
+    public function addLetter(Letter $letter): self
+    {
+        if (!$this->letters->contains($letter)) {
+            $this->letters[] = $letter;
+            $letter->addWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLetter(Letter $letter): self
+    {
+        if ($this->letters->removeElement($letter)) {
+            $letter->removeWord($this);
+        }
 
         return $this;
     }

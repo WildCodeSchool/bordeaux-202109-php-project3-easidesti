@@ -8,51 +8,30 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use DateTime;
 
-class LetterFixtures extends Fixture implements DependentFixtureInterface
+class LetterFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $letter = new Letter();
-        $letter->setWord($this->getReference('word_haricot'));
         $letter->setContent('a');
-        $letter->setCreatedAt(new DateTime());
+        $this->addReference('letter_a', $letter);
         $manager->persist($letter);
 
         $letter2 = new Letter();
-        $letter2->setWord($this->getReference('word_banc'));
-        $letter2->setContent('a');
-        $letter2->setCreatedAt(new DateTime());
+        $letter2->setContent('e');
+        $this->addReference('letter_e', $letter2);
         $manager->persist($letter2);
 
         $letter3 = new Letter();
-        $letter3->setWord($this->getReference('word_pain'));
-        $letter3->setContent('a');
-        $letter3->setCreatedAt(new DateTime());
+        $letter3->setContent('s');
+        $this->addReference('letter_s', $letter3);
         $manager->persist($letter3);
 
         $letter4 = new Letter();
-        $letter4->setWord($this->getReference('word_jambe'));
-        $letter4->setContent('a');
-        $letter4->setCreatedAt(new DateTime());
+        $letter4->setContent('i');
+        $this->addReference('letter_i', $letter4);
         $manager->persist($letter4);
 
-        $letter5 = new Letter();
-        $letter5->setWord($this->getReference('word_ail'));
-        $letter5->setContent('a');
-        $letter5->setCreatedAt(new DateTime());
-        $manager->persist($letter5);
-
-        $letter6 = new Letter();
-        $letter6->setWord($this->getReference('word_cadeau'));
-        $letter6->setContent('a');
-        $letter6->setCreatedAt(new DateTime());
-        $manager->persist($letter6);
         $manager->flush();
-    }
-    public function getDependencies()
-    {
-        return [
-            WordFixtures::class,
-        ];
     }
 }
