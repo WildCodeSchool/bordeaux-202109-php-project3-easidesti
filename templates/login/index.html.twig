@@ -9,26 +9,38 @@
 <div class="home">
 
     <div class="d-flex flex-column justify-content-center" >
-        <h1 class="m-3">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1>
-        <h2 class="mb-5">Formulaire de connection</h2>
+        <a class="text-decoration-none" href="{{ path('home') }}"><h1 class="m-3">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1></a>
+        <h2 class="mb-5">Formulaire de connexion</h2>
     </div>
+    <div class="row d-flex">
+    <form class="form col-9 col-sm-7 col-md-5 col-lg-3 mx-auto justify-content-center p-3 border border-2 border-primary shadow-lg p-3 mb-5" action="{{ path('login') }}" method="post">
+        <div class="justify-content-center">
+                <div class="mx-auto my-2 p-2">
+                    <label for="Pseudo">Pseudo :</label>
+                </div>
+                <div>
+                    <input type="text" class="border rounded-3 shadow-lg" id="Pseudo" name="_username" value="{{ last_username }}"/>
+                </div>
+                <div class="mx-auto my-2">
+        </div>
+        <div class="justify-content-center">
+            <div class="mx-auto my-2 p-2">
+                <label for="password">Mot de passe:</label>
+            </div>
+            <div>
+             <input type="password"  class="border rounded-3" id="password" name="_password"/>
+            </div>
+        </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </div>
 
-    <form action="{{ path('login') }}" method="post">
-        <div class="mx-auto">
-            <label for="Pseudo">Pseudo:</label>
-            <input type="text" id="Pseudo" name="_username" value="{{ last_username }}"/>
-        </div>
-        <div class="mx-auto">
-            <label for="password">Mot de passe:</label>
-            <input type="password" id="password" name="_password"/>
-        </div>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"/> #}
 
-        <button type="submit">Se connecter</button>
+        <button type="submit" class="btn bg-secondary border border-primary btn-lg m-3">Valider</button>
     </form>
+    </div>
 </div>
 
 {% endblock %}

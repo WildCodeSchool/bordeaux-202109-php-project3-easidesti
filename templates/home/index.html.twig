@@ -8,7 +8,7 @@
                 {% if app.user %}
                     <a href="{{ path('app_logout') }}">Se déconnecter</a>
                 {% else %}
-                    <a href="{{ path('login') }}">Se connecter</a>
+                    <a class="text-decoration-none" href="{{ path('login') }}">Se connecter</a>
                 {% endif %}
             </button>
         </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-5">
             <button class="btn btn-app btn-home-registration-white">
-                <a href="{{ path('app_register') }}">
+                <a class="text-decoration-none" href="{{ path('app_register') }}">
                     <img src="{{ asset('build/images/favicon.png') }}" alt="livres"> Je m'inscris pour la première fois !
                 </a>
             </button>
