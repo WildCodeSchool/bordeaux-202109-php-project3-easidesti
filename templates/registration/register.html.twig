@@ -4,23 +4,34 @@
 
 {% block body %}
 <div class="home">
-    <div class="d-flex flex-row justify-content-end mb-3">
-        <div class="title-home offset-5 col-3">EASI - DESTI</div>
-    </div>
     <div class="d-flex flex-column justify-content-center" >
-        <h1 class="m-3">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1>
-        <h2 class="mb-5">Le jeu qui t'aide à mieux lire !</h2>
-    </div>
-    <div>
-        {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.nickname) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-        {{ form_end(registrationForm) }}
+        <a class="text-decoration-none" href="{{ path('home') }}"><h1 class="m-3">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1></a>
+        <h2 class="mb-5">Formulaire d'inscription</h2>
     </div>
 
+    <div class="row d-flex">
+        <div class="form col-11 col-sm-9 col-md-7 col-lg-5 mx-auto justify-content-center p-3 border border-2 border-primary shadow-lg p-3 mb-5">
+            {{ form_start(registrationForm) }}
+            <div class="row">
+                    {{ form_row(registrationForm.firstname, {label: 'Prénom :'}) }}
+            </div>
+            <div class="row">
+                    {{ form_row(registrationForm.lastname, {label: 'Nom :'}) }}
+            </div>
+            <div class="row">
+                    {{ form_row(registrationForm.schoolLevel, {label: 'Classe :'}) }}
+            </div>
+            <div class="row">
+                    {{ form_row(registrationForm.school, {label: 'Etablissement :'}) }}
+            </div>
+            <div class="row">
+                    {{ form_row(registrationForm.nickname, {label: 'Pseudo :'}) }}
+            </div>
+            <div class="row">
+                    {{ form_row(registrationForm.plainPassword, {label: 'Mot de passe :'}) }}
+            </div>
+            <button type="submit" class="btn bg-secondary border border-primary btn-lg m-3">Valider</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
 {% endblock %}

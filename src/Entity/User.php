@@ -8,10 +8,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"nickname"}, message="There is already an account with this nickname")
+ * @UniqueEntity(fields={"nickname"}, message="Ce pseudo est déjà utilisé, merci d'en choissir un autre.")
  * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -25,6 +26,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Merci de rentrer votre pseudo")
+     * @Assert\Length(max="255", maxMessage="Votre pseudo ne doit pas dépasser {{ limit }} caractères")
      */
     private string $nickname;
 
@@ -36,26 +39,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(max="255", maxMessage="Votre mot de passe ne doit pas dépasser {{ limit }} caractères")
      */
     private string $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Merci de rentrer votre prénom")
+     * @Assert\Length(max="255", maxMessage="Votre prénom ne doit pas dépasser {{ limit }} caractères")
      */
     private ?string $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Merci de rentrer votre nom")
+     * @Assert\Length(max="255", maxMessage="Votre nom ne doit pas dépasser {{ limit }} caractères")
      */
     private ?string $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Merci de rentrer votre classe")
+     * @Assert\Length(max="255", maxMessage="Votre classe ne doit pas dépasser {{ limit }} caractères")
      */
     private ?string $schoolLevel;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Merci de rentrer votre établissement scolaire")
+     * @Assert\Length(max="255", maxMessage="Votre établissement ne doit pas dépasser {{ limit }} caractères")
      */
     private ?string $school;
 

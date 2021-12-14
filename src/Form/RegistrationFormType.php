@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -17,37 +19,56 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('schoolLevel')
-            ->add('school')
-            ->add('nickname')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
+            ->add('firstname', TextType::class, [
+                'attr' => [
+                    'class' => 'text-center border rounded-3 shadow-lg',
+                ]
+            ])
+            ->add('lastname', TextType::class, [
+                'attr' => [
+                    'class' => 'text-center border rounded-3 shadow-lg',
+                ]
+            ])
+            ->add('schoolLevel', ChoiceType::class, [
+                'choices' => [
+                    'CM1' => 'CM1',
+                    'CM2' => 'CM2',
+                    '6E' => '6E',
+                ],
+                'attr' => [
+                    'class' => 'text-center border rounded-3 shadow-lg',
+                ]
+            ])
+            ->add('school', TextType::class, [
+                'attr' => [
+                    'class' => 'text-center border rounded-3 shadow-lg',
+                ]
+            ])
+            ->add('nickname', TextType::class, [
+                'attr' => [
+                    'class' => 'text-center border rounded-3 shadow-lg',
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'text-center border rounded-3 shadow-lg',
+                ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'merci de rentrer votre mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
