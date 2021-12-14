@@ -1,12 +1,15 @@
 .easi {
     background: $bg-easi;
     position : fixed;
-    width : 100%;
-    height: 100%;
+    min-width : 100vw;
+    min-height: 100vh;
     color: $secondary;
     font-family: 'Mulish', serif;
     font-style: normal;
     font-weight: bold;
+
+    .proposition {
+        width : 10vw;
 
     .word {
         color: $primary;
@@ -66,7 +69,9 @@
         color: $primary;
     }
 
-    .btn-easi-white-propositions {
+    .easi-white-propositions {
+        width: 40vw;
+        height : 40%;
         color: $primary;
         background: #FFFFFF;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
