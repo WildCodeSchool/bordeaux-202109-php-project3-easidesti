@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EASI{% endblock %}
+
+{% block body %}
+    <div class="container-fluid easi">
+        <div class="row mt-3">
+            <div class="col-12 col-lg-2">
+                <img class="ms-5" src="{{ asset('build/images/image_a.png') }}" alt="">
+            </div>
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+                {% if word.picture is not null%}
+                <p class="btn-app word fs-1">image du mot : {{ word.content }}</p>
+                <img src="{{ word.picture }}" class="img-help" alt="help">
+                {% else %}
+                <p class="btn-app word fs-1">{{ word.content }}</p>
+                <p class="btn-app word fs-1">Défintion : {{ word.definition }}</p>
+            </div>
+                {% endif %}
+            <a href="{{ path('easi_index', {id: word.id}) }}">
+                <div class="my-5">
+                    <span class="text-success">
+                        <i class="fas fa-undo fa-5x"></i>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
