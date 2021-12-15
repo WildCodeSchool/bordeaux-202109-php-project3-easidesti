@@ -7,9 +7,11 @@
     </div>
     <div class="d-flex flex-column mx-5">
         <h1 class="text-center mx-5"> Explication des différentes aides possibles avec la lettre A</h1>
-        <!--<audio src="{{ asset('build/audios/explication-help.mp3') }}" autoplay></audio>-->
         <div class="mx-auto">
-           <a href=""><img class="w-100" src="{{ asset('build/images/logo-hear.png') }}" alt="logo écouter"></a>
+           <div>
+               <audio id="audio-help" src="{{ asset('build/images/explication-help.mp3') }}"></audio>
+               <img id="help-listen" class="btn w-100" src="{{ asset('build/images/logo-hear.png') }}" alt="logo écouter">
+           </div>
         </div>
     </div>
     <div class="d-flex flex-row justify-content-around m-4">
