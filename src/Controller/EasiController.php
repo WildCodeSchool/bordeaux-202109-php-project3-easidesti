@@ -6,6 +6,7 @@ use App\Entity\Letter;
 use App\Entity\Word;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class EasiController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="index")
+     * @Route("/{word_content}", name="index")
+     * @ParamConverter("word", class="App\Entity\Word", options={"mapping": {"word_content": "content"}})
      */
     public function index(Word $word): Response
     {

@@ -19,7 +19,7 @@
                     <p>Aide n°1</p>
                     <div><img src="{{ asset('build/images/aide1_ciseaux.png') }}" alt=""><img src="{{ asset('build/images/aide1_chut.png') }}" alt=""></div>
                 </div>
-                <a href="{{ path('easi_helpTwo', {id: word.id}) }}">
+                <a href="{{ path('easi_helpTwo', {word_content: word.content}) }}">
                     <div class="btn-app btn-easi-white-help my-5 d-flex flex-column justify-content-around">
                         <p>Aide n°2</p>
                         <div><img src="{{ asset('build/images/aide2_dessin.png') }}" alt=""><img src="{{ asset('build/images/aide2_livre.png') }}" alt=""></div>
