@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Endpoint;
 use App\Entity\Word;
 use App\Form\WordType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,6 +25,16 @@ class WordController extends AbstractController
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $managerRegistry->getManager();
+            foreach ($request->request->get('clickedLetters') as $position) {
+                $endpoint = new Endpoint();
+                $endpoint->setPosition($position);
+                $entityManager->persist($endpoint);
+                $word->addEndpoint($endpoint);
+            }
+            $entityManager->persist($word);
+            $entityManager->flush();
+            return $this->redirectToRoute('word_index');
         }
         return $this->renderForm('word/index.html.twig', [
             'form' => $form,

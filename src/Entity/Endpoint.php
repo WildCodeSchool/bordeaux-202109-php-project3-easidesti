@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\EndpointRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=EndpointRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Endpoint
 {
@@ -68,10 +70,11 @@ class Endpoint
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt(): void
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new DateTime();
     }
 }
