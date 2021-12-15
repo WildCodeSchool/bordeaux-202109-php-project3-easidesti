@@ -1,5 +1,6 @@
 import './styles/app.scss';
 import './bootstrap';
+import './js/position';
 import './js/help';
 import './js/phoneme';
 
