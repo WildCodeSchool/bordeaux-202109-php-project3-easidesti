@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Letter;
+use App\Entity\Word;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,14 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class EasiController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/{id}", name="index")
      */
-    public function index(ManagerRegistry $managerRegistry): Response
+    public function index(Word $word): Response
     {
-        $letterRepository = $managerRegistry->getRepository(Letter::class);
-        $letters = $letterRepository->findAll();
         return $this->render('easi/index.html.twig', [
-            'letters' => $letters,
+            'word' => $word
         ]);
     }
 }
