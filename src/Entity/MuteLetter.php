@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\MuteLetterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=MuteLetterRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class MuteLetter
 {
@@ -66,10 +68,11 @@ class MuteLetter
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt(): void
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new DateTime();
     }
 }

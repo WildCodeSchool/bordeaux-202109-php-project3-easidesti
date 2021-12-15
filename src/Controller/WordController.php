@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Endpoint;
+use App\Entity\MuteLetter;
 use App\Entity\Word;
 use App\Form\WordType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,6 +32,12 @@ class WordController extends AbstractController
                 $endpoint->setPosition($position);
                 $entityManager->persist($endpoint);
                 $word->addEndpoint($endpoint);
+            }
+            foreach ($request->request->get('clickedMuteLetters') as $muteLetterPosition) {
+                $muteLetter = new MuteLetter();
+                $muteLetter->setPosition($muteLetterPosition);
+                $entityManager->persist($muteLetter);
+                $word->addMuteLetter($muteLetter);
             }
             $entityManager->persist($word);
             $entityManager->flush();
