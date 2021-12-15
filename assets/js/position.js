@@ -37,4 +37,5 @@ wordInput.addEventListener('keydown', (event) => {
 emptyWorld.addEventListener('click', () => {
     wordInput.value = '';
     divEndpoint.innerHTML = '';
+    divMuteLetter.innerHTML = '';
 });
