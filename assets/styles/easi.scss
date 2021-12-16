@@ -17,6 +17,13 @@
         padding: .3em 3em;
     }
 
+    .word-help {
+        color: $primary;
+        background-color: $secondary;
+        padding: .1em 1em;
+        margin-top: 1em;
+    }
+
     .btn-easi-pink {
         color: $primary;
         width: 140px;
@@ -96,7 +103,7 @@
         background-color: $primary;
     }
     .img-help {
-        width: 20vw;
+        width: 30vw;
     }
 
 }
