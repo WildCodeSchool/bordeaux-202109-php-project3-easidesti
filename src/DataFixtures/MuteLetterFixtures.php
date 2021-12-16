@@ -14,7 +14,7 @@ class MuteLetterFixtures extends Fixture implements DependentFixtureInterface
     {
         $muteLetter = new MuteLetter();
         $muteLetter->setWord($this->getReference('word_haricot'));
-        $muteLetter->setPosition(1);
+        $muteLetter->setPosition(0);
         $muteLetter->setCreatedAt(new DateTime());
         $manager->persist($muteLetter);
 
