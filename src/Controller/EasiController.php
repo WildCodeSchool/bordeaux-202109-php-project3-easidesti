@@ -23,7 +23,7 @@ class EasiController extends AbstractController
     public function index(Word $word): Response
     {
         return $this->render('easi/index.html.twig', [
-            'word' => $word
+            'word'   => $word,
         ]);
     }
 }

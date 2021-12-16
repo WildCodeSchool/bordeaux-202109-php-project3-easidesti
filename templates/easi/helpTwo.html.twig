@@ -14,7 +14,7 @@
                 <img src="{{ word.picture }}" class="img-help" alt="help">
                 {% else %}
                 <p class="btn-app word fs-1">{{ word.content }}</p>
-                <p class="btn-app word fs-1">Défintion : {{ word.definition }}</p>
+                <p class="btn-app word fs-1">Définition : {{ word.definition }}</p>
             </div>
                 {% endif %}
             <a href="{{ path('easi_index', {word_content: word.content}) }}">
