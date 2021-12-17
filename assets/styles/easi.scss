@@ -1,0 +1,109 @@
+.easi {
+    background: $bg-easi;
+    min-width : 100vw;
+    min-height: 100vh;
+    color: $secondary;
+    font-family: 'Mulish', serif;
+    font-style: normal;
+    font-weight: bold;
+
+    .proposition {
+        width: 10vw;
+    }
+
+    .word {
+        color: $primary;
+        background-color: $secondary;
+        padding: .3em 3em;
+    }
+
+    .word-help {
+        color: $primary;
+        background-color: $secondary;
+        padding: .1em 1em;
+        margin-top: 1em;
+    }
+
+    .btn-easi-pink {
+        color: $primary;
+        width: 140px;
+        height: 96px;
+        background: linear-gradient(0deg, #FDA085, #FDA085);
+        border-radius: 35px;
+    }
+
+    .wrong-easi-response {
+        width: 643px;
+        height: 50px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 48px;
+        line-height: 56px;
+        text-align: center;
+        color: #D03F3F;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .true-easi-response {
+        width: 545px;
+        height: 50px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 64px;
+        line-height: 75px;
+        text-align: center;
+        color: #79F318;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-easi-white-tryagain {
+        width: 180px;
+        height: 60px;
+        background: #FFFFFF;
+        border-radius: 20px;
+    }
+
+    .btn-easi-white-word {
+        width: 553px;
+        height: 92px;
+        background: #F9F9F9;
+        color: $primary;
+    }
+
+    .easi-white-propositions {
+        width: 40vw;
+        height : auto;
+        color: $primary;
+        background: #FFFFFF;
+    }
+
+    .btn-easi-white-help {
+        text-align: center;
+        color: $primary;
+        width: 150px;
+        height: 150px;
+        background: $secondary;
+
+    }
+
+    .easi-white-help {
+        max-width: 15%;
+        color: $primary;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
+        border-radius: 20px;
+    }
+
+    .response {
+        border-radius: 20px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-next-word {
+        background-color: $primary;
+    }
+    .img-help {
+        width: 30vw;
+    }
+
+}

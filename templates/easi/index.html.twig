@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EASI{% endblock %}
+
+{% block body %}
+    <div class="container-fluid easi">
+        <div class="row pt-3">
+            <div class="col-12 col-lg-2">
+                <img class="ms-5" src="{{ asset('build/images/image_a.png') }}" alt="">
+            </div>
+            <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+                <p class="btn-app word fs-1">{{ word.content }}</p>
+                <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
+                <div class="w-75 h-50 bg-light response"></div>
+            </div>
+            <div class="col-2 d-flex flex-column mt-5">
+                <p class="fs-3 ms-5 mt-5">EASI</p>
+                <a href="{{ path('easi_helpOne', {content: word.content}) }}">
+                    <div class="btn-app btn-easi-white-help d-flex flex-column justify-content-around">
+                        <p>Aide n°1</p>
+                        <div><img src="{{ asset('build/images/aide1_ciseaux.png') }}" alt=""><img src="{{ asset('build/images/aide1_chut.png') }}" alt=""></div>
+                    </div>
+                </a>
+                <a href="{{ path('easi_helpTwo', {word_content: word.content}) }}">
+                    <div class="btn-app btn-easi-white-help my-5 d-flex flex-column justify-content-around">
+                        <p>Aide n°2</p>
+                        <div><img src="{{ asset('build/images/aide2_dessin.png') }}" alt=""><img src="{{ asset('build/images/aide2_livre.png') }}" alt=""></div>
+                    </div>
+                </a>
+                <a>
+                    <div class="btn-app btn-easi-white-help d-flex flex-column justify-content-around">
+                        <p>Aide n°3</p>
+                        <div><img src="{{ asset('build/images/aide3_frequence.png') }}" alt=""></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
