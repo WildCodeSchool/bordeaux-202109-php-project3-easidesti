@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HelpController extends AbstractController
 {
     /**
-     * @Route("/{word_content}", name="helpTwo")
+     * @Route("/{word_content}/aide-2", name="helpTwo")
      * @ParamConverter("word", class="App\Entity\Word", options={"mapping": {"word_content": "content"}})
      */
     public function showHelpTwo(Word $word): Response
@@ -57,12 +57,11 @@ class HelpController extends AbstractController
         ]);
     }
     /**
-    * @Route("/{word_content}/{letter_content}", name="helpThree")
-    * @ParamConverter("word", class="App\Entity\Word", options={"mapping": {"word_content": "content"}})
-    * @ParamConverter("letter", class="App\Entity\Letter", options={"mapping": {"letter_content": "content"}})
+    * @Route("/{content}/aide-3", name="helpThree")
     */
-    public function showHelpThree(Letter $letter, Word $word): Response
+    public function showHelpThree(Word $word): Response
     {
+        $letter = $word->getLetters()[0];
         return $this->render('easi/helpThree.html.twig', [
             'letter' => $letter,
             'word'  => $word

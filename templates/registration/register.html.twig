@@ -3,7 +3,7 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-<div class="home">
+<div class="home container-fluid">
     <div class="d-flex flex-column justify-content-center" >
         <a class="text-decoration-none" href="{{ path('home') }}"><h1 class="m-3">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1></a>
         <h2 class="mb-5">Formulaire d'inscription</h2>
