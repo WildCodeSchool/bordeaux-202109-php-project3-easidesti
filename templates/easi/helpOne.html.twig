@@ -13,9 +13,9 @@
             <h2 class="text-center">Aide n°1</h2>
         </div>
         <div class="col-8 mx-auto my-5">
-            <p class="btn-app col-4 word fs-1 mx-auto">
+            <p class="btn-app col-6 word fs-1 mx-auto d-flex justify-content-center">
                 {% for syllabe in syllabes %}
-                    <span class="text-{{ colors[loop.index - 1] }}">{{ syllabe }}</span>
+                    <span class="text-{{ colors[loop.index - 1] }} me-2">{{ syllabe }}</span>
                 {% endfor %}
             </p>
             <div class="w-75 h-50 bg-light response"></div>

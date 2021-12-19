@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HelpController extends AbstractController
 {
     /**
-     * @Route("/{word_content}", name="helpTwo")
+     * @Route("/{word_content}/aide-2", name="helpTwo")
      * @ParamConverter("word", class="App\Entity\Word", options={"mapping": {"word_content": "content"}})
      */
     public function showHelpTwo(Word $word): Response
@@ -42,16 +42,13 @@ class HelpController extends AbstractController
         $syllabes = [];
         for ($i = 0; $i < count($endpoints); $i++) {
             $position = 0;
-            $lenght = $lenghtWord;
+            $lenght = $endpoints[$i]->getPosition() + 1;
             if ($endpoints[$i - 1] !== null) {
-                $position = $endpoints[$i]->getPosition() - 1;
-            }
-            if ($endpoints[$i + 1] !== null) {
-                $lenght = $endpoints[$i + 1]->getPosition() - $endpoints[$i]->getPosition();
+                $position = $endpoints[$i - 1]->getPosition() + 1;
+                $lenght = $endpoints[$i]->getPosition() - $endpoints[$i - 1]->getPosition();
             }
             $syllabes[] = substr($word->getContent(), $position, $lenght);
         }
-
         return $this->render('easi/helpOne.html.twig', [
             'word' => $word,
             'letter' => $letter,
@@ -60,12 +57,11 @@ class HelpController extends AbstractController
         ]);
     }
     /**
-    * @Route("/{word_content}/{letter_content}", name="helpThree")
-    * @ParamConverter("word", class="App\Entity\Word", options={"mapping": {"word_content": "content"}})
-    * @ParamConverter("letter", class="App\Entity\Letter", options={"mapping": {"letter_content": "content"}})
+    * @Route("/{content}/aide-3", name="helpThree")
     */
-    public function showHelpThree(Letter $letter, Word $word): Response
+    public function showHelpThree(Word $word): Response
     {
+        $letter = $word->getLetters()[0];
         return $this->render('easi/helpThree.html.twig', [
             'letter' => $letter,
             'word'  => $word

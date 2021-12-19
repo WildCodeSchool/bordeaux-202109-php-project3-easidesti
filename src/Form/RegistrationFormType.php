@@ -20,16 +20,19 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
+                'label' => 'Prénom :',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]
             ])
             ->add('lastname', TextType::class, [
+                'label' => 'Nom :',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]
             ])
             ->add('schoolLevel', ChoiceType::class, [
+                'label' => 'Classe :',
                 'choices' => [
                     'CM1' => 'CM1',
                     'CM2' => 'CM2',
@@ -40,16 +43,19 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('school', TextType::class, [
+                'label' => 'Etablissement :',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]
             ])
             ->add('nickname', TextType::class, [
+                'label' => 'Pseudo :',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe :',
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,

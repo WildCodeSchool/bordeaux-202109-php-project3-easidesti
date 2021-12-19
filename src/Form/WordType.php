@@ -25,12 +25,10 @@ class WordType extends AbstractType
                 'required' => false,
             ])
             ->add('audio', FileType::class, [
-                'mapped' => false,
                 'required' => false,
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
-                'mapped' => false,
                 'required' => false,
             ])
             ->add('letters', EntityType::class, [

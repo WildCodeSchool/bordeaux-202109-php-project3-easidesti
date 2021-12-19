@@ -27,12 +27,10 @@ class WordController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $managerRegistry->getManager();
-            $endpointLetters = [];
-            if ($request->request->get('clickedLetters')) {
-                $endpointLetters[] = array_unique($request->request->get('clickedLetters'));
-            } else {
-                $endpointLetters[] =  strlen($word->getContent()) - 1;
-            }
+            $endpointLetters = $request->request->get('clickedLetters');
+            $endpointLetters = $endpointLetters ?? [];
+            $endpointLetters[] = strlen($word->getContent()) - 1;
+            $endpointLetters = array_unique($endpointLetters);
             foreach ($endpointLetters as $position) {
                 $endpoint = new Endpoint();
                 $endpoint->setPosition($position);
@@ -41,7 +39,7 @@ class WordController extends AbstractController
             }
             $positionMuteLetters = [];
             if ($request->request->get('clickedMuteLetters')) {
-                $positionMuteLetters[] = array_unique($request->request->get('clickedMuteLetters'));
+                $positionMuteLetters = array_unique($request->request->get('clickedMuteLetters'));
             }
             foreach ($positionMuteLetters as $muteLetterPosition) {
                 $muteLetter = new MuteLetter();
