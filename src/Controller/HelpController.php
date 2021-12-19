@@ -42,16 +42,13 @@ class HelpController extends AbstractController
         $syllabes = [];
         for ($i = 0; $i < count($endpoints); $i++) {
             $position = 0;
-            $lenght = $lenghtWord;
+            $lenght = $endpoints[$i]->getPosition() + 1;
             if ($endpoints[$i - 1] !== null) {
-                $position = $endpoints[$i]->getPosition() - 1;
-            }
-            if ($endpoints[$i + 1] !== null) {
-                $lenght = $endpoints[$i + 1]->getPosition() - $endpoints[$i]->getPosition();
+                $position = $endpoints[$i - 1]->getPosition() + 1;
+                $lenght = $endpoints[$i]->getPosition() - $endpoints[$i - 1]->getPosition();
             }
             $syllabes[] = substr($word->getContent(), $position, $lenght);
         }
-
         return $this->render('easi/helpOne.html.twig', [
             'word' => $word,
             'letter' => $letter,
