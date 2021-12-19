@@ -13,22 +13,22 @@
         <div class="form col-11 col-sm-9 col-md-7 col-lg-5 mx-auto justify-content-center p-3 border border-2 border-primary shadow-lg p-3 mb-5">
             {{ form_start(registrationForm) }}
             <div class="row">
-                    {{ form_row(registrationForm.firstname, {label: 'Prénom :'}) }}
+                    {{ form_row(registrationForm.firstname) }}
             </div>
             <div class="row">
-                    {{ form_row(registrationForm.lastname, {label: 'Nom :'}) }}
+                    {{ form_row(registrationForm.lastname) }}
             </div>
             <div class="row">
-                    {{ form_row(registrationForm.schoolLevel, {label: 'Classe :'}) }}
+                    {{ form_row(registrationForm.schoolLevel) }}
             </div>
             <div class="row">
-                    {{ form_row(registrationForm.school, {label: 'Etablissement :'}) }}
+                    {{ form_row(registrationForm.school) }}
             </div>
             <div class="row">
-                    {{ form_row(registrationForm.nickname, {label: 'Pseudo :'}) }}
+                    {{ form_row(registrationForm.nickname) }}
             </div>
             <div class="row">
-                    {{ form_row(registrationForm.plainPassword, {label: 'Mot de passe :'}) }}
+                    {{ form_row(registrationForm.plainPassword) }}
             </div>
             <button type="submit" class="btn bg-secondary border border-primary btn-lg m-3">Valider</button>
             {{ form_end(registrationForm) }}
