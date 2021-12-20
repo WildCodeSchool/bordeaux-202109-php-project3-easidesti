@@ -14,9 +14,9 @@ class Definition
 
     private HttpClientInterface $client;
 
-    public function __construct(HttpClient $client)
+    public function __construct(HttpClientInterface $client)
     {
-        $this->client = $client::create();
+        $this->client = $client;
     }
 
     public function generateDefinition(string $word): string
