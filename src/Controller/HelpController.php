@@ -36,7 +36,7 @@ class HelpController extends AbstractController
             'warning',
             'info',
         ];
-        $letter = $word->getLetters()[0];
+        $letter = $word->getLetter();
         $endpoints = $word->getEndpoints();
         $lenghtWord = strlen($word->getContent());
         $syllabes = [];
@@ -61,9 +61,7 @@ class HelpController extends AbstractController
     */
     public function showHelpThree(Word $word): Response
     {
-        $letter = $word->getLetters()[0];
         return $this->render('easi/helpThree.html.twig', [
-            'letter' => $letter,
             'word'  => $word
             ]);
     }

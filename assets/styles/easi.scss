@@ -16,6 +16,12 @@
         padding: .3em 3em;
     }
 
+    #word_letter {
+        label {
+            margin-right: 1em;
+        }
+    }
+
     .word-help {
         color: $primary;
         background-color: $secondary;

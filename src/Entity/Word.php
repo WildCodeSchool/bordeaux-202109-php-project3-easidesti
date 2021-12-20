@@ -57,14 +57,13 @@ class Word
     private ?string $picture;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Letter::class, mappedBy="words")
+     * @ORM\ManyToOne(targetEntity=Letter::class, inversedBy="words")
      */
-    private Collection $letters;
+    private Letter $letter;
 
     public function __construct()
     {
         $this->muteLetters = new ArrayCollection();
-        $this->letters = new ArrayCollection();
         $this->endpoints = new ArrayCollection();
     }
 
@@ -194,29 +193,14 @@ class Word
         return $this;
     }
 
-    /**
-     * @return Collection|Letter[]
-     */
-    public function getLetters(): Collection
+    public function getLetter(): Letter
     {
-        return $this->letters;
+        return $this->letter;
     }
 
-    public function addLetter(Letter $letter): self
+    public function setLetter(Letter $letter): self
     {
-        if (!$this->letters->contains($letter)) {
-            $this->letters[] = $letter;
-            $letter->addWord($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLetter(Letter $letter): self
-    {
-        if ($this->letters->removeElement($letter)) {
-            $letter->removeWord($this);
-        }
+        $this->letter = $letter;
 
         return $this;
     }
