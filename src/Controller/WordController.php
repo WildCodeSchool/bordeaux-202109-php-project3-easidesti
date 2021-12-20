@@ -63,7 +63,7 @@ class WordController extends AbstractController
      */
     public function definition(Definition $definition, string $word): Response
     {
-        $definition = $definition->generateDefinItion($word);
+        $definition = $definition->generateDefinition($word);
         return new JsonResponse($definition);
     }
 }

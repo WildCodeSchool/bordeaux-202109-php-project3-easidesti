@@ -19,7 +19,7 @@ class Definition
         $this->client = $client::create();
     }
 
-    public function generateDefinItion(string $word): string
+    public function generateDefinition(string $word): string
     {
         $response = $this->client->request('GET', self::API_ENTRY_POINT . $word);
         if ($response->getStatusCode() !== self::SUCCESS_STATUS) {
