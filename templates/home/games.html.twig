@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+{% block body %}
+    <div class="home container-fluid">
+        <div class=" flex-row d-flex justify-content-center align-items-center pt-5">
+            <div class="btn btn-app btn-home-games-white d-flex flex-column pb-5">
+                <div class="row my-5" >
+                    <h1 class="m-3 mx-auto">Bienvenue {% if app.user %}{{ app.user.nickname }}{% endif %} !</h1>
+                </div>
+                <div class="btn btn-app btn-home-yellow my-5 mx-auto py-2">
+                    <a class="text-decoration-none text-white fs-2" href="{{ path('help') }}">J'accède à EASI</a>
+                </div>
+                <div class="row btn btn-app btn-home-purple my-5 mx-auto py-2">
+                    <a class="text-decoration-none text-white fs-2" href="/">J'accède à DESTI</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
