@@ -7,7 +7,6 @@ use App\Entity\Word;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,25 +19,25 @@ class WordType extends AbstractType
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
             ])
-            ->add('definition', TextareaType::class, [
+            ->add('definition', TextType::class, [
                 'label' => 'Définition',
                 'required' => false,
             ])
             ->add('audio', FileType::class, [
+                'label' => 'Son',
                 'required' => false,
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
                 'required' => false,
             ])
-            ->add('letters', EntityType::class, [
-                'label' => 'Lettres',
+            ->add('letter', EntityType::class, [
                 'class' => Letter::class,
                 'choice_label' => 'content',
-                'multiple' => true,
                 'expanded' => true,
+                'multiple' => false,
                 'attr' => [
-                    'class' => 'd-flex justify-content-around',
+                    'class' => 'd-flex col-4',
                 ]
             ])
         ;

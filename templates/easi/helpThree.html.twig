@@ -6,30 +6,23 @@
     <div class="container-fluid easi">
         <div class="row pt-3">
             <div class="col-lg-2">
-                <img class="ms-5" src="{{ asset('build/images/image_a.png') }}" alt="">
+                <img class="ms-5" src="{{ asset('build/images/image_' ~ word.letter.content ~ '.png') }}" alt="">
             </div>
             <div class="d-flex flex-column  align-items-center">
                 <div class="btn-app easi-white-propositions text-center fs-1">
-                    <p>Fréquence de la lettre <span class="text-danger">{{ letter.content }}</span></p>
+                    <p>Fréquence de la lettre <span class="text-danger">{{ word.letter.content }}</span></p>
                     <p>Mot : <span class="text-success">{{ word.content }}</span></p>
                 </div>
-                {% if letter.content == 'a' %}
-                <img class="mt-3" src="{{ asset('build/images/camembert_a.jpeg') }}" class="img-help" alt="camembert">
-                {% elseif letter.content == 's' %}
-                <img  class="mt-3" src="{{ asset('build/images/camembert_s.jpg') }}" class="img-help" alt="camembert">
-                {% elseif letter.content == 'e' %}
-                <img  class="mt-3" src="{{ asset('build/images/camembert_e.png') }}" class="img-help" alt="camembert">
-                {% else %}
-                <img src="{{ asset('build/images/camembert_i.jpg') }}" class="img-help" alt="camembert">
+                <img class="mt-3" src="{{ asset('build/images/camembert_' ~ word.letter.content ~ '.jpeg') }}" class="img-help" alt="camembert">
             </div>
-            {% endif %}
-            <a href="{{ path('easi_index', {word_content: word.content}) }}">
-                <div class="my-5">
-                    <span class="text-primary">
+
+            <div class="my-5 d-flex justify-content-center">
+                <span class="text-primary">
+                    <a href="{{ path('easi_index', {word_content: word.content}) }}">
                         <i class="fas fa-undo fa-5x"></i>
-                    </span>
-                </div>
-            </a>
+                    </a>
+                </span>
+            </div>
         </div>
     </div>
 {% endblock %}

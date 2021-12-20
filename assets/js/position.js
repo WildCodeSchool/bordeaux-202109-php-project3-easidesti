@@ -15,14 +15,13 @@ const addPosition = (span, nameInput) => {
 };
 const createSpan = (parent, event, name) => {
     const span = document.createElement('span');
-    span.className = 'word-letter btn fs-2 ' + name;
+    span.className = `word-letter btn fs-2 ${name}`;
     span.id = document.getElementsByClassName(name).length;
     span.innerText = event.key;
     span.innerText = event.key;
     return span;
 };
 wordInput.addEventListener('keyup', (event) => {
-    console.log('ok')
     if (wordInput.value === '') {
         divEndpoint.innerHTML = '';
         divMuteLetter.innerHTML = '';
