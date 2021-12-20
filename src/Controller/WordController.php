@@ -6,6 +6,7 @@ use App\Entity\Endpoint;
 use App\Entity\MuteLetter;
 use App\Entity\Word;
 use App\Form\WordType;
+use App\Service\WordGenerator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,17 +21,17 @@ class WordController extends AbstractController
     /**
      * @Route("/ajout", name="index")
      */
-    public function index(Request $request, ManagerRegistry $managerRegistry): Response
+    public function index(Request $request, ManagerRegistry $managerRegistry, WordGenerator $wordGenerator): Response
     {
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $managerRegistry->getManager();
-            $endpointLetters = $request->request->get('clickedLetters');
-            $endpointLetters = $endpointLetters ?? [];
-            $endpointLetters[] = strlen($word->getContent()) - 1;
-            $endpointLetters = array_unique($endpointLetters);
+            $endpointLetters = $wordGenerator->generateEndpoint(
+                $word->getContent(),
+                $request->request->get('clickedLetters')
+            );
             foreach ($endpointLetters as $position) {
                 $endpoint = new Endpoint();
                 $endpoint->setPosition($position);
