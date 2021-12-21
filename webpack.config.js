@@ -35,6 +35,7 @@ Encore
     .addEntry('phoneme', './assets/js/phoneme.js')
     .addEntry('help', './assets/js/help.js')
     .addEntry('word_add', './assets/js/position.js')
+    .addEntry('definition', './assets/js/definition.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
