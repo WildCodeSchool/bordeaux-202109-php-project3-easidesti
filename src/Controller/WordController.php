@@ -50,6 +50,7 @@ class WordController extends AbstractController
             }
             $entityManager->persist($word);
             $entityManager->flush();
+            $this->addFlash('success', 'Le mot a bien été ajouté !');
             return $this->redirectToRoute('word_index');
         }
         return $this->renderForm('word/index.html.twig', [
