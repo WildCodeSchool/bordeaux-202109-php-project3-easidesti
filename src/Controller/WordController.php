@@ -7,8 +7,10 @@ use App\Entity\MuteLetter;
 use App\Entity\Word;
 use App\Form\WordType;
 use App\Service\WordGenerator;
+use App\Service\Definition;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,5 +58,14 @@ class WordController extends AbstractController
         return $this->renderForm('word/index.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/definition/{word}", name="definition")
+     */
+    public function definition(Definition $definition, string $word): Response
+    {
+        $definition = $definition->generateDefinition($word);
+        return new JsonResponse($definition);
     }
 }

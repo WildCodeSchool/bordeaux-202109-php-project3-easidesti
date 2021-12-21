@@ -23,6 +23,7 @@ class WordType extends AbstractType
             ->add('definition', TextareaType::class, [
                 'label' => 'Définition',
                 'required' => false,
+                'attr' => ['rows' => '6'],
             ])
             ->add('audio', FileType::class, [
                 'label' => 'Son',

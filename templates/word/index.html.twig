@@ -1,8 +1,4 @@
 {% extends 'base.html.twig' %}
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('word_add') }}
-{% endblock %}
 {% block title %}Création d'un nouveau mot{% endblock %}
 
 {% block body %}
@@ -29,4 +25,9 @@
         {{ form_end(form) }}
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('word_add') }}
+    {{ encore_entry_script_tags('definition') }}
 {% endblock %}
