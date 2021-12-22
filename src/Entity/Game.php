@@ -54,7 +54,7 @@ class Game
 
     /**
      * @ORM\ManyToMany(targetEntity=Letter::class)
-     *
+     */
     private Collection $letters;
 
     /**
@@ -173,14 +173,14 @@ class Game
     }
 
     /**
-     * @return Collection|letters[]
+     * @return Collection|Letter[]
      */
     public function getletters(): Collection
     {
         return $this->letters;
     }
 
-    public function addletters(letters $letters): self
+    public function addletters(Letter $letters): self
     {
         if (!$this->letters->contains($letters)) {
             $this->letters[] = $letters;
@@ -189,7 +189,7 @@ class Game
         return $this;
     }
 
-    public function removeletters(letters $letters): self
+    public function removeletters(Letter $letters): self
     {
         $this->letters->removeElement($letters);
 
