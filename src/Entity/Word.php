@@ -61,6 +61,11 @@ class Word
      */
     private Letter $letter;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Serie::class, inversedBy="words")
+     */
+    private ?Serie $serie;
+
     public function __construct()
     {
         $this->muteLetters = new ArrayCollection();
@@ -201,6 +206,18 @@ class Word
     public function setLetter(Letter $letter): self
     {
         $this->letter = $letter;
+
+        return $this;
+    }
+
+    public function getSerie(): ?Serie
+    {
+        return $this->serie;
+    }
+
+    public function setSerie(?Serie $serie): self
+    {
+        $this->serie = $serie;
 
         return $this;
     }
