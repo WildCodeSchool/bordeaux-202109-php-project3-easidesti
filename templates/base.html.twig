@@ -15,22 +15,6 @@
 		{% endblock %}
 	</head>
 	<body>
-    <div class="container-fluid" id="bg-alert">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="col-6 mx-auto">
-                    <div class="alert alert-{{ label }} align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="d-flex">
-                            <div class="toast-body text-align-center">
-                                {{ message }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endfor %}
-    </div>
-
 		{% block body %}{% endblock %}
 	</body>
 </html>
