@@ -29,7 +29,7 @@ class WordFixtures extends Fixture
 
         $word2 = new Word();
         $word2->setContent('banc');
-        $word2->setDefinition('un lieu où on se repose');
+        $word2->setDefinition($this->definition->generateDefinition($word2->getContent()));
         $word2->setCreatedAt(new DateTime());
         $this->addReference('word_banc', $word2);
         $manager->persist($word2);
@@ -50,7 +50,7 @@ class WordFixtures extends Fixture
 
         $word5 = new Word();
         $word5->setContent('ail');
-        $word5->setDefinition('un légume qui pique');
+        $word5->setDefinition($this->definition->generateDefinition($word5->getContent()));
         $word5->setCreatedAt(new DateTime());
         $this->addReference('word_ail', $word5);
         $manager->persist($word5);
@@ -61,6 +61,13 @@ class WordFixtures extends Fixture
         $word6->setCreatedAt(new DateTime());
         $this->addReference('word_cadeau', $word6);
         $manager->persist($word6);
+
+        $word7 = new Word();
+        $word7->setContent('papa');
+        $word7->setDefinition($this->definition->generateDefinition($word7->getContent()));
+        $word7->setCreatedAt(new DateTime());
+        $this->addReference('word_papa', $word7);
+        $manager->persist($word7);
 
         $manager->flush();
     }
