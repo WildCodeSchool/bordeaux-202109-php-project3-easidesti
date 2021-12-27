@@ -49,7 +49,7 @@ class Word
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $createdAt;
+    private DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -65,6 +65,12 @@ class Word
      * @ORM\ManyToOne(targetEntity=Serie::class, inversedBy="words")
      */
     private ?Serie $serie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Pronunciation::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Pronunciation $pronunciation;
 
     public function __construct()
     {
@@ -218,6 +224,18 @@ class Word
     public function setSerie(?Serie $serie): self
     {
         $this->serie = $serie;
+
+        return $this;
+    }
+
+    public function getPronunciation(): ?Pronunciation
+    {
+        return $this->pronunciation;
+    }
+
+    public function setPronunciation(?Pronunciation $pronunciation): self
+    {
+        $this->pronunciation = $pronunciation;
 
         return $this;
     }
