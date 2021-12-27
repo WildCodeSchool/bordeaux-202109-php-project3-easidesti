@@ -243,4 +243,20 @@ class Game
 
         return $this;
     }
+
+    public function addLetter(Letter $letter): self
+    {
+        if (!$this->letters->contains($letter)) {
+            $this->letters[] = $letter;
+        }
+
+        return $this;
+    }
+
+    public function removeLetter(Letter $letter): self
+    {
+        $this->letters->removeElement($letter);
+
+        return $this;
+    }
 }
