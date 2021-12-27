@@ -228,12 +228,12 @@ class Word
         return $this;
     }
 
-    public function getPronunciation(): ?Pronunciation
+    public function getPronunciation(): Pronunciation
     {
         return $this->pronunciation;
     }
 
-    public function setPronunciation(?Pronunciation $pronunciation): self
+    public function setPronunciation(Pronunciation $pronunciation): self
     {
         $this->pronunciation = $pronunciation;
 
