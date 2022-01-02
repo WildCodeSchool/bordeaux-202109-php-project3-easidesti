@@ -73,6 +73,11 @@ class Game
     private DateTime $updatedAt;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $errorStep;
+
+    /**
      * @ORM\PrePersist
      */
     public function onPrePersist(): void
@@ -124,12 +129,12 @@ class Game
         return $this;
     }
 
-    public function getstep(): ?int
+    public function getStep(): ?int
     {
         return $this->step;
     }
 
-    public function setstep(int $step): self
+    public function setStep(int $step): self
     {
         $this->step = $step;
 
@@ -256,6 +261,18 @@ class Game
     public function removeLetter(Letter $letter): self
     {
         $this->letters->removeElement($letter);
+
+        return $this;
+    }
+
+    public function getErrorStep(): int
+    {
+        return $this->errorStep;
+    }
+
+    public function setErrorStep(int $errorStep): self
+    {
+        $this->errorStep = $errorStep;
 
         return $this;
     }

@@ -13,7 +13,9 @@
                 <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
                 <div class="btn-app easi-white-propositions container d-flex justify-content-center flex-wrap">
                     {% for i in 1..word.letter.nbProposal %}
-                        <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
+                        <a href="{{ path('check_response', {id: game.id, word: word.id, picture: 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png'}) }}" class="col-auto mx-auto">
+                            <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
+                        </a>
                     {% endfor %}
                 </div>
             </div>

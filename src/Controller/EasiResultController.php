@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Word;
+use App\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,12 +32,13 @@ class EasiResultController extends AbstractController
         ]);
     }
     /**
-     * @Route("/success/{content}", name="success")
+     * @Route("/success/{word}/game/{id}", name="success")
      */
-    public function showSuccessPage(Word $word): Response
+    public function showSuccessPage(Word $word, Game $game): Response
     {
         return $this->render('easi/success.html.twig', [
-            'word' => $word
+            'game' => $game,
+            'word' => $word,
         ]);
     }
     /**
