@@ -22,6 +22,7 @@ class GameController extends AbstractController
         $game->setPlayer($this->getUser());
         $game->setstep(0);
         $game->setErrorCount(0);
+        $game->setErrorStep(0);
         $game->setScore(0);
         $words = $entityManager->getRepository(Word::class)->findBy([], [], 7);
         foreach ($words as $word) {
@@ -33,15 +34,34 @@ class GameController extends AbstractController
         return $this->redirectToRoute('game_play', ['id' => $game->getId()]);
     }
     /**
-     * @Route("/game/{id}", name="game_play")
+     * @Route("easi/game/{id}", name="game_play")
      */
     public function play(Game $game): Response
     {
         $words = $game->getWords();
-        $step = $game->getstep();
+        $step = $game->getStep();
         $word = $words[$step];
         return $this->render('easi/index.html.twig', [
+            'game' => $game,
             'word' => $word,
         ]);
+    }
+
+    /**
+     * @Route("easi/game/{id}/mot/{word}/prononciation/{picture}", name="check_response")
+     */
+    public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
+    {
+        if ($word->getPronunciation()->getPicture() === $picture) {
+            $game->setStep($game->getStep() + 1);
+            $game->setErrorStep(0);
+            $managerRegistry->getManager()->flush();
+            return $this->redirectToRoute('easiresult_success', [
+                'word' => $word->getId(),
+                'id' => $game->getId(),
+            ]);
+        } else {
+            dd('not ok');
+        }
     }
 }
