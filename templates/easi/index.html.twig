@@ -5,9 +5,7 @@
 {% block body %}
     <div class="container-fluid easi">
         <div class="row pt-3">
-            <div class="col-12 col-lg-2">
-                <img class="ms-5 img-letter" src="{{ asset('build/images/image_' ~ word.letter.content ~ '.png') }}" alt="">
-            </div>
+                {% include 'component/_letter.html.twig' %}
             <div class="col-8 d-flex flex-column justify-content-center align-items-center">
                 <p class="btn-app word fs-1">{{ word.content }}</p>
                 <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>

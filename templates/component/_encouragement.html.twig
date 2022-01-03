@@ -1,0 +1,14 @@
+<div class="d-flex justify-content-center">
+    <div class="col-6 d-flex flex-column align-items-center">
+        <img src="{{ asset('build/images/emoji_error.png') }}" class="emoji" alt="error">
+        {# fichier son lecture automatique #}
+        <h1>Dommage </h1>
+        <p class="fs-3 text-center">Tu as une deuxième chance, saisis-la ! N'oublie pas les aides !  </p>
+        <p class="fs-3 text-center text-success">2 essais restants</p>
+    </div>
+</div>
+<div class="d-flex justify-content-center align-text-bottom">
+    <a href="{{ path('game_play', {id: game.id}) }}">
+        <div class="next btn btn-app bg-secondary p-2 fs-2">Réessayer<i class="fas fa-arrow-right mx-3"></i></div>
+    </a>
+</div>

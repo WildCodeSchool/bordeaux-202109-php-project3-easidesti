@@ -52,16 +52,32 @@ class GameController extends AbstractController
      */
     public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
     {
-        if ($word->getPronunciation()->getPicture() === $picture) {
+        if ($game->getErrorStep() === 2) {
             $game->setStep($game->getStep() + 1);
             $game->setErrorStep(0);
             $managerRegistry->getManager()->flush();
-            return $this->redirectToRoute('easiresult_success', [
+            return $this->redirectToRoute('easiresult_step', [
+                'word' => $word->getId(),
+                'id' => $game->getId(),
+                'success' => 'fail',
+            ]);
+        } elseif ($word->getPronunciation()->getPicture() === $picture) {
+            $game->setStep($game->getStep() + 1);
+            $game->setErrorStep(0);
+            $managerRegistry->getManager()->flush();
+            return $this->redirectToRoute('easiresult_step', [
+                'word' => $word->getId(),
+                'id' => $game->getId(),
+                'success' => true,
+            ]);
+        } else {
+            $game->setErrorStep($game->getErrorStep() + 1);
+            $game->setErrorCount($game->getErrorCount() + 1);
+            $managerRegistry->getManager()->flush();
+            return $this->redirectToRoute('easiresult_step', [
                 'word' => $word->getId(),
                 'id' => $game->getId(),
             ]);
-        } else {
-            dd('not ok');
         }
     }
 }
