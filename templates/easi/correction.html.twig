@@ -5,28 +5,15 @@
 {% block body %}
     <div class="container-fluid easi">
         <div class="row pt-3">
-            <div class="col-lg-2">
-                <img class="ms-5 img-letter" src="{{ asset('build/images/image_a.png') }}" alt="">
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="col-6 d-flex flex-column align-items-center">
-                    <div class="row d-flex justify-content-center text-center my-3">
-                        <img src="{{ asset('build/images/emoji_error.png') }}" class="emoji my-3" alt="error">
-                            {# fichier son lecture automatique #}
-                        <h1>Dommage</h1>
-                        <p>Ce n'est pas la bonne réponse. Tu ne marques pas de point cette fois-ci !</p>
-                    </div>
-                <div class="row d-flex justify-content-center text-center my-3">
-                    <p>Clique sur moi  </p>{# fichier son lecture après clique et affichage mot avec les lettres en gras et clignotants #}
-                    <img src="{{ asset('build/images/emoji_loupe.png') }}" class="emoji" alt="error">
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center align-text-bottom my-5">
-                <a href="">
-                    <div class="next btn btn-app bg-secondary p-2 fs-2">Suivant<i class="fas fa-arrow-right mx-3"></i></div>
-                </a>
-            </div>
+
+            {% include 'component/_letter.html.twig' %}
+            {% if success == false %}
+                {% include 'component/_encouragement.html.twig' %}
+            {% elseif success == 'fail' %}
+                {% include 'component/_fail.html.twig' %}
+            {% else %}
+                {% include 'component/_success.html.twig' %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
