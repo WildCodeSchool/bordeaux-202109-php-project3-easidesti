@@ -22,6 +22,7 @@ class LetterFixtures extends Fixture implements DependentFixtureInterface
         $letter->addWord($this->getReference('word_jambe'));
         $letter->addWord($this->getReference('word_ail'));
         $letter->addWord($this->getReference('word_cadeau'));
+        $letter->addWord($this->getReference('word_papa'));
         $this->addReference('letter_a', $letter);
         $manager->persist($letter);
 
