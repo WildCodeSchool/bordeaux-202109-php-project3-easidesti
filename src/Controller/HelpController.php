@@ -44,7 +44,6 @@ class HelpController extends AbstractController
         ];
         $letter = $word->getLetter();
         $endpoints = $word->getEndpoints();
-        $lenghtWord = strlen($word->getContent());
         $syllabes = [];
         for ($i = 0; $i < count($endpoints); $i++) {
             $position = 0;
