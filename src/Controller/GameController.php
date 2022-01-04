@@ -6,16 +6,29 @@ use App\Entity\Game;
 use App\Entity\Word;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
 {
+
+    public const MAX_ERROR_ALLOWED = 3;
+
+    private SessionInterface $session;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->session = $requestStack->getSession();
+    }
+
     /**
      * @Route("/game", name="game_init")
      */
     public function initEasiGame(ManagerRegistry $managerRegistry): Response
     {
+        $this->session->remove('helps');
         $entityManager = $managerRegistry->getManager();
         $game = new Game();
         $game->setIsEasi(true);
@@ -52,32 +65,26 @@ class GameController extends AbstractController
      */
     public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
     {
-        if ($game->getErrorStep() === 2) {
+        $correctPicture = $word->getPronunciation()->getPicture();
+        if ($game->getErrorStep() === (self::MAX_ERROR_ALLOWED - 1) && $correctPicture !== $picture) {
             $game->setStep($game->getStep() + 1);
             $game->setErrorStep(0);
-            $managerRegistry->getManager()->flush();
-            return $this->redirectToRoute('easiresult_step', [
-                'word' => $word->getId(),
-                'id' => $game->getId(),
-                'success' => 'fail',
-            ]);
-        } elseif ($word->getPronunciation()->getPicture() === $picture) {
+            $successType = 'fail';
+        } elseif ($correctPicture === $picture) {
             $game->setStep($game->getStep() + 1);
+            $game->setScore($game->getScore() + (3 - $game->getErrorStep()));
             $game->setErrorStep(0);
-            $managerRegistry->getManager()->flush();
-            return $this->redirectToRoute('easiresult_step', [
-                'word' => $word->getId(),
-                'id' => $game->getId(),
-                'success' => true,
-            ]);
+            $successType = true;
         } else {
             $game->setErrorStep($game->getErrorStep() + 1);
             $game->setErrorCount($game->getErrorCount() + 1);
-            $managerRegistry->getManager()->flush();
-            return $this->redirectToRoute('easiresult_step', [
-                'word' => $word->getId(),
-                'id' => $game->getId(),
-            ]);
+            $successType = false;
         }
+        $managerRegistry->getManager()->flush();
+        return $this->redirectToRoute('easiresult_step', [
+            'word'    => $word->getId(),
+            'id'      => $game->getId(),
+            'success' => $successType,
+        ]);
     }
 }
