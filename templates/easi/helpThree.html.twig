@@ -1,28 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'easi/help_layout.html.twig' %}
+{% block help_number %}
+    3
+{% endblock %}
 
-{% block title %}EASI{% endblock %}
-
-{% block body %}
-    <div class="container-fluid easi">
-        <div class="row pt-3">
-            <div class="col-lg-2">
-                <img class="ms-5 img-letter" src="{{ asset('build/images/image_' ~ word.letter.content ~ '.png') }}" alt="">
-            </div>
-            <div class="d-flex flex-column  align-items-center">
-                <div class="btn-app easi-white-propositions text-center fs-1">
-                    <p>Fréquence de la lettre <span class="text-danger">{{ word.letter.content }}</span></p>
-                    <p>Mot : <span class="text-success">{{ word.content }}</span></p>
-                </div>
-                <img class="img-help mt-3" src="{{ asset('build/images/camembert_' ~ word.letter.content ~ '.jpg') }}" alt="camembert">
-            </div>
-
-            <div class="my-5 d-flex justify-content-center">
-                <span class="text-primary">
-                    <a href="{{ path('easi_index', {word_content: word.content}) }}">
-                        <i class="fas fa-undo fa-5x"></i>
-                    </a>
-                </span>
-            </div>
+{% block help_content %}
+    <div class="d-flex flex-column  align-items-center">
+        <div class="btn-app easi-white-propositions text-center fs-1">
+            <p>Fréquence de la lettre <span class="text-danger">{{ word.letter.content }}</span></p>
+            <p>Mot : <span class="text-success">{{ word.content }}</span></p>
         </div>
+        <img class="img-help mt-3" src="{{ asset('build/images/camembert_' ~ word.letter.content ~ '.jpg') }}" alt="camembert">
     </div>
 {% endblock %}
