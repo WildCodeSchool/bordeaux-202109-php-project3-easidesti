@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid easi">
+        <img src="{{ asset('build/images/image_' ~ letter ~ '.png') }}" alt="lettre">
+        {% for i in 1..word.letter.nbProposal %}
+            <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="prononciation">
+            {% for word in game.words %}
+                {% if word.pronunciation.picture == 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png' %}
+                    {{ word.content }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

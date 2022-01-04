@@ -51,8 +51,14 @@ class GameController extends AbstractController
      */
     public function play(Game $game): Response
     {
+
         $words = $game->getWords();
         $step = $game->getStep();
+        if (!isset($words[$step])) {
+            return $this->redirectToRoute('recap_game', [
+                'game' => $game->getId(),
+            ]);
+        }
         $word = $words[$step];
         return $this->render('easi/index.html.twig', [
             'game' => $game,
