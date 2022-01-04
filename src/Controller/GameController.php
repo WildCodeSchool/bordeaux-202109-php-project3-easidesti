@@ -51,7 +51,6 @@ class GameController extends AbstractController
      */
     public function play(Game $game): Response
     {
-
         $words = $game->getWords();
         $step = $game->getStep();
         if (!isset($words[$step])) {
