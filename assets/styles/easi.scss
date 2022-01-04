@@ -124,7 +124,16 @@
         border: 3px solid black;
         border-radius: 25px;
         box-shadow: 10px 10px 5px black;
+    }
 
+    .score {
+        color: $primary;
+        background-color: $secondary;
+        max-height: 18vh;
+    }
+
+    .progress {
+        height: 35px;
     }
 
 }
