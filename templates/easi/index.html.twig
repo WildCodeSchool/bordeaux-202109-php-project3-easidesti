@@ -3,6 +3,13 @@
 {% block title %}EASI{% endblock %}
 
 {% block body %}
+    <div>
+        score : {{ game.score }}
+        <br>
+        progression : {{ game.rateInProgress }}%
+        <br>
+        Mot {{ game.step + 1 }} / {{ game.wordCount }}
+    </div>
     <div class="container-fluid easi">
         <div class="row pt-3">
                 {% include 'component/_letter.html.twig' %}

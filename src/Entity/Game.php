@@ -77,6 +77,21 @@ class Game
      */
     private int $errorStep;
 
+    public function getObjectifPoint(): int
+    {
+        return count($this->getWords()) * 3;
+    }
+
+    public function getRateInProgress(): int
+    {
+        return $this->getScore() / $this->getObjectifPoint() * 100;
+    }
+
+    public function getWordCount(): int
+    {
+        return count($this->getWords());
+    }
+
     /**
      * @ORM\PrePersist
      */
