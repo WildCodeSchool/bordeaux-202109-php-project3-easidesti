@@ -3,17 +3,28 @@
 {% block title %}EASI{% endblock %}
 
 {% block body %}
-    <div>
-        score : {{ game.score }}
-        <br>
-        progression : {{ game.rateInProgress }}%
-        <br>
-        Mot {{ game.step + 1 }} / {{ game.wordCount }}
-    </div>
     <div class="container-fluid easi">
         <div class="row pt-3">
-                {% include 'component/_letter.html.twig' %}
+            <div class="col-2 d-flex flex-column justify-content-start align-content-center">
+                <div class="mb-5">  {% include 'component/_letter.html.twig' %}
+                </div>
+                <div class="btn-app score text-center ms-5 mt-5 p-2 fs-5">
+                    <div class="mb-3">
+                        score : {{ game.score }}
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width:{{ game.rateInProgress }}%;"
+                             aria-valuenow="{{ game.rateInProgress }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ game.rateInProgress }}%
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        Mot {{ game.step + 1 }} / {{ game.wordCount }}
+                    </div>
+                </div>
+            </div>
             <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+
                 <p class="btn-app word fs-1">{{ word.content }}</p>
                 <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
                 <div class="btn-app easi-white-propositions container d-flex justify-content-center flex-wrap">
