@@ -6,7 +6,9 @@ use App\Entity\Game;
 use App\Entity\Word;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
@@ -14,11 +16,19 @@ class GameController extends AbstractController
 
     public const MAX_ERROR_ALLOWED = 3;
 
+    private SessionInterface $session;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->session = $requestStack->getSession();
+    }
+
     /**
      * @Route("/game", name="game_init")
      */
     public function initEasiGame(ManagerRegistry $managerRegistry): Response
     {
+        $this->session->remove('helps');
         $entityManager = $managerRegistry->getManager();
         $game = new Game();
         $game->setIsEasi(true);
