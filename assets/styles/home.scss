@@ -1,8 +1,7 @@
 .home {
     background: $bg-home;
-    min-width : 100vw;
     min-height: 100vh;
-    color: $primary;
+
     font-family: 'Mulish', serif;
     font-style: normal;
     font-weight: bold;
@@ -37,21 +36,28 @@
         background: #FFFFFF;
     }
 
+    .btn-home-games-white {
+        height: 80vh;
+        width: 50vw;
+        background: $secondary;
+    }
+
     .btn-home-yellow {
-        width: 450px;
-        height: 84px;
+        min-width: 60%;
+        min-height: 12%;
         background: $bg-home;
     }
 
     .btn-home-purple {
-        width: 450px;
-        height: 84px;
+        min-width:60%;
+        min-height: 12%;
         background: linear-gradient(90deg, #B59BFF 0%, #AF49FF 54.69%, #DD53FF 100%);
     }
 
     .image-home {
         max-width: 25vw;
     }
+
     .form {
         border-radius: 4rem;
     }

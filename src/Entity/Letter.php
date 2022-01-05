@@ -25,7 +25,12 @@ class Letter
     private string $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Word::class, inversedBy="letters")
+     * @ORM\Column(type="integer")
+     */
+    private int $nbProposal;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Word::class, mappedBy="letter")
      */
     private Collection $words;
 
@@ -51,6 +56,18 @@ class Letter
         return $this;
     }
 
+    public function getNbProposal(): ?int
+    {
+        return $this->nbProposal;
+    }
+
+    public function setNbProposal(int $nbProposal): self
+    {
+        $this->nbProposal = $nbProposal;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Word[]
      */
@@ -63,6 +80,7 @@ class Letter
     {
         if (!$this->words->contains($word)) {
             $this->words[] = $word;
+            $word->setLetter($this);
         }
 
         return $this;
@@ -70,7 +88,12 @@ class Letter
 
     public function removeWord(Word $word): self
     {
-        $this->words->removeElement($word);
+        if ($this->words->removeElement($word)) {
+            // set the owning side to null (unless already changed)
+            if ($word->getLetter() === $this) {
+                $word->setLetter(null);
+            }
+        }
 
         return $this;
     }

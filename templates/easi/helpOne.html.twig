@@ -1,31 +1,12 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}EASI{% endblock %}
-
-{% block body %}
-    <div class="container-fluid easi">
-        <div class="row pt-3">
-            <div class="col-lg-2">
-                <img class="ms-5" src="{{ asset('build/images/image_a.png') }}" alt="">
-            </div>
-        </div>
-        <div class="title mt-5">
-            <h2 class="text-center">Aide n°1</h2>
-        </div>
-        <div class="col-8 mx-auto my-5">
-            <p class="btn-app col-4 word fs-1 mx-auto">
-                {% for syllabe in syllabes %}
-                    <span class="text-{{ colors[loop.index - 1] }}">{{ syllabe }}</span>
-                {% endfor %}
-            </p>
-            <div class="w-75 h-50 bg-light response"></div>
-        </div>
-        <div class="my-5">
-            <p class="text-success text-center">
-                <a href="{{ path('easi_index', {word_content: word.content}) }}">
-                    <i class="fas fa-undo fa-5x"></i>
-                </a>
-            </p>
-        </div>
-    </div>
+{% extends 'easi/help_layout.html.twig' %}
+{% block help_number %}
+1
 {% endblock %}
+{% block help_content %}
+    <p class="btn-app col-6 word fs-1 mx-auto d-flex justify-content-center">
+            {% for syllabe in syllabes %}
+                <span class="text-{{ loop.last ? colors|last : colors[loop.index - 1] }} me-2">{{ syllabe }}</span>
+            {% endfor %}
+    </p>
+{% endblock %}
+

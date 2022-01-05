@@ -23,24 +23,23 @@ class WordType extends AbstractType
             ->add('definition', TextareaType::class, [
                 'label' => 'Définition',
                 'required' => false,
+                'attr' => ['rows' => '6'],
             ])
             ->add('audio', FileType::class, [
-                'mapped' => false,
+                'label' => 'Son',
                 'required' => false,
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
-                'mapped' => false,
                 'required' => false,
             ])
-            ->add('letters', EntityType::class, [
-                'label' => 'Lettres',
+            ->add('letter', EntityType::class, [
                 'class' => Letter::class,
                 'choice_label' => 'content',
-                'multiple' => true,
                 'expanded' => true,
+                'multiple' => false,
                 'attr' => [
-                    'class' => 'd-flex justify-content-around',
+                    'class' => 'd-flex col-4',
                 ]
             ])
         ;

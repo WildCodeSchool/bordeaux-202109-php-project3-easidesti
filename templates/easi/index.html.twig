@@ -5,29 +5,37 @@
 {% block body %}
     <div class="container-fluid easi">
         <div class="row pt-3">
-            <div class="col-12 col-lg-2">
-                <img class="ms-5" src="{{ asset('build/images/image_a.png') }}" alt="">
+            <div class="col-2 d-flex flex-column justify-content-start align-content-center">
+                {% include 'component/_letter.html.twig' %}
+                {% include 'component/_showScoreStep.html.twig' %}
             </div>
             <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+
                 <p class="btn-app word fs-1">{{ word.content }}</p>
                 <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
-                <div class="w-75 h-50 bg-light response"></div>
+                <div class="btn-app easi-white-propositions container d-flex justify-content-center flex-wrap">
+                    {% for i in 1..word.letter.nbProposal %}
+                        <a href="{{ path('check_response', {id: game.id, word: word.id, picture: 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png'}) }}" class="col-auto mx-auto">
+                            <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
             <div class="col-2 d-flex flex-column mt-5">
                 <p class="fs-3 ms-5 mt-5">EASI</p>
-                <a href="{{ path('easi_helpOne', {content: word.content}) }}">
+                <a href="{{ path('easi_helpOne', {'game': game.id}) }}">
                     <div class="btn-app btn-easi-white-help d-flex flex-column justify-content-around">
                         <p>Aide n°1</p>
                         <div><img src="{{ asset('build/images/aide1_ciseaux.png') }}" alt=""><img src="{{ asset('build/images/aide1_chut.png') }}" alt=""></div>
                     </div>
                 </a>
-                <a href="{{ path('easi_helpTwo', {word_content: word.content}) }}">
+                <a href="{{ path('easi_helpTwo', {'game': game.id}) }}">
                     <div class="btn-app btn-easi-white-help my-5 d-flex flex-column justify-content-around">
                         <p>Aide n°2</p>
                         <div><img src="{{ asset('build/images/aide2_dessin.png') }}" alt=""><img src="{{ asset('build/images/aide2_livre.png') }}" alt=""></div>
                     </div>
                 </a>
-                <a>
+                <a  href="{{ path('easi_helpThree', {'game': game.id}) }}">
                     <div class="btn-app btn-easi-white-help d-flex flex-column justify-content-around">
                         <p>Aide n°3</p>
                         <div><img src="{{ asset('build/images/aide3_frequence.png') }}" alt=""></div>

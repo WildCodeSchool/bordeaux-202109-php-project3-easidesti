@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('help') }}
+{% endblock %}
 {% block body %}
-<div class="easi">
+<div class="easi container-fluid">
     <div class="d-flex flex-row justify-content-between p-3">
         <img src="{{ asset('build/images/image_a.png') }}" alt="image lettre a">
         <h2>EASI</h2>

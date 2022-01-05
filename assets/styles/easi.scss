@@ -1,6 +1,5 @@
 .easi {
     background: $bg-easi;
-    min-width : 100vw;
     min-height: 100vh;
     color: $secondary;
     font-family: 'Mulish', serif;
@@ -15,6 +14,12 @@
         color: $primary;
         background-color: $secondary;
         padding: .3em 3em;
+    }
+
+    #word_letter {
+        label {
+            margin-right: 1em;
+        }
     }
 
     .word-help {
@@ -102,8 +107,33 @@
     .btn-next-word {
         background-color: $primary;
     }
+    .img-letter{
+        width: 10vw;
+    }
     .img-help {
         width: 30vw;
+    }
+    .emoji {
+        width: 10vw;
+    }
+    .score {
+        width: 100%;
+        height: 100%;
+    }
+    .border-score {
+        border: 3px solid black;
+        border-radius: 25px;
+        box-shadow: 10px 10px 5px black;
+    }
+
+    .score {
+        color: $primary;
+        background-color: $secondary;
+        max-height: 18vh;
+    }
+
+    .progress {
+        height: 35px;
     }
 
 }
