@@ -38,9 +38,9 @@ class HelpController extends AbstractController
         }
         $colors = [
             'success',
-            'danger',
-            'warning',
             'info',
+            'warning',
+            'danger',
         ];
         $letter = $word->getLetter();
         $endpoints = $word->getEndpoints();
