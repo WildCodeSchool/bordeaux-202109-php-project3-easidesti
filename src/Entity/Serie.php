@@ -36,9 +36,25 @@ class Serie
      */
     private DateTime $updatedAt;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $number;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $level;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="serie")
+     */
+    private Collection $games;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     /**
@@ -113,6 +129,55 @@ class Serie
     public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setSerie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        $this->games->removeElement($game);
 
         return $this;
     }

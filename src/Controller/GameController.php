@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\Serie;
 use App\Entity\Word;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,13 +38,10 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $words = $entityManager->getRepository(Word::class)->findBy([], [], 7);
-        foreach ($words as $word) {
-            $game->addWord($word);
-        }
+        $serie = $entityManager->getRepository(Serie::class)->findOneBy(['number' => 1]);
+        $game->setSerie($serie);
         $entityManager->persist($game);
         $entityManager->flush();
-
         return $this->redirectToRoute('game_play', ['id' => $game->getId()]);
     }
     /**
@@ -51,7 +49,7 @@ class GameController extends AbstractController
      */
     public function play(Game $game): Response
     {
-        $words = $game->getWords();
+        $words = $game->getSerie()->getWords();
         $step = $game->getStep();
         if (!isset($words[$step])) {
             return $this->redirectToRoute('recap_game', [
@@ -70,6 +68,7 @@ class GameController extends AbstractController
      */
     public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
     {
+        //dd($word->getPronunciation()->getPicture() === $picture);
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($game->getErrorStep() === (self::MAX_ERROR_ALLOWED - 1) && $correctPicture !== $picture) {
             $game->setStep($game->getStep() + 1);

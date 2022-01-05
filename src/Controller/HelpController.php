@@ -31,7 +31,7 @@ class HelpController extends AbstractController
      */
     public function showHelpOne(Game $game, ManagerRegistry $managerRegistry): Response
     {
-        $word = $game->getWords()[$game->getStep()];
+        $word = $game->getSerie()->getWords()[$game->getStep()];
         if (!$this->hasEverRead($word, 1)) {
             $this->handleSession($word, 1);
             $game->setHelpCount($game->getHelpCount() + 1);
@@ -70,7 +70,7 @@ class HelpController extends AbstractController
      */
     public function showHelpTwo(Game $game, ManagerRegistry $managerRegistry): Response
     {
-        $word = $game->getWords()[$game->getStep()];
+        $word = $game->getSerie()->getWords()[$game->getStep()];
 
         if (!$this->hasEverRead($word, 2)) {
             $this->handleSession($word, 2);
@@ -88,7 +88,7 @@ class HelpController extends AbstractController
     */
     public function showHelpThree(Game $game, ManagerRegistry $managerRegistry): Response
     {
-        $word = $game->getWords()[$game->getStep()];
+        $word = $game->getSerie()->getWords()[$game->getStep()];
         if (!$this->hasEverRead($word, 3)) {
             $this->handleSession($word, 3);
             $game->setHelpCount($game->getHelpCount() + 1);

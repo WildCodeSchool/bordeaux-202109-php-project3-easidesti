@@ -30,7 +30,7 @@ class Game
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="games")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $player;
+    private User $player;
 
     /**
      * @ORM\Column(type="integer")
@@ -51,17 +51,6 @@ class Game
      * @ORM\Column(type="integer")
      */
     private int $score;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Letter::class)
-     */
-    private Collection $letters;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Word::class)
-     */
-    private Collection $words;
-
     /**
      * @ORM\Column(type="datetime")
      */
@@ -77,9 +66,15 @@ class Game
      */
     private int $errorStep;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Serie::class, inversedBy="games")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Serie $serie;
+
     public function getObjectifPoint(): int
     {
-        return count($this->getWords()) * 3;
+        return count($this->getSerie()->getWords()) * 3;
     }
 
     public function getRateInProgress(): int
@@ -89,7 +84,7 @@ class Game
 
     public function getWordCount(): int
     {
-        return count($this->getWords());
+        return count($this->getSerie()->getWords());
     }
 
     /**
@@ -109,12 +104,6 @@ class Game
         $this->updatedAt = new DateTime();
     }
 
-    public function __construct()
-    {
-        $this->letters = new ArrayCollection();
-        $this->words = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -132,12 +121,12 @@ class Game
         return $this;
     }
 
-    public function getPlayer(): ?User
+    public function getPlayer(): User
     {
         return $this->player;
     }
 
-    public function setPlayer(?User $player): self
+    public function setPlayer(User $player): self
     {
         $this->player = $player;
 
@@ -192,54 +181,6 @@ class Game
         return $this;
     }
 
-    /**
-     * @return Collection|Letter[]
-     */
-    public function getletters(): Collection
-    {
-        return $this->letters;
-    }
-
-    public function addletters(Letter $letters): self
-    {
-        if (!$this->letters->contains($letters)) {
-            $this->letters[] = $letters;
-        }
-
-        return $this;
-    }
-
-    public function removeletters(Letter $letters): self
-    {
-        $this->letters->removeElement($letters);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Word[]
-     */
-    public function getWords(): Collection
-    {
-        return $this->words;
-    }
-
-    public function addWord(Word $word): self
-    {
-        if (!$this->words->contains($word)) {
-            $this->words[] = $word;
-        }
-
-        return $this;
-    }
-
-    public function removeWord(Word $word): self
-    {
-        $this->words->removeElement($word);
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
@@ -264,22 +205,6 @@ class Game
         return $this;
     }
 
-    public function addLetter(Letter $letter): self
-    {
-        if (!$this->letters->contains($letter)) {
-            $this->letters[] = $letter;
-        }
-
-        return $this;
-    }
-
-    public function removeLetter(Letter $letter): self
-    {
-        $this->letters->removeElement($letter);
-
-        return $this;
-    }
-
     public function getErrorStep(): int
     {
         return $this->errorStep;
@@ -288,6 +213,18 @@ class Game
     public function setErrorStep(int $errorStep): self
     {
         $this->errorStep = $errorStep;
+
+        return $this;
+    }
+
+    public function getSerie(): Serie
+    {
+        return $this->serie;
+    }
+
+    public function setSerie(Serie $serie): self
+    {
+        $this->serie = $serie;
 
         return $this;
     }
