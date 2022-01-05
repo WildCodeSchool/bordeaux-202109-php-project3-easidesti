@@ -77,6 +77,11 @@ class Game
      */
     private int $errorStep;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Serie::class, mappedBy="game", orphanRemoval=true)
+     */
+    private Collection $series;
+
     public function getObjectifPoint(): int
     {
         return count($this->getWords()) * 3;
@@ -113,6 +118,7 @@ class Game
     {
         $this->letters = new ArrayCollection();
         $this->words = new ArrayCollection();
+        $this->series = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -288,6 +294,31 @@ class Game
     public function setErrorStep(int $errorStep): self
     {
         $this->errorStep = $errorStep;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Serie[]
+     */
+    public function getSeries(): Collection
+    {
+        return $this->series;
+    }
+
+    public function addSeries(Serie $series): self
+    {
+        if (!$this->series->contains($series)) {
+            $this->series[] = $series;
+            $series->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeries(Serie $series): self
+    {
+        $this->series->removeElement($series);
 
         return $this;
     }

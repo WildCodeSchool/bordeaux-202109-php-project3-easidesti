@@ -36,6 +36,22 @@ class Serie
      */
     private DateTime $updatedAt;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $number;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $level;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="series")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Game $game;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
@@ -113,6 +129,42 @@ class Serie
     public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function getGame(): Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(Game $game): self
+    {
+        $this->game = $game;
 
         return $this;
     }
