@@ -12,11 +12,11 @@ class MuteLetterFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $muteLetter = new MuteLetter();
+        /*$muteLetter = new MuteLetter();
         $muteLetter->setWord($this->getReference('word_haricot'));
         $muteLetter->setPosition(0);
         $muteLetter->setCreatedAt(new DateTime());
-        $manager->persist($muteLetter);
+        $manager->persist($muteLetter);*/
 
         $manager->flush();
     }

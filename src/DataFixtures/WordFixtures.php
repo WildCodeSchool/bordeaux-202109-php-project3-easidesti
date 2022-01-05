@@ -20,8 +20,155 @@ class WordFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $word = new Word();
-        $word->setContent('haricot');
+        $wordsSerie1A = [
+            'maison',
+            'papa',
+            'papa',
+            'maman',
+            'table',
+            'jardin',
+            'mal',
+            'carte',
+            'nature',
+            'vache',
+            'achat',
+            'achat',
+            'barbe',
+            'classe',
+            'matin',
+            'branche',
+            'chat',
+            'facteur',
+            'lapin',
+            'mars',
+            'plante',
+            'animal',
+            'animal',
+            'arbre',
+            'arme',
+            'aube',
+            'autour',
+            'avenir',
+            'brave',
+        ];
+
+        $pronunciationSerie1A = [
+            $this->getReference('pronunciation_maison'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_ambulance'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_ambulance'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_chaussure'),
+            $this->getReference('pronunciation_chaussure'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+        ];
+
+        foreach ($wordsSerie1A as $key => $wordSerie) {
+            $word = new Word();
+            $word->setContent($wordsSerie1A[$key]);
+            $word->setDefinition($this->definition->generateDefinition($word->getContent()));
+            $this->addReference('letter_a_serie_1_word_' . $key, $word);
+            $word->setSerie($this->getReference('serie_a_1'));
+            $word->setPronunciation($pronunciationSerie1A[$key]);
+            $manager->persist($word);
+        }
+
+        $pronunciationSerie2A = [ //31
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_ambulance'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_ambulance'),
+            $this->getReference('pronunciation_ambulance'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_chaussure'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+            $this->getReference('pronunciation_table'),
+        ];
+        $wordsSerie2A = [ //31
+            'cheval',
+            'enfant',
+            'image',
+            'mardi',
+            'moustache',
+            'sage',
+            'année',
+            'article',
+            'aviateur',
+            'aviateur',
+            'café',
+            'cage',
+            'carton',
+            'cave',
+            'chaleur',
+            'chambre',
+            'chanteur',
+            'charme',
+            'famille',
+            'journal',
+            'maladie',
+            'maladie',
+            'marbre',
+            'marche',
+            'marque',
+            'pauvre',
+            'rédaction',
+            'sable',
+            'salade',
+            'salade',
+        ];
+
+        foreach ($wordsSerie2A as $key => $wordSerie) {
+            $word = new Word();
+            $word->setContent($wordsSerie2A[$key]);
+            $word->setDefinition($this->definition->generateDefinition($word->getContent()));
+            $this->addReference('letter_a_serie_2_word_' . $key, $word);
+            $word->setSerie($this->getReference('serie_a_2'));
+            $word->setPronunciation($pronunciationSerie2A[$key]);
+            $manager->persist($word);
+        }
+        /*$word->setContent('haricot');
         $word->setDefinition($this->definition->generateDefinition($word->getContent()));
         $word->setCreatedAt(new DateTime());
         $this->addReference('word_haricot', $word);
@@ -74,7 +221,7 @@ class WordFixtures extends Fixture implements DependentFixtureInterface
         $word7->setCreatedAt(new DateTime());
         $this->addReference('word_papa', $word7);
         $word7->setPronunciation($this->getReference('pronunciation_table'));
-        $manager->persist($word7);
+        $manager->persist($word7);*/
 
         $manager->flush();
     }
@@ -83,6 +230,7 @@ class WordFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             PronunciationFixtures::class,
+            SerieFixtures::class,
         ];
     }
 }

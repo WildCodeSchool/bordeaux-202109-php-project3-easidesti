@@ -9,7 +9,7 @@
             {% for i in 1..word.letter.nbProposal %}
                 <div class="d-flex flex-column mx-3 border pb-4 mt-2 mb-2">
                     <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="prononciation">
-                    {% for word in game.words %}
+                    {% for word in game.serie.words %}
                         {% if word.pronunciation.picture == 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png' %}
                             <p class="fs-3 text-dark text-center">
                                 {{ word.content }}

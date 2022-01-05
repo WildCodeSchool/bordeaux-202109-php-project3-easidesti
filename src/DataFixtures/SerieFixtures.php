@@ -7,25 +7,21 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class SerieFixtures extends Fixture implements DependentFixtureInterface
+class SerieFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $serie = new Serie();
-        $serie->addWord($this->getReference('word_haricot'));
-        $serie->addWord($this->getReference('word_pain'));
-        $serie->addWord($this->getReference('word_banc'));
-        $serie->addWord($this->getReference('word_papa'));
-        $serie->addWord($this->getReference('word_jambe'));
-        $serie->addWord($this->getReference('word_ail'));
-        $serie->addWord($this->getReference('word_cadeau'));
+        $serie->setNumber(1);
+        $serie->setLevel(1);
+        $this->addReference('serie_a_1', $serie);
         $manager->persist($serie);
+
+        $serie2 = new Serie();
+        $serie2->setNumber(1);
+        $serie2->setLevel(1);
+        $this->addReference('serie_a_2', $serie2);
+        $manager->persist($serie2);
         $manager->flush();
-    }
-    public function getDependencies()
-    {
-        return [
-            WordFixtures::class,
-        ];
     }
 }

@@ -14,8 +14,8 @@ class RecapController extends AbstractController
      */
     public function showEasiRecap(Game $game): Response
     {
-        $letter = $game->getWords()[0]->getLetter()->getContent();
-        $word = $game->getWords()[0];
+        $letter = $game->getSerie()->getWords()[0]->getLetter()->getContent();
+        $word = $game->getSerie()->getWords()[0];
         return $this->render('recap/index.html.twig', [
             'game' => $game,
             'letter' => $letter,
