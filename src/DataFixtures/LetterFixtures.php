@@ -15,14 +15,9 @@ class LetterFixtures extends Fixture implements DependentFixtureInterface
         $letter = new Letter();
         $letter->setContent('a');
         $letter->setNbProposal(6);
-        $letter->addWord($this->getReference('word_banc'));
-        $letter->addWord($this->getReference('word_haricot'));
-        $letter->addWord($this->getReference('word_banc'));
-        $letter->addWord($this->getReference('word_pain'));
-        $letter->addWord($this->getReference('word_jambe'));
-        $letter->addWord($this->getReference('word_ail'));
-        $letter->addWord($this->getReference('word_cadeau'));
-        $letter->addWord($this->getReference('word_papa'));
+        for ($i = 0; $i < 29; $i++) {
+            $letter->addWord($this->getReference('letter_a_serie_1_word_' . $i));
+        }
         $this->addReference('letter_a', $letter);
         $manager->persist($letter);
 

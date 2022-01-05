@@ -48,9 +48,8 @@ class Serie
 
     /**
      * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="series")
-     * @ORM\JoinColumn(nullable=false)
      */
-    private Game $game;
+    private ?Game $game;
 
     public function __construct()
     {
@@ -157,12 +156,12 @@ class Serie
         return $this;
     }
 
-    public function getGame(): Game
+    public function getGame(): ?Game
     {
         return $this->game;
     }
 
-    public function setGame(Game $game): self
+    public function setGame(?Game $game): self
     {
         $this->game = $game;
 

@@ -12,7 +12,7 @@ class EndpointFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $endpoint = new Endpoint();
+        /*$endpoint = new Endpoint();
         $endpoint->setWord($this->getReference('word_haricot'));
         $endpoint->setPosition(1);
         $endpoint->setCreatedAt(new DateTime());
@@ -73,7 +73,7 @@ class EndpointFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($endpoint9);
 
 
-        $manager->flush();
+        $manager->flush();*/
     }
     public function getDependencies()
     {
