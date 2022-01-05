@@ -5,7 +5,7 @@
 {% block help_content %}
     <p class="btn-app col-6 word fs-1 mx-auto d-flex justify-content-center">
             {% for syllabe in syllabes %}
-                <span class="text-{{ colors[loop.index - 1] }} me-2">{{ syllabe }}</span>
+                <span class="text-{{ loop.last ? colors|last : colors[loop.index - 1] }} me-2">{{ syllabe }}</span>
             {% endfor %}
     </p>
 {% endblock %}
