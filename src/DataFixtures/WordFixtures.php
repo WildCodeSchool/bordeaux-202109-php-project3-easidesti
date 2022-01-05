@@ -53,7 +53,7 @@ class WordFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         $pronunciationSerie1A = [
-            $this->getReference('pronunciation_ambulance'),
+            $this->getReference('pronunciation_maison'),
             $this->getReference('pronunciation_table'),
             $this->getReference('pronunciation_table'),
             $this->getReference('pronunciation_table'),

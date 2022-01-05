@@ -47,13 +47,14 @@ class Serie
     private int $level;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="series")
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="serie")
      */
-    private ?Game $game;
+    private Collection $games;
 
     public function __construct()
     {
         $this->words = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     /**
@@ -156,14 +157,27 @@ class Serie
         return $this;
     }
 
-    public function getGame(): ?Game
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
     {
-        return $this->game;
+        return $this->games;
     }
 
-    public function setGame(?Game $game): self
+    public function addGame(Game $game): self
     {
-        $this->game = $game;
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setSerie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        $this->games->removeElement($game);
 
         return $this;
     }
