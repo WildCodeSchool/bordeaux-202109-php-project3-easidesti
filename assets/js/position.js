@@ -14,12 +14,12 @@ const addPosition = (span, nameInput) => {
     input.value = span.id;
     blockHidden.appendChild(input);
 };
-const createSpan = (parent, event, name) => {
+const createSpan = (parent, name, letter) => {
     const span = document.createElement('span');
     span.className = `word-letter btn fs-2 ${name}`;
     span.id = document.getElementsByClassName(name).length;
-    span.innerText = event.key;
-    span.innerText = event.key;
+    span.innerText = letter;
+    span.innerText = letter;
     return span;
 };
 wordInput.addEventListener('keyup', (event) => {
@@ -28,8 +28,8 @@ wordInput.addEventListener('keyup', (event) => {
         divMuteLetter.innerHTML = '';
     }
     if (alphabet.includes(event.key)) {
-        const spanEndpoint = createSpan(divEndpoint, event, 'positions');
-        const spanMuteLetter = createSpan(divMuteLetter, event, 'mute');
+        const spanEndpoint = createSpan(divEndpoint, 'positions', event.key);
+        const spanMuteLetter = createSpan(divMuteLetter, 'mute', event.key);
         divEndpoint.appendChild(spanEndpoint);
         divMuteLetter.appendChild(spanMuteLetter);
         spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
@@ -43,3 +43,20 @@ emptyWorld.addEventListener('click', () => {
     blockHidden.innerHTML = '';
     blockDefinition.innerHTML = '';
 });
+
+if (blockHidden.dataset.edit) {
+    const wordArray = wordInput.value.split('');
+    for (let i = 0; i < wordArray.length; i++) {
+        let spanEndpoint = createSpan(divEndpoint, 'positions', wordArray[i]);
+        let spanMuteLetter = createSpan(divMuteLetter, 'mute', wordArray[i]);
+        divEndpoint.appendChild(spanEndpoint);
+        divMuteLetter.appendChild(spanMuteLetter);
+        spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
+        spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
+        fetch(`/word/definition/${wordInput.value}`)
+            .then((response) => response.json())
+            .then((data) => {
+                blockDefinition.innerHTML = data;
+            });
+    }
+}

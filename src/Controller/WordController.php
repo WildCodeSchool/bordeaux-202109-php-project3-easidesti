@@ -6,6 +6,7 @@ use App\Entity\Endpoint;
 use App\Entity\MuteLetter;
 use App\Entity\Word;
 use App\Form\WordType;
+use App\Repository\WordRepository;
 use App\Service\WordGenerator;
 use App\Service\Definition;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WordController extends AbstractController
 {
     /**
-     * @Route("/ajout", name="index")
+     * @Route("/ajout", name="new")
      */
     public function index(Request $request, ManagerRegistry $managerRegistry, WordGenerator $wordGenerator): Response
     {
@@ -55,7 +56,7 @@ class WordController extends AbstractController
             $this->addFlash('success', 'Le mot a bien été ajouté !');
             return $this->redirectToRoute('word_index');
         }
-        return $this->renderForm('word/index.html.twig', [
+        return $this->renderForm('word/new.html.twig', [
             'form' => $form,
         ]);
     }
@@ -67,5 +68,50 @@ class WordController extends AbstractController
     {
         $definition = $definition->generateDefinition($word);
         return new JsonResponse($definition);
+    }
+
+    /**
+     * @Route("/editer/{word}", name="edit")
+     */
+    public function update(
+        Word $word,
+        Request $request,
+        ManagerRegistry $managerRegistry,
+        WordGenerator $wordGenerator
+    ): Response
+    {
+        $form = $this->createForm(WordType::class, $word);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $managerRegistry->getManager();
+            $word = $form->getData();
+            $positionMuteLetters = [];
+            if ($request->request->get('clickedMuteLetters')) {
+                $positionMuteLetters = array_unique($request->request->get('clickedMuteLetters'));
+            }
+            foreach ($positionMuteLetters as $muteLetterPosition) {
+                $muteLetter = new MuteLetter();
+                $muteLetter->setPosition($muteLetterPosition);
+                $entityManager->persist($muteLetter);
+                $word->addMuteLetter($muteLetter);
+            }
+            $endpointLetters = $wordGenerator->generateEndpoint(
+                $word->getContent(),
+                $request->request->get('clickedLetters')
+            );
+            foreach ($endpointLetters as $position) {
+                $endpoint = new Endpoint();
+                $endpoint->setPosition($position);
+                $entityManager->persist($endpoint);
+                $word->addEndpoint($endpoint);
+
+                $entityManager->flush();
+            }
+            return $this->redirectToRoute('serie_show', ['serie' => $word->getSerie()->getId()]);
+        }
+        return $this->renderForm('word/edit.html.twig', [
+            'word' => $word,
+            'form' => $form,
+        ]);
     }
 }
