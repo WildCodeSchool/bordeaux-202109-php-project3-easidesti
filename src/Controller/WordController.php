@@ -78,8 +78,7 @@ class WordController extends AbstractController
         Request $request,
         ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -107,7 +106,7 @@ class WordController extends AbstractController
 
                 $entityManager->flush();
             }
-            return $this->redirectToRoute('serie_show', ['serie' => $word->getSerie()->getId()]);
+            return $this->redirectToRoute('admin_series_show', ['id' => $word->getSerie()->getId()]);
         }
         return $this->renderForm('word/edit.html.twig', [
             'word' => $word,

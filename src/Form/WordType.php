@@ -21,6 +21,7 @@ class WordType extends AbstractType
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
             ])
+            ->add('audio')
             ->add('definition', TextareaType::class, [
                 'label'    => 'Définition',
                 'required' => false,
