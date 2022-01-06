@@ -35,6 +35,11 @@ class Pronunciation
     private DateTime $createdAt;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $grapheme;
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist(): void
@@ -79,6 +84,18 @@ class Pronunciation
     public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getGrapheme(): ?string
+    {
+        return $this->grapheme;
+    }
+
+    public function setGrapheme(?string $grapheme): self
+    {
+        $this->grapheme = $grapheme;
 
         return $this;
     }
