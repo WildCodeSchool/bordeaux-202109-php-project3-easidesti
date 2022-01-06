@@ -34,9 +34,15 @@ class Letter
      */
     private Collection $words;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Serie::class, mappedBy="letter")
+     */
+    private Collection $series;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
+        $this->series = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +98,36 @@ class Letter
             // set the owning side to null (unless already changed)
             if ($word->getLetter() === $this) {
                 $word->setLetter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Serie[]
+     */
+    public function getSeries(): Collection
+    {
+        return $this->series;
+    }
+
+    public function addSeries(Serie $series): self
+    {
+        if (!$this->series->contains($series)) {
+            $this->series[] = $series;
+            $series->setLetter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeries(Serie $series): self
+    {
+        if ($this->series->removeElement($series)) {
+            // set the owning side to null (unless already changed)
+            if ($series->getLetter() === $this) {
+                $series->setLetter(null);
             }
         }
 
