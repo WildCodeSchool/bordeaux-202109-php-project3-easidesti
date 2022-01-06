@@ -4,6 +4,7 @@ const wordInput = document.getElementById('word_content');
 const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàâéèêëîïôùûü'.split('');
 const blockHidden = document.getElementById('block-hidden');
 const emptyWorld = document.getElementById('empty-word');
+const blockDefinition = document.getElementById('word_definition');
 const addPosition = (span, nameInput) => {
     span.className = 'word-letter fs-1 text-danger btn text-danger';
     const input = document.createElement('input');
@@ -39,4 +40,6 @@ emptyWorld.addEventListener('click', () => {
     wordInput.value = '';
     divEndpoint.innerHTML = '';
     divMuteLetter.innerHTML = '';
+    blockHidden.innerHTML = '';
+    blockDefinition.innerHTML = '';
 });
