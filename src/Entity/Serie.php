@@ -14,6 +14,12 @@ use DateTime;
  */
 class Serie
 {
+    public const NO_DEFINITION = 'À définir';
+
+    public const GOOD_RATE = 90;
+
+    public const MIDDLE_RATE = 50;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -63,6 +69,38 @@ class Serie
         $this->games = new ArrayCollection();
     }
 
+    public function getStats(): array
+    {
+        $result =  [];
+        $result['no_definition'] = 0;
+        $result['no_endpoint']   = 0;
+        $result['max']           = 0;
+        $result['color']         = '';
+        $result['rate']          = 0;
+        //TODO Optimize performance (with ArrayCollection ?)
+        foreach ($this->getWords() as $word) {
+            if ($word->getDefinition() === self::NO_DEFINITION) {
+                $result['no_definition'] += 1;
+            }
+            if (count($word->getEndpoints()) === 0) {
+                $result['no_endpoint'] += 1;
+            }
+        }
+        $max = max($result);
+        $result['max'] = $max;
+        $wordsCount = count($this->getWords());
+        $rate = ($wordsCount - $max) / $wordsCount * 100;
+        if ($rate >= self::GOOD_RATE) {
+            $result['color'] = 'success';
+        } elseif ($rate >= self::MIDDLE_RATE) {
+            $result['color'] = 'info';
+        } elseif ($rate > 0) {
+            $result['color'] = 'warning';
+        }
+        $result['rate'] = (int)$rate;
+
+        return $result;
+    }
     /**
      * @ORM\PrePersist
      */

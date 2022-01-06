@@ -41,7 +41,7 @@ class CsvFixtures extends Fixture implements DependentFixtureInterface
                     $word = new Word();
                     $word->setContent($wordFromCsv)
                         ->setSerie($serie)
-                        ->setDefinition('À définir')
+                        ->setDefinition(Serie::NO_DEFINITION)
                         ->setLetter($this->getReference('letter_' . $letterLevel[0]))
                         ->setPronunciation($this->getReference('pronunciation_ambulance'));
                     $manager->persist($word);
