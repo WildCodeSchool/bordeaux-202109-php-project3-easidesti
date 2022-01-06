@@ -42,6 +42,7 @@ class CsvFixtures extends Fixture implements DependentFixtureInterface
                     $word->setContent($wordFromCsv)
                         ->setSerie($serie)
                         ->setDefinition('À définir')
+                        ->setLetter($this->getReference('letter_' . $letterLevel[0]))
                         ->setPronunciation($this->getReference('pronunciation_ambulance'));
                     $manager->persist($word);
                 }
@@ -58,6 +59,4 @@ class CsvFixtures extends Fixture implements DependentFixtureInterface
             LetterFixtures::class,
         ];
     }
-
-
 }
