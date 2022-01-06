@@ -16,7 +16,11 @@
             {% if app.user %}
                 <a href="{{ path('app_logout') }}" class="btn btn-app btn-home-registration-white">Se déconnecter</a>
             {% else %}
-                <a class="btn btn-app btn-home-registration-white" href="{{ path('login') }}">Se connecter</a>
+                <a class="btn btn-app btn-home-registration-white fs-4" href="{{ path('login') }}">
+                    <img class="px-3" src="{{ asset('build/images/favicon.png') }}" alt="livres">
+                    Se connecter
+                    <img class="px-3" src="{{ asset('build/images/favicon.png') }}" alt="livres">
+                </a>
             {% endif %}
         </div>
         <div class="col-3 me-5">
