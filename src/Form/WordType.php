@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Letter;
+use App\Entity\Pronunciation;
 use App\Entity\Word;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,25 +22,31 @@ class WordType extends AbstractType
                 'label' => 'Entrez le mot',
             ])
             ->add('definition', TextareaType::class, [
-                'label' => 'Définition',
+                'label'    => 'Définition',
                 'required' => false,
-                'attr' => ['rows' => '6'],
+                'attr'     => ['rows' => '6'],
             ])
-            ->add('audio', FileType::class, [
-                'label' => 'Son',
-                'required' => false,
+            ->add('pronunciation', EntityType::class, [
+                'label'        => 'Prononciation',
+                'class'        => Pronunciation::class,
+                'choice_label' => 'grapheme',
+                'expanded'     => true,
+                'multiple'     => false,
+                'attr'         => [
+                    'class'    => 'd-flex col-4',
+                ]
             ])
             ->add('picture', FileType::class, [
-                'label' => 'Image',
+                'label'    => 'Image',
                 'required' => false,
             ])
             ->add('letter', EntityType::class, [
-                'class' => Letter::class,
+                'class'        => Letter::class,
                 'choice_label' => 'content',
-                'expanded' => true,
-                'multiple' => false,
-                'attr' => [
-                    'class' => 'd-flex col-4',
+                'expanded'     => true,
+                'multiple'     => false,
+                'attr'         => [
+                    'class'    => 'd-flex col-4',
                 ]
             ])
         ;
