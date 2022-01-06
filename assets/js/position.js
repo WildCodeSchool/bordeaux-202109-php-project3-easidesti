@@ -4,6 +4,7 @@ const wordInput = document.getElementById('word_content');
 const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàâéèêëîïôùûü'.split('');
 const blockHidden = document.getElementById('block-hidden');
 const emptyWorld = document.getElementById('empty-word');
+const blockDefinition = document.getElementById('word_definition');
 const addPosition = (span, nameInput) => {
     span.className = 'word-letter fs-1 text-danger btn text-danger';
     const input = document.createElement('input');
@@ -13,12 +14,12 @@ const addPosition = (span, nameInput) => {
     input.value = span.id;
     blockHidden.appendChild(input);
 };
-const createSpan = (parent, event, name) => {
+const createSpan = (parent, name, letter) => {
     const span = document.createElement('span');
     span.className = `word-letter btn fs-2 ${name}`;
     span.id = document.getElementsByClassName(name).length;
-    span.innerText = event.key;
-    span.innerText = event.key;
+    span.innerText = letter;
+    span.innerText = letter;
     return span;
 };
 wordInput.addEventListener('keyup', (event) => {
@@ -27,8 +28,8 @@ wordInput.addEventListener('keyup', (event) => {
         divMuteLetter.innerHTML = '';
     }
     if (alphabet.includes(event.key)) {
-        const spanEndpoint = createSpan(divEndpoint, event, 'positions');
-        const spanMuteLetter = createSpan(divMuteLetter, event, 'mute');
+        const spanEndpoint = createSpan(divEndpoint, 'positions', event.key);
+        const spanMuteLetter = createSpan(divMuteLetter, 'mute', event.key);
         divEndpoint.appendChild(spanEndpoint);
         divMuteLetter.appendChild(spanMuteLetter);
         spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
@@ -39,4 +40,23 @@ emptyWorld.addEventListener('click', () => {
     wordInput.value = '';
     divEndpoint.innerHTML = '';
     divMuteLetter.innerHTML = '';
+    blockHidden.innerHTML = '';
+    blockDefinition.innerHTML = '';
 });
+
+if (blockHidden.dataset.edit) {
+    const wordArray = wordInput.value.split('');
+    for (let i = 0; i < wordArray.length; i++) {
+        let spanEndpoint = createSpan(divEndpoint, 'positions', wordArray[i]);
+        let spanMuteLetter = createSpan(divMuteLetter, 'mute', wordArray[i]);
+        divEndpoint.appendChild(spanEndpoint);
+        divMuteLetter.appendChild(spanMuteLetter);
+        spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
+        spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
+        fetch(`/word/definition/${wordInput.value}`)
+            .then((response) => response.json())
+            .then((data) => {
+                blockDefinition.innerHTML = data;
+            });
+    }
+}

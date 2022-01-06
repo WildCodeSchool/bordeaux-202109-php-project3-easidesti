@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid easi">
+        <h1 class="text-center pt-5">{{ word.content }}</h1>
+        <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto">
+            {{ form_start(form) }}
+            <div id="block-hidden" data-edit="true"></div>
+            {{ form_row(form.letter) }}
+            {{ form_row(form.content) }}
+            <div>Selectionnez la fin de la syllabe</div>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <div id="endpoint" class="rounded-3 fs-2 text-dark ps-2 col-11 "></div>
+                <div id="empty-word" class="btn text-danger col-1 text-center fs-2">X</div>
+            </div>
+            <div>Selectionnez la(les) lettre(s) muette(s)</div>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <div id="mute-letter" class="rounded-3 fs-2 text-dark ps-2 col-11 "></div>
+            </div>
+            {{ form_row(form.definition) }}
+            {{ form_row(form.audio) }}
+            {{ form_row(form.picture) }}
+            <button class="btn-app btn bg-light">Créer le mot</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('word_add') }}
+    {{ encore_entry_script_tags('definition') }}
+{% endblock %}
