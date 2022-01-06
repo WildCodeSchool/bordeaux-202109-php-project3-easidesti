@@ -51,6 +51,12 @@ class Serie
      */
     private Collection $games;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Letter::class, inversedBy="series")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Letter $letter;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
@@ -178,6 +184,18 @@ class Serie
     public function removeGame(Game $game): self
     {
         $this->games->removeElement($game);
+
+        return $this;
+    }
+
+    public function getLetter(): ?Letter
+    {
+        return $this->letter;
+    }
+
+    public function setLetter(?Letter $letter): self
+    {
+        $this->letter = $letter;
 
         return $this;
     }

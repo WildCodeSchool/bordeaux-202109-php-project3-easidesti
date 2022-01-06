@@ -55,8 +55,9 @@ class CsvHandler
         foreach ($csvToArray as $inputs) {
             $inputs = array_values($inputs);
             $wordInput = $inputs[0];
-            if ($wordInput !== '') {
-                if (strstr($wordInput, 'série')) {
+            if ($wordInput !== '' && $wordInput !== null) {
+                //Keep space after 'série' to prevent new serie with the word 'série'
+                if (strstr($wordInput, 'série ')) {
                     $serie = trim($wordInput);
                 } else {
                     $result[$serie][] = $wordInput;
