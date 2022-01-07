@@ -40,8 +40,15 @@ class AdminController extends AbstractController
                 'words' => $words,
             ]);
         }
+        $series = $this->serieRepository->findBy([], ['letter' => 'asc', 'level' => 'asc', 'number' => 'asc']);
+        $withStatsSeries = [];
+        foreach ($series as $serie) {
+            $serie->setNoDefinitionCount($this->wordRepository->countNoDefinition($serie));
+            $serie->setNoEndPointCount($this->serieRepository->countNoEndpoint($serie));
+            $withStatsSeries[] = $serie;
+        }
         return $this->renderForm('admin/series/index.html.twig', [
-            'series' => $this->serieRepository->findBy([], ['letter' => 'asc', 'level' => 'asc', 'number' => 'asc']),
+            'series' => $withStatsSeries,
             'form'   => $form,
         ]);
     }

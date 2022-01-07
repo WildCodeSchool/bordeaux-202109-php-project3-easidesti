@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Serie;
 use App\Entity\Word;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,6 +27,19 @@ class WordRepository extends ServiceEntityRepository
             ->setParameter('keyword', '%' . $keyword . '%')
             ->getQuery()
             ->getResult();
+    }
+
+    public function countNoDefinition(Serie $serie): ?int
+    {
+        return $this->createQueryBuilder('w')
+            ->select('count(w.id)')
+            ->andWhere('w.definition = :val')
+            ->andWhere('w.serie = :serie')
+            ->setParameter('serie', $serie)
+            ->setParameter('val', Serie::NO_DEFINITION)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
     }
 
     // /**
