@@ -19,6 +19,15 @@ class WordRepository extends ServiceEntityRepository
         parent::__construct($registry, Word::class);
     }
 
+    public function searchByKeyword(string $keyword): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.content LIKE :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Word[] Returns an array of Word objects
     //  */
