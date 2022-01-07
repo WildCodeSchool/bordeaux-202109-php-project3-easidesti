@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Serie;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Exception;
@@ -26,7 +27,7 @@ class Definition
             throw new Exception('Error while fetching definition');
         }
         $definition = $this->buildSimpleDefinition($response->toArray());
-        return $definition !== '.' ? $definition : 'Définition à rédiger';
+        return $definition !== '.' ? $definition : Serie::NO_DEFINITION;
     }
 
     private function buildSimpleDefinition(array $response): string

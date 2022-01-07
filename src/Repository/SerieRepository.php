@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Endpoint;
 use App\Entity\Serie;
+use App\Entity\Word;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +21,19 @@ class SerieRepository extends ServiceEntityRepository
         parent::__construct($registry, Serie::class);
     }
 
+    public function countNoEndpoint(Serie $serie): ?int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(w.id)')
+            ->leftJoin('s.words', 'w')
+            ->leftJoin('w.endpoints', 'e')
+            ->andWhere('w.serie = :serie')
+            ->andWhere('e.position IS NULL')
+            ->setParameter('serie', $serie)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
     // /**
     //  * @return Serie[] Returns an array of Serie objects
     //  */

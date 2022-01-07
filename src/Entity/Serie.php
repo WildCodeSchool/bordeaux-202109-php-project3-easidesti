@@ -63,29 +63,37 @@ class Serie
      */
     private Letter $letter;
 
+    private int $noDefinitionCount = 0;
+
+    private int $noEndPointCount = 0;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
         $this->games = new ArrayCollection();
     }
 
+    public function setNoDefinitionCount(int $noDefinitionCount): void
+    {
+        $this->noDefinitionCount = $noDefinitionCount;
+    }
+
+    /**
+     * @param int $noEndPoint
+     */
+    public function setNoEndPointCount(int $noEndPointCount): void
+    {
+        $this->noEndPointCount = $noEndPointCount;
+    }
+
     public function getStats(): array
     {
         $result =  [];
-        $result['no_definition'] = 0;
-        $result['no_endpoint']   = 0;
+        $result['no_definition'] = $this->noDefinitionCount;
+        $result['no_endpoint']   = $this->noEndPointCount;
         $result['max']           = 0;
         $result['color']         = '';
         $result['rate']          = 0;
-        //TODO Optimize performance (with ArrayCollection ?)
-        foreach ($this->getWords() as $word) {
-            if ($word->getDefinition() === self::NO_DEFINITION) {
-                $result['no_definition'] += 1;
-            }
-            if (count($word->getEndpoints()) === 0) {
-                $result['no_endpoint'] += 1;
-            }
-        }
         $max = max($result);
         $result['max'] = $max;
         $wordsCount = count($this->getWords());
