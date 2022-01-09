@@ -1,0 +1,6 @@
+<div class="d-flex btn-app pt-2 px-1 m-2 flex-column justify-content-end">
+    <a href="{{ path('check_response', {id: game.id, word: word.id, picture: 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png'}) }}" class="col-auto mx-auto">
+        <img class="proposition" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
+    </a>
+    <img class="proposition" src="{{ asset('build/images/logo_ecouter.png') }}" alt="">
+</div>
