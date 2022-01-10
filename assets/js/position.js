@@ -7,28 +7,49 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàâéèê
 const blockHidden = document.getElementById('block-hidden');
 const emptyWorld = document.getElementById('empty-word');
 const blockDefinition = document.getElementById('word_definition');
-wordInput.addEventListener('keyup', (event) => {
-    if (wordInput.value === '') {
-        divEndpoint.innerHTML = '';
-        divMuteLetter.innerHTML = '';
-    }
-    if (alphabet.includes(event.key)) {
-        const spanEndpoint = createSpan(divEndpoint, 'positions', event.key);
-        const spanMuteLetter = createSpan(divMuteLetter, 'mute', event.key);
-        divEndpoint.appendChild(spanEndpoint);
-        divMuteLetter.appendChild(spanMuteLetter);
-        spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
-        spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
-    }
-});
+const displayDivSyllabesMuteLetters = document.getElementById('display-div');
+const blockSyllabe = document.getElementById('div-syllabe');
+const blockMuteLetter = document.getElementById('div-mute-letter');
+if (displayDivSyllabesMuteLetters) {
+    displayDivSyllabesMuteLetters.addEventListener('click', () => {
+        blockSyllabe.classList.remove('d-none');
+        blockMuteLetter.classList.remove('d-none');
+        const wordArray = wordInput.value.split('');
+        for (let i = 0; i < wordArray.length; i++) {
+            const spanEndpoint = createSpan(divEndpoint, 'positions', wordArray[i]);
+            const spanMuteLetter = createSpan(divMuteLetter, 'mute', wordArray[i]);
+            divEndpoint.appendChild(spanEndpoint);
+            divMuteLetter.appendChild(spanMuteLetter);
+            spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
+            spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
+            fetch(`/word/definition/${wordInput.value}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    blockDefinition.innerHTML = data;
+                });
+        }
+        const allEndpoints = document.querySelectorAll('.positions');
+        allEndpoints.forEach((endpoint) => {
+            endpoint.addEventListener('click', () => {
+                if (document.getElementById(`clickedLetters_${endpoint.id}`)) {
+                    deletePosition(endpoint, `clickedLetters_${endpoint.id}`);
+                } else {
+                    const input = addPosition(endpoint, 'clickedLetters');
+                    blockHidden.appendChild(input);
+                }
+            });
+        });
+    });
+}
 emptyWorld.addEventListener('click', () => {
+    blockSyllabe.classList.add('d-none');
+    blockMuteLetter.classList.add('d-none');
     wordInput.value = '';
     divEndpoint.innerHTML = '';
     divMuteLetter.innerHTML = '';
     blockHidden.innerHTML = '';
     blockDefinition.innerHTML = '';
 });
-
 if (blockHidden.dataset.edit) {
     window.addEventListener('load', () => {
         const wordArray = wordInput.value.split('');

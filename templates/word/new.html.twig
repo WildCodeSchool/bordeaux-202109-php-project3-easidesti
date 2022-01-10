@@ -12,15 +12,21 @@
         <div id="block-hidden"></div>
         {{ form_row(form.letter) }}
             {{ form_row(form.content) }}
-        <div>Selectionnez la fin de la syllabe</div>
-        <div class="d-flex flex-row justify-content-between align-items-center">
-            <div id="endpoint" class="rounded-3 fs-2 text-dark ps-2 col-11 "></div>
-            <div id="empty-word" class="btn text-danger col-1 text-center fs-2">X</div>
+        <div class="btn btn-primary" id="display-div">Selectionner les syllabes et les lettres muettes</div>
+        <div id="div-syllabe" class="d-none">
+            <div class="text-syllabe">Selectionnez la fin de la syllabe</div>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <div id="endpoint" class="rounded-3 fs-2 text-dark ps-2 col-11 "></div>
+                <div id="empty-word" class="btn text-danger col-1 text-center fs-2">X</div>
+            </div>
         </div>
-        <div>Selectionnez la(les) lettre(s) muette(s)</div>
-        <div class="d-flex flex-row justify-content-between align-items-center">
-            <div id="mute-letter" class="rounded-3 fs-2 text-dark ps-2 col-11 "></div>
+        <div id="div-mute-letter" class="d-none">
+            <div>Selectionnez la(les) lettre(s) muette(s)</div>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <div id="mute-letter" class="rounded-3 fs-2 text-dark ps-2 col-11 "></div>
+            </div>
         </div>
+
             {{ form_row(form.definition) }}
             {{ form_row(form.pronunciation) }}
             {{ form_row(form.picture) }}
