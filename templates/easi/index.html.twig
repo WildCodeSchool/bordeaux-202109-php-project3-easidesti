@@ -10,15 +10,10 @@
                 {% include 'component/_showScoreStep.html.twig' %}
             </div>
             <div class="col-8 d-flex flex-column justify-content-center align-items-center">
-
                 <p class="btn-app word fs-1">{{ word.content }}</p>
-                <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
-                <div class="btn-app easi-white-propositions container d-flex justify-content-center flex-wrap">
-                    {% for i in 1..word.letter.nbProposal %}
-
-                        {% include 'component/_proposition.html.twig' %}
-
-                    {% endfor %}
+                <p><img src="{{ asset('build/images/logo_hear.png') }}" alt=""></p>
+                <div class="btn-app easi-white-propositions d-flex">
+                    {% include 'component/_proposition.html.twig' %}
                 </div>
             </div>
             <div class="col-2 d-flex flex-column mt-5">
