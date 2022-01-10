@@ -15,7 +15,9 @@
                 <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
                 <div class="btn-app easi-white-propositions container d-flex justify-content-center flex-wrap">
                     {% for i in 1..word.letter.nbProposal %}
+
                         {% include 'component/_proposition.html.twig' %}
+
                     {% endfor %}
                 </div>
             </div>
