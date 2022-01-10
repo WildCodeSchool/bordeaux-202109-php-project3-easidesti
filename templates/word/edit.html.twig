@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('word_add') }}
+    {{ encore_entry_script_tags('definition') }}
+{% endblock %}
 {% block body %}
     <div class="container-fluid easi">
         <h1 class="text-center pt-5">{{ word.content }}</h1>
         <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto">
             {{ form_start(form) }}
-            <div id="block-hidden" data-edit="true"></div>
+            <div id="block-hidden" data-edit="true" data-endpoints="{{ endpoints|join(',') }}" data-muteletters="{{ muteLetters|join(',') }}"></div>
             {{ form_row(form.letter) }}
             {{ form_row(form.content) }}
             <div>Selectionnez la fin de la syllabe</div>
@@ -24,10 +29,4 @@
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('word_add') }}
-    {{ encore_entry_script_tags('definition') }}
 {% endblock %}

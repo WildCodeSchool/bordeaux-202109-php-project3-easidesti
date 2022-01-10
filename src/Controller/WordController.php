@@ -79,6 +79,14 @@ class WordController extends AbstractController
         ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator
     ): Response {
+        $endPoints = [];
+        foreach ($word->getEndpoints() as $endpoint) {
+            $endPoints[] = $endpoint->getPosition();
+        }
+        $muteLetters = [];
+        foreach ($word->getMuteLetters() as $muteLetter) {
+            $muteLetters[] = $muteLetter->getPosition();
+        }
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -111,6 +119,8 @@ class WordController extends AbstractController
         return $this->renderForm('word/edit.html.twig', [
             'word' => $word,
             'form' => $form,
+            'endpoints' => $endPoints,
+            'muteLetters' => $muteLetters,
         ]);
     }
 }
