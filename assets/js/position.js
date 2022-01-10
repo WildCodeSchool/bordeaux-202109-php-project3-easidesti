@@ -20,8 +20,6 @@ if (displayDivSyllabesMuteLetters) {
             const spanMuteLetter = createSpan(divMuteLetter, 'mute', wordArray[i]);
             divEndpoint.appendChild(spanEndpoint);
             divMuteLetter.appendChild(spanMuteLetter);
-            spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
-            spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
             fetch(`/word/definition/${wordInput.value}`)
                 .then((response) => response.json())
                 .then((data) => {
@@ -35,6 +33,17 @@ if (displayDivSyllabesMuteLetters) {
                     deletePosition(endpoint, `clickedLetters_${endpoint.id}`);
                 } else {
                     const input = addPosition(endpoint, 'clickedLetters');
+                    blockHidden.appendChild(input);
+                }
+            });
+        });
+        const allMuteLetters = document.querySelectorAll('.mute');
+        allMuteLetters.forEach((muteLetter) => {
+            muteLetter.addEventListener('click', () => {
+                if (document.getElementById(`clickedMuteLetters_${muteLetter.id}`)) {
+                    deletePosition(muteLetter, `clickedMuteLetters_${muteLetter.id}`);
+                } else {
+                    const input = addPosition(muteLetter, 'clickedMuteLetters');
                     blockHidden.appendChild(input);
                 }
             });
