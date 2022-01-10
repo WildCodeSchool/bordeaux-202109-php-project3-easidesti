@@ -73,6 +73,12 @@ class Serie
         $this->games = new ArrayCollection();
     }
 
+    public function getFullName(): string
+    {
+       return 'Série ' . $this->getNumber() . ' Niveau ' . $this->getLevel()
+           . ' lettre ' . $this->getLetter()->getContent();
+    }
+
     public function setNoDefinitionCount(int $noDefinitionCount): void
     {
         $this->noDefinitionCount = $noDefinitionCount;
