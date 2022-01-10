@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Letter;
 use App\Entity\Pronunciation;
+use App\Entity\Serie;
 use App\Entity\Word;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function PHPUnit\Framework\isNull;
 
 class WordType extends AbstractType
 {
@@ -41,11 +43,13 @@ class WordType extends AbstractType
                 'label'    => 'Image',
                 'required' => false,
             ])
-            ->add('letter', EntityType::class, [
-                'class'        => Letter::class,
-                'choice_label' => 'content',
-                'expanded'     => true,
+
+            ->add('level', EntityType::class, [
+                'class'        => Serie::class,
+                'choice_label' => 'fullName',
+                'expanded'     => false,
                 'multiple'     => false,
+                'mapped'    => false,
                 'attr'         => [
                     'class'    => 'd-flex col-4',
                 ]
