@@ -18,6 +18,7 @@
                         <a href="{{ path('check_response', {id: game.id, word: word.id, picture: 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png'}) }}" class="col-auto mx-auto">
                             <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
                         </a>
+                        {# btn avec image dedans/ apres ds un fichier js chercher le btn et lier le bouton en fonction de l'image avec laquelle il est associé#}
                     {% endfor %}
                 </div>
             </div>
