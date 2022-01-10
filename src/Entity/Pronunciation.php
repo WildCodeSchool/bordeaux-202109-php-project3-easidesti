@@ -39,6 +39,11 @@ class Pronunciation
      */
     private ?string $grapheme;
 
+    public function getLetterGrapheme(): string
+    {
+        return 'Lettre ' . substr($this->getPicture(), 7, 1) . ' => ' . $this->getGrapheme();
+    }
+
     /**
      * @ORM\PrePersist
      */

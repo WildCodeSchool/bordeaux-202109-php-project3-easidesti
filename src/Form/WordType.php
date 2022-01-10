@@ -32,8 +32,8 @@ class WordType extends AbstractType
             ->add('pronunciation', EntityType::class, [
                 'label'        => 'Prononciation',
                 'class'        => Pronunciation::class,
-                'choice_label' => 'grapheme',
-                'expanded'     => true,
+                'choice_label' => 'letterGrapheme',
+                'expanded'     => false,
                 'multiple'     => false,
                 'attr'         => [
                     'class'    => 'd-flex col-4',
@@ -43,6 +43,7 @@ class WordType extends AbstractType
                 'label'    => 'Image',
                 'required' => false,
             ])
+
 
             ->add('level', EntityType::class, [
                 'class'        => Serie::class,
