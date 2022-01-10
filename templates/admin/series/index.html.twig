@@ -6,6 +6,12 @@
      <div class="container">
          <div class="row">
              <div class="col-12">
+                 {{ form_start(form) }}
+                 {{ form_widget(form) }}
+                 <button class="btn btn-primary">Rechercher</button>
+                 {{ form_end(form) }}
+             </div>
+             <div class="col-12">
                  <h1>Séries</h1>
                  <div class="list-group">
                      {% for serie in series %}
