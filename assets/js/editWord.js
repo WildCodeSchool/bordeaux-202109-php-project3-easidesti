@@ -1,5 +1,6 @@
 import { addPosition, createSpan, deletePosition } from './functions';
 
+const defaultDefinition = 'À définir';
 const blockHidden = document.getElementById('block-hidden');
 const divEndpoint = document.getElementById('endpoint');
 const divMuteLetter = document.getElementById('mute-letter');
@@ -17,11 +18,13 @@ if (blockHidden.dataset.edit) {
             divMuteLetter.appendChild(spanMuteLetter);
             spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
             spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
-            fetch(`/word/definition/${wordInput.value}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    blockDefinition.innerHTML = data;
-                });
+            if (blockDefinition === defaultDefinition) {
+                fetch(`/word/definition/${wordInput.value}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        blockDefinition.innerHTML = data;
+                    });
+            }
         }
         const endpoints = blockHidden.dataset.endpoints.split(',');
         const allEndpoints = document.querySelectorAll('.positions');
