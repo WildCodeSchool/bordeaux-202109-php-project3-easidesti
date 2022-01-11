@@ -6,6 +6,7 @@ use App\Entity\Letter;
 use App\Entity\Pronunciation;
 use App\Entity\Serie;
 use App\Entity\Word;
+use App\Repository\SerieRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -48,6 +49,10 @@ class WordType extends AbstractType
             ->add('level', EntityType::class, [
                 'class'        => Serie::class,
                 'choice_label' => 'fullName',
+                'query_builder' => function (SerieRepository $sr) {
+                    return $sr->createQueryBuilder('s')
+                        ->orderBy('s.number', 'ASC');
+                },
                 'expanded'     => false,
                 'multiple'     => false,
                 'mapped'    => false,
