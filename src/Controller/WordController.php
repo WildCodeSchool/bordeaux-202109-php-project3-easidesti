@@ -6,6 +6,7 @@ use App\Entity\Endpoint;
 use App\Entity\MuteLetter;
 use App\Entity\Word;
 use App\Form\WordType;
+use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
 use App\Service\WordGenerator;
 use App\Service\Definition;
@@ -24,12 +25,19 @@ class WordController extends AbstractController
     /**
      * @Route("/ajout", name="new")
      */
-    public function index(Request $request, ManagerRegistry $managerRegistry, WordGenerator $wordGenerator): Response
-    {
+    public function index(
+        Request $request,
+        ManagerRegistry $managerRegistry,
+        WordGenerator $wordGenerator,
+        SerieRepository $serieRepository
+    ): Response {
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $serie = $serieRepository->findOneBy(['id' => $request->request->get('word')['level']]);
+            $word->setSerie($serie);
             $entityManager = $managerRegistry->getManager();
             $endpointLetters = $wordGenerator->generateEndpoint(
                 $word->getContent(),
@@ -54,7 +62,7 @@ class WordController extends AbstractController
             $entityManager->persist($word);
             $entityManager->flush();
             $this->addFlash('success', 'Le mot a bien été ajouté !');
-            return $this->redirectToRoute('word_index');
+            return $this->redirectToRoute('word_new');
         }
         return $this->renderForm('word/new.html.twig', [
             'form' => $form,

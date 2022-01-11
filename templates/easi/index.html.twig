@@ -11,13 +11,9 @@
             </div>
             <div class="col-8 d-flex flex-column justify-content-center align-items-center">
                 <p class="btn-app word fs-1">{{ word.content }}</p>
-                <p><img src="{{ asset('build/images/logo_ecouter.png') }}" alt=""></p>
-                <div class="btn-app easi-white-propositions container d-flex justify-content-center flex-wrap">
-                    {% for i in 1..word.letter.nbProposal %}
-                        <a href="{{ path('check_response', {id: game.id, word: word.id, picture: 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png'}) }}" class="col-auto mx-auto">
-                            <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
-                        </a>
-                    {% endfor %}
+                <p><img src="{{ asset('build/images/logo_hear.png') }}" alt=""></p>
+                <div class="btn-app easi-white-propositions d-flex">
+                    {% include 'component/_proposition.html.twig' %}
                 </div>
             </div>
             <div class="col-2 d-flex flex-column mt-5">
@@ -43,4 +39,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('audioPhoneme') }}
 {% endblock %}
