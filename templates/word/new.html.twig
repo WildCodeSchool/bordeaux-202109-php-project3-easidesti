@@ -7,7 +7,7 @@
         {% include 'component/_flash.html.twig' %}
     </div>
     <h1 class="text-center pt-5">Création d'un nouveau mot</h1>
-    <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto">
+    <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto pb-5">
         {{ form_start(form) }}
         <div id="block-hidden"></div>
             {{ form_row(form.content) }}
@@ -29,7 +29,11 @@
             {{ form_row(form.definition) }}
             {{ form_row(form.pronunciation) }}
             {{ form_row(form.picture) }}
-        <button class="btn-app btn bg-light">Créer le mot</button>
+            {{ form_row(form.study_letter) }}
+            {{ form_row(form.level) }}
+        <div class="d-flex justify-content-center col-auto">
+            <button class="btn-app btn bg-light mx-auto px-5 py-2 fs-4">Créer le mot</button>
+        </div>
         {{ form_end(form) }}
     </div>
 </div>

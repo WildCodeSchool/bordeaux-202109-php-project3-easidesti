@@ -72,6 +72,11 @@ class Word
      */
     private Pronunciation $pronunciation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=StudyLetter::class)
+     */
+    private ?StudyLetter $studyLetter;
+
     public function __construct()
     {
         $this->muteLetters = new ArrayCollection();
@@ -236,6 +241,18 @@ class Word
     public function setPronunciation(Pronunciation $pronunciation): self
     {
         $this->pronunciation = $pronunciation;
+
+        return $this;
+    }
+
+    public function getStudyLetter(): ?StudyLetter
+    {
+        return $this->studyLetter;
+    }
+
+    public function setStudyLetter(?StudyLetter $studyLetter): self
+    {
+        $this->studyLetter = $studyLetter;
 
         return $this;
     }
