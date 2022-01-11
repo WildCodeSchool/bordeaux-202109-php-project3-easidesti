@@ -16,8 +16,8 @@ if (displayDivSyllabesMuteLetters) {
         blockMuteLetter.classList.remove('d-none');
         const wordArray = wordInput.value.split('');
         for (let i = 0; i < wordArray.length; i++) {
-            const spanEndpoint = createSpan(divEndpoint, 'positions', wordArray[i]);
-            const spanMuteLetter = createSpan(divMuteLetter, 'mute', wordArray[i]);
+            const spanEndpoint = createSpan('positions', wordArray[i]);
+            const spanMuteLetter = createSpan('mute', wordArray[i]);
             divEndpoint.appendChild(spanEndpoint);
             divMuteLetter.appendChild(spanMuteLetter);
             fetch(`/word/definition/${wordInput.value}`)
