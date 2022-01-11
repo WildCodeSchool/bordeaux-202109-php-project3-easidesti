@@ -25,6 +25,7 @@ class WordType extends AbstractType
         $builder
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
+                'disabled' => true,
             ])
             ->add('study_letter', EntityType::class, [
                 'label'  => 'Lettre étudiée',
