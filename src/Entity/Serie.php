@@ -75,7 +75,7 @@ class Serie
 
     public function getFullName(): string
     {
-       return 'Série ' . $this->getNumber() . ' Niveau ' . $this->getLevel()
+        return 'Série ' . $this->getNumber() . ' Niveau ' . $this->getLevel()
            . ' lettre ' . $this->getLetter()->getContent();
     }
 

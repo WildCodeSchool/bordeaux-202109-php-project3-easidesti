@@ -68,7 +68,6 @@ class GameController extends AbstractController
      */
     public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
     {
-        //dd($word->getPronunciation()->getPicture() === $picture);
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($game->getErrorStep() === (self::MAX_ERROR_ALLOWED - 1) && $correctPicture !== $picture) {
             $game->setStep($game->getStep() + 1);
