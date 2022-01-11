@@ -91,5 +91,16 @@ if (blockHidden.dataset.edit) {
                 }
             });
         });
+        const allMuteLetters = document.querySelectorAll('.mute');
+        allMuteLetters.forEach((muteLetter) => {
+            muteLetter.addEventListener('click', () => {
+                if (document.getElementById(`clickedMuteLetters_${muteLetter.id}`)) {
+                    deletePosition(muteLetter, `clickedMuteLetters_${muteLetter.id}`);
+                } else {
+                    const input = addPosition(muteLetter, 'clickedMuteLetters');
+                    blockHidden.appendChild(input);
+                }
+            });
+        });
     });
 }
