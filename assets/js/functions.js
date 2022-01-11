@@ -8,12 +8,10 @@ const addPosition = (span, nameInput) => {
     input.value = span.id;
     return input;
 };
-const createSpan = (parent, name, letter) => {
+const createSpan = (name, letter) => {
     const span = document.createElement('span');
     span.className = `word-letter btn fs-2 ${name}`;
     span.id = document.getElementsByClassName(name).length;
-    span.innerText = letter;
-    span.innerText = letter;
     span.innerText = letter;
     return span;
 };
