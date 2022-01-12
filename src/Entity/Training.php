@@ -65,6 +65,16 @@ class Training
         $this->createdAt = new DateTime();
     }
 
+    public function getRateInProgress(): int
+    {
+        return $this->getScore() / count($this->getWords()) * 100;
+    }
+
+    public function getWordCount(): int
+    {
+        return count($this->getWords());
+    }
+
     public function getId(): ?int
     {
         return $this->id;

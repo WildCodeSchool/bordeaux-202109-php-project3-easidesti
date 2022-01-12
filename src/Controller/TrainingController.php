@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Training;
+use App\Entity\Word;
 use App\Repository\SerieRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,8 +34,53 @@ class TrainingController extends AbstractController
         }
         $manager->getManager()->persist($training);
         $manager->getManager()->flush();
-        return $this->render('training/index.html.twig', [
-            'controller_name' => 'TrainingController',
+        $words = $training->getWords();
+        $word = $words[$training->getStep()];
+
+        return $this->redirectToRoute('training_play', [
+            'id' => $training->getId(),
         ]);
+    }
+
+    /**
+     * @Route("/test/{id}", name="play")
+     */
+    public function play(Training $training)
+    {
+        $words = $training->getWords();
+        if (!isset($words[$training->getStep()])) {
+            return $this->render('training/result.html.twig', [
+                'game' => $training,
+            ]);
+        }
+        $word = $words[$training->getStep()];
+        return $this->render('easi/index.html.twig', [
+            'word'          => $word,
+            'game'          => $training,
+            'istraining'    => true,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/mot/{word}/prononciation/{picture}", name="check_response")
+     */
+    public function checkResponse(
+        Training $training,
+        Word $word,
+        string $picture,
+        ManagerRegistry $managerRegistry
+    ): Response {
+        $correctPicture = $word->getPronunciation()->getPicture();
+        if ($correctPicture === $picture) {
+            $training->setStep($training->getStep() + 1);
+            $training->setScore($training->getScore() + 1);
+        } else {
+            $training->setStep($training->getStep() + 1);
+            $training->setErrorCount($training->getErrorCount() + 1);
+        }
+        $managerRegistry->getManager()->flush();
+        return $this->redirectToRoute('training_play', [
+                'id' => $training->getId(),
+            ]);
     }
 }
