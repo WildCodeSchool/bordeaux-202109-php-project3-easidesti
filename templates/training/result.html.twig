@@ -7,6 +7,7 @@
         <div class="row p-5 fs-2 justify-content-center">
             <p class="text-center">Tu as fini le test.</p>
             <div class="text-success text-center fs-2">
+
                 {% if game.errorCount == null %}
                     <p>Tu as 100% de bonnes réponses ! Bravo ! </p>
                     <img class="emoji" src="{{ asset('build/images/emoji_success.png') }}">
@@ -15,6 +16,14 @@
                 {% endif %}
             </div>
             <div class="container mt-5">
+               <div class="row my-5">
+                    <div class="col-6 mx-auto">
+                        <h3>Tu as fais {{ letter_errors.a }} pour la lettre A</h3>
+                        <h3>Tu as fais {{ letter_errors.e }} pour la lettre E</h3>
+                        <h3>Tu as fais {{ letter_errors.s }} pour la lettre S</h3>
+                        <h3>Tu as fais {{ letter_errors.i }} pour la lettre I</h3>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-6 mx-auto btn-app bg-white progress-training px-0">
                         <div class="progress">
@@ -35,6 +44,7 @@
         </div>
         <div class="d-flex justify-content-end mx-5 mt-5 ">
             <a href=""><div class="next btn btn-app bg-secondary p-2 fs-2">Suivant<i class="fas fa-arrow-right"></i></div></a>
+
         </div>
     </div>
 {% endblock %}

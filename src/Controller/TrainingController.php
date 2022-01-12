@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\HistoryTraining;
 use App\Entity\Training;
 use App\Entity\Word;
+use App\Repository\HistoryTrainingRepository;
 use App\Repository\SerieRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TrainingController extends AbstractController
 {
+    private array $letters = [
+        'a',
+        'e',
+        's',
+        'i'
+    ];
+
     /**
      * @Route("/{trainingNumber}", name="training")
      */
@@ -45,19 +54,33 @@ class TrainingController extends AbstractController
     /**
      * @Route("/test/{id}", name="play")
      */
-    public function play(Training $training)
+    public function play(Training $training, HistoryTrainingRepository $historyTrainingRepository)
     {
         $words = $training->getWords();
         if (!isset($words[$training->getStep()])) {
+            $letterErrors = [];
+            foreach ($this->letters as $letter) {
+                $letterErrors[$letter] =  count($historyTrainingRepository->findBy([
+                    'training' => $training->getId(),
+                    'letter' => $letter
+                ]));
+            }
             return $this->render('training/result.html.twig', [
                 'game' => $training,
+                'letter_errors' => $letterErrors,
             ]);
         }
         $word = $words[$training->getStep()];
+        $letters = str_split($word->getContent());
+        if ($word->getStudyLetter()) {
+            $position = $word->knowLetterPosition($letters);
+        }
         return $this->render('easi/index.html.twig', [
             'word'          => $word,
             'game'          => $training,
             'istraining'    => true,
+            'letters'       => $letters,
+            'position'      => $position ?? null,
         ]);
     }
 
@@ -70,6 +93,7 @@ class TrainingController extends AbstractController
         string $picture,
         ManagerRegistry $managerRegistry
     ): Response {
+        $manager = $managerRegistry->getManager();
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($correctPicture === $picture) {
             $training->setStep($training->getStep() + 1);
@@ -77,8 +101,12 @@ class TrainingController extends AbstractController
         } else {
             $training->setStep($training->getStep() + 1);
             $training->setErrorCount($training->getErrorCount() + 1);
+            $historyTraining = new HistoryTraining();
+            $historyTraining->setTraining($training);
+            $historyTraining->setLetter($word->getLetter()->getContent());
+            $manager->persist($historyTraining);
         }
-        $managerRegistry->getManager()->flush();
+        $manager->flush();
         return $this->redirectToRoute('training_play', [
                 'id' => $training->getId(),
             ]);
