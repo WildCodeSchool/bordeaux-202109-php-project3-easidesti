@@ -1,20 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TrainingController!{% endblock %}
+{% block title %}TEST{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/wilder/Dev/202109/projets3/bordeaux-202109-php-project3-easidesti/src/Controller/TrainingController.php'|file_link(0) }}">src/Controller/TrainingController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/wilder/Dev/202109/projets3/bordeaux-202109-php-project3-easidesti/templates/training/index.html.twig'|file_link(0) }}">templates/training/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container-fluid easi">
+        <div class="row pt-3">
+            <div class="col-2 d-flex flex-column justify-content-start align-content-center">
+               {% include 'component/_letter.html.twig' %}
+                {% include 'component/_showScoreStep.html.twig' %}
+            </div>
+            <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+                <p class="btn-app word fs-1">{{ word.content }}</p>
+                <p><img src="{{ asset('build/images/logo_hear.png') }}" alt=""></p>
+                <div class="btn-app easi-white-propositions d-flex">
+                    {% include 'component/_proposition.html.twig' %}
+                </div>
+            </div>
+            {% if istraining == false %}
+                {% include 'component/_showAllHelp.html.twig' %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('audioPhoneme') }}
 {% endblock %}

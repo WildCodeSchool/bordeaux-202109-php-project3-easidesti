@@ -58,8 +58,9 @@ class GameController extends AbstractController
         }
         $word = $words[$step];
         return $this->render('easi/index.html.twig', [
-            'game' => $game,
-            'word' => $word,
+            'game'          => $game,
+            'word'          => $word,
+            'istraining'    => false,
         ]);
     }
 
