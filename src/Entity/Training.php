@@ -6,9 +6,11 @@ use App\Repository\TrainingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=TrainingRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Training
 {
@@ -53,6 +55,14 @@ class Training
     public function __construct()
     {
         $this->words = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): ?int
