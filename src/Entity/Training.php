@@ -19,42 +19,48 @@ class Training
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private DateTime $createdAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=Word::class)
      */
-    private $words;
+    private Collection $words;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trainings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $player;
+    private User $player;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $step;
+    private int $step;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $errorCount;
+    private int $errorCount;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $score;
+    private int $score;
+
+    /**
+     * @ORM\OneToMany(targetEntity=HistoryTraining::class, mappedBy="training", orphanRemoval=true)
+     */
+    private Collection $historyTrainings;
 
     public function __construct()
     {
         $this->words = new ArrayCollection();
+        $this->historyTrainings = new ArrayCollection();
     }
 
     /**
@@ -80,12 +86,12 @@ class Training
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -160,6 +166,36 @@ class Training
     public function setScore(int $score): self
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HistoryTraining[]
+     */
+    public function getHistoryTrainings(): Collection
+    {
+        return $this->historyTrainings;
+    }
+
+    public function addHistoryTraining(HistoryTraining $historyTraining): self
+    {
+        if (!$this->historyTrainings->contains($historyTraining)) {
+            $this->historyTrainings[] = $historyTraining;
+            $historyTraining->setTraining($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoryTraining(HistoryTraining $historyTraining): self
+    {
+        if ($this->historyTrainings->removeElement($historyTraining)) {
+            // set the owning side to null (unless already changed)
+            if ($historyTraining->getTraining() === $this) {
+                $historyTraining->setTraining(null);
+            }
+        }
 
         return $this;
     }
