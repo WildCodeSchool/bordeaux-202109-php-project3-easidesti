@@ -67,6 +67,11 @@ class Serie
 
     private int $noEndPointCount = 0;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $positionTest;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
@@ -248,6 +253,18 @@ class Serie
     public function setLetter(?Letter $letter): self
     {
         $this->letter = $letter;
+
+        return $this;
+    }
+
+    public function getPositionTest(): ?int
+    {
+        return $this->positionTest;
+    }
+
+    public function setPositionTest(?int $positionTest): self
+    {
+        $this->positionTest = $positionTest;
 
         return $this;
     }
