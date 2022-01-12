@@ -57,10 +57,16 @@ class GameController extends AbstractController
             ]);
         }
         $word = $words[$step];
+        $letters = str_split($word->getContent());
+        if ($word->getStudyLetter()) {
+            $position = $word->knowLetterPosition($letters);
+        }
         return $this->render('easi/index.html.twig', [
             'game'          => $game,
             'word'          => $word,
             'istraining'    => false,
+            'position'      => $position ?? null,
+            'letters'       => $letters,
         ]);
     }
 

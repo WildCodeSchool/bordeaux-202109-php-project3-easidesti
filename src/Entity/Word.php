@@ -256,4 +256,15 @@ class Word
 
         return $this;
     }
+
+    public function knowLetterPosition(Array $letters): int
+    {
+        $indexes = [];
+        foreach ($letters as $index => $letter){
+            if ($letter === $this->getLetter()->getContent()){
+                $indexes[] = $index;
+            }
+        }
+        return $indexes[$this->getStudyLetter()->getPosition() - 1] + 1;
+    }
 }
