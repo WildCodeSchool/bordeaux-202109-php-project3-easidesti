@@ -64,7 +64,7 @@ class WordController extends AbstractController
             $this->addFlash('success', 'Le mot a bien été ajouté !');
             return $this->redirectToRoute('word_new');
         }
-        return $this->renderForm('word/new.html.twig', [
+        return $this->renderForm('admin/word/new.html.twig', [
             'form' => $form,
         ]);
     }
@@ -124,7 +124,7 @@ class WordController extends AbstractController
             }
             return $this->redirectToRoute('admin_series_show', ['id' => $word->getSerie()->getId()]);
         }
-        return $this->renderForm('word/edit.html.twig', [
+        return $this->renderForm('admin/word/edit.html.twig', [
             'word' => $word,
             'form' => $form,
             'endpoints' => $endPoints,

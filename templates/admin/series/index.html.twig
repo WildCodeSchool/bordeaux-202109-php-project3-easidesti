@@ -3,9 +3,10 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-     <div class="container">
+    {% include 'admin/admin_component/_nav.html.twig' %}
+     <div class="container mt-5">
          <div class="row">
-             <div class="col-12">
+             <div class="col-12 mb-4">
                  {{ form_start(form) }}
                  {{ form_widget(form) }}
                  <button class="btn btn-primary">Rechercher</button>
