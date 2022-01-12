@@ -37,6 +37,23 @@ class TrainingController extends AbstractController
         $words = $training->getWords();
         $word = $words[$training->getStep()];
 
+        return $this->redirectToRoute('training_play', [
+            'id' => $training->getId(),
+        ]);
+    }
+
+    /**
+     * @Route("/test/{id}", name="play")
+     */
+    public function play(Training $training)
+    {
+        $words = $training->getWords();
+        if (!isset($words[$training->getStep()])) {
+            return $this->render('training/result.html.twig', [
+                'game' => $training,
+            ]);
+        }
+        $word = $words[$training->getStep()];
         return $this->render('easi/index.html.twig', [
             'word'          => $word,
             'game'          => $training,
@@ -47,22 +64,23 @@ class TrainingController extends AbstractController
     /**
      * @Route("/{id}/mot/{word}/prononciation/{picture}", name="check_response")
      */
-    public function checkResponse(Training $training, Word $word, string $picture, ManagerRegistry $managerRegistry)
-    : Response
-    {
+    public function checkResponse(
+        Training $training,
+        Word $word,
+        string $picture,
+        ManagerRegistry $managerRegistry
+    ): Response {
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($correctPicture === $picture) {
             $training->setStep($training->getStep() + 1);
             $training->setScore($training->getScore() + 1);
-        }
-        else {
+        } else {
             $training->setStep($training->getStep() + 1);
             $training->setErrorCount($training->getErrorCount() + 1);
         }
         $managerRegistry->getManager()->flush();
-        return $this->redirectToRoute('training_training', [
-                'trainingNumber' => $training->getId(),
+        return $this->redirectToRoute('training_play', [
+                'id' => $training->getId(),
             ]);
     }
-
 }
