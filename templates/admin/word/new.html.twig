@@ -2,10 +2,8 @@
 {% block title %}Création d'un nouveau mot{% endblock %}
 
 {% block body %}
-<div class="container-fluid easi">
-    <div class="pt-5">
-        {% include 'component/_flash.html.twig' %}
-    </div>
+{% include 'admin/admin_component/_nav.html.twig' %}
+<div class="container-fluid">
     <h1 class="text-center pt-5">Création d'un nouveau mot</h1>
     <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto pb-5">
         {{ form_start(form) }}

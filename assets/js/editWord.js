@@ -26,7 +26,7 @@ window.addEventListener('load', () => {
         }
     }
     const allEndpoints = document.querySelectorAll('.positions');
-    if (!blockHidden.dataset.endpoints === '') {
+    if (!blockHidden.dataset.endpoints == '') {
         const endpoints = blockHidden.dataset.endpoints.split(',');
         for (let i = 0; i < endpoints.length; i++) {
             const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters');
@@ -45,7 +45,7 @@ window.addEventListener('load', () => {
     });
 
     const allMuteLetters = document.querySelectorAll('.mute');
-    if (!blockHidden.dataset.muteletters === '') {
+    if (!blockHidden.dataset.muteletters == '') {
         const muteLetters = blockHidden.dataset.endpoints.split(',');
         for (let i = 0; i < muteLetters.length; i++) {
             const muteLetter = addPosition(allEndpoints[muteLetters[i]], 'clickedMuteLetters');
