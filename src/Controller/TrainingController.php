@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\HistoryTraining;
 use App\Entity\Training;
 use App\Entity\Word;
 use App\Repository\SerieRepository;
@@ -54,10 +55,16 @@ class TrainingController extends AbstractController
             ]);
         }
         $word = $words[$training->getStep()];
+        $letters = str_split($word->getContent());
+        if ($word->getStudyLetter()) {
+            $position = $word->knowLetterPosition($letters);
+        }
         return $this->render('easi/index.html.twig', [
             'word'          => $word,
             'game'          => $training,
             'istraining'    => true,
+            'letters'       => $letters,
+            'position'      => $position ?? null,
         ]);
     }
 
@@ -70,6 +77,7 @@ class TrainingController extends AbstractController
         string $picture,
         ManagerRegistry $managerRegistry
     ): Response {
+        $manager = $managerRegistry->getManager();
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($correctPicture === $picture) {
             $training->setStep($training->getStep() + 1);
@@ -77,8 +85,12 @@ class TrainingController extends AbstractController
         } else {
             $training->setStep($training->getStep() + 1);
             $training->setErrorCount($training->getErrorCount() + 1);
+            $historyTraining = new HistoryTraining();
+            $historyTraining->setTraining($training);
+            $historyTraining->setLetter($word->getLetter()->getContent());
+            $manager->persist($historyTraining);
         }
-        $managerRegistry->getManager()->flush();
+        $manager->flush();
         return $this->redirectToRoute('training_play', [
                 'id' => $training->getId(),
             ]);
