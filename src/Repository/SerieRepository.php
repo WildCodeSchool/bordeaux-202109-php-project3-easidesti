@@ -34,14 +34,6 @@ class SerieRepository extends ServiceEntityRepository
             ->getSingleScalarResult()
             ;
     }
-
-    public function orderByNumber()
-    {
-        return $this->createQueryBuilder('s')
-            ->orderBy('s.number','ASC')
-            ->getQuery()
-            ->getResult();
-    }
     // /**
     //  * @return Serie[] Returns an array of Serie objects
     //  */
