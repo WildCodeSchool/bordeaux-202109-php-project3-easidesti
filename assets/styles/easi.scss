@@ -135,6 +135,16 @@
     .progress {
         height: 35px;
     }
+    .progress-training > .progress {
+        background-color: white;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+
+    }
+    .progress-training > .progress .progress-bar {
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
     .sound-propositions {
         width: 7vw;
         padding: 0;
@@ -149,5 +159,6 @@
     .explication-proposition {
         width: 5vw;
     }
+
 
 }
