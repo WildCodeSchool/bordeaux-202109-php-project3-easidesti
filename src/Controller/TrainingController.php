@@ -65,9 +65,23 @@ class TrainingController extends AbstractController
                     'letter' => $letter
                 ]));
             }
+            $wordsCount = [
+                'a' => 0,
+                'e' => 0,
+                's' => 0,
+                'i' => 0,
+            ];
+            foreach ($words as $word) {
+                foreach ($this->letters as $letter) {
+                    if ($word->getLetter()->getContent() === $letter) {
+                        $wordsCount[$letter] ++;
+                    }
+                }
+            }
             return $this->render('training/result.html.twig', [
                 'game' => $training,
                 'letter_errors' => $letterErrors,
+                'words_count' => $wordsCount,
             ]);
         }
         $word = $words[$training->getStep()];
