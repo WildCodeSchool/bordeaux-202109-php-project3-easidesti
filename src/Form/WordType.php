@@ -57,7 +57,9 @@ class WordType extends AbstractType
                 'choice_label' => 'fullName',
                 'query_builder' => function (SerieRepository $sr) {
                     return $sr->createQueryBuilder('s')
-                        ->orderBy('s.number', 'ASC');
+                        ->orderBy('s.letter', 'ASC')
+                        ->addOrderBy('s.level', 'ASC')
+                        ->addOrderBy('s.number', 'ASC');
                 },
                 'expanded'     => false,
                 'multiple'     => false,

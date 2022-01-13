@@ -70,7 +70,7 @@ class Serie
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $positionTest;
+    private int $positionTest;
 
     public function __construct()
     {
@@ -80,8 +80,10 @@ class Serie
 
     public function getFullName(): string
     {
-        return 'Série ' . $this->getNumber() . ' Niveau ' . $this->getLevel()
-           . ' lettre ' . $this->getLetter()->getContent();
+        return 'Lettre ' . ucfirst($this->getLetter()->getContent()) .
+            ' Niveau ' . $this->getLevel() .
+            ' Série ' . $this->getNumber()
+            ;
     }
 
     public function setNoDefinitionCount(int $noDefinitionCount): void
