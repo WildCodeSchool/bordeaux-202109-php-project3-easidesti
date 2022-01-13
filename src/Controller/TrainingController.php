@@ -85,7 +85,7 @@ class TrainingController extends AbstractController
             ]);
         }
         $word = $words[$training->getStep()];
-        $letters = str_split($word->getContent());
+        $letters = mb_str_split($word->getContent());
         if ($word->getStudyLetter()) {
             $position = $word->knowLetterPosition($letters);
         }
