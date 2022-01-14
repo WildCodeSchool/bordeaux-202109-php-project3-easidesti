@@ -15,7 +15,7 @@
                             {{ word.content }}
                             </div>
                             <div>
-                            Lettre <span class="fw-bolder">{{ word.serie.letter.content|upper }}</span> - <span>Niveau {% for i in 1..word.serie.level %} <i class="fas fa-star"></i>{% endfor %}</span>
+                            Lettre <span class="fw-bolder">{{ word.serie.letter.content|upper }}</span> - <span>Niveau {% for i in 1..word.serie.level %} <i class="text-warning fas fa-star"></i>{% endfor %}</span>
                             Série N° {{ word.serie.number }}
                             </div>
                             {% include('admin/admin_component/_word_status.html.twig') %}
