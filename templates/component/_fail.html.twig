@@ -7,13 +7,12 @@
             <p>Ce n'est pas la bonne réponse. Tu ne marques pas de point cette fois-ci !</p>
         </div>
         <div class="row d-flex justify-content-center text-center my-3">
-            <h2>Voici la correction</h2>
-            <h3>{{ word.content }}</h3>
+            <h2>Voici la correction du mot : <span class="text-decoration-underline fw-bold">{{ word.content }}</span></h2>
             <img src="{{ asset("build/images/" ~ word.pronunciation.picture) }}" class="w-50" alt="{{ word.content }}">
         </div>
     </div>
 </div>"
-<div class="d-flex justify-content-center align-text-bottom my-5">
+<div class="d-flex justify-content-center align-text-bottom my-1">
     <a href="{{ path('game_play', {id: game.id}) }}">
         <div class="next btn btn-app bg-secondary p-2 fs-2">Suivant<i class="fas fa-arrow-right mx-3"></i></div>
     </a>

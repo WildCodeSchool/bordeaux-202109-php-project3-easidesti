@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 /**
  * @Route("/training", name="training_")
@@ -54,8 +56,11 @@ class TrainingController extends AbstractController
     /**
      * @Route("/test/{id}", name="play")
      */
-    public function play(Training $training, HistoryTrainingRepository $historyTrainingRepository)
-    {
+    public function play(
+        Training $training,
+        HistoryTrainingRepository $historyTrainingRepository,
+        ChartBuilderInterface $chartBuilder
+    ) {
         $words = $training->getWords();
         if (!isset($words[$training->getStep()])) {
             $letterErrors = [];
@@ -78,10 +83,61 @@ class TrainingController extends AbstractController
                     }
                 }
             }
+
+            $resultLetter = [
+                ($wordsCount['e'] - $letterErrors['e']) / $wordsCount['e'] * 100,
+                ($wordsCount['a'] - $letterErrors['a']) / $wordsCount['a'] * 100,
+                ($wordsCount['s'] - $letterErrors['s']) / $wordsCount['s'] * 100,
+                ($wordsCount['i'] - $letterErrors['i']) / $wordsCount['i'] * 100,
+            ];
+
+            $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
+            $chart->setData([
+                'labels' => ['e', 'a', 's', 'i'],
+                'datasets' => [
+                    [
+                        'label' => 'Répartition des réponses',
+                        'borderRadius' => 5,
+                        'backgroundColor' => [
+                            'rgb(15, 175, 148, 0.5)',
+                            'rgb(3, 94, 214, 0.5)',
+                            'rgb(255, 213, 0, 0.5)',
+                            'rgb(159, 17, 17, 0.5)',
+                        ],
+                        'borderWidth' => 5,
+                        'borderColor' => [
+                            'rgb(15, 175, 148)',
+                            'rgb(3, 94, 214)',
+                            'rgb(255, 213, 0)',
+                            'rgb(159, 17, 17)',
+                        ],
+                        'data' => $resultLetter,
+                    ],
+                ],
+            ]);
+            $chart->setOptions([
+                'responsive' => true,
+                'aspectRatio' => 3,
+                    'scales' => [
+                        'y' => [
+                          'grid' => [
+                              'display' => false,
+                          ]
+                        ],
+                        'x' => [
+                            'ticks' => [
+                                'font' => [
+                                    'size' => 25,
+                                    ]
+                            ]
+                        ]
+                    ]
+            ]);
             return $this->render('training/result.html.twig', [
                 'game' => $training,
                 'letter_errors' => $letterErrors,
                 'words_count' => $wordsCount,
+                'chart' => $chart,
             ]);
         }
         $word = $words[$training->getStep()];
