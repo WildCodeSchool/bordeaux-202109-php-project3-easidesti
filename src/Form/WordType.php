@@ -26,11 +26,6 @@ class WordType extends AbstractType
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
             ])
-            ->add('study_letter', EntityType::class, [
-                'label'  => 'Lettre étudiée',
-                'class'  => StudyLetter::class,
-                'choice_label' => 'LetterPosition',
-            ])
             ->add('definition', TextareaType::class, [
                 'label'    => 'Définition',
                 'required' => false,

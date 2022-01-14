@@ -6,8 +6,9 @@ use App\Entity\Endpoint;
 use App\Entity\MuteLetter;
 use App\Entity\Word;
 use App\Form\WordType;
+use App\Repository\LetterRepository;
 use App\Repository\SerieRepository;
-use App\Repository\WordRepository;
+use App\Repository\StudyLetterRepository;
 use App\Service\WordGenerator;
 use App\Service\Definition;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,13 +30,30 @@ class WordController extends AbstractController
         Request $request,
         ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator,
-        SerieRepository $serieRepository
+        SerieRepository $serieRepository,
+        LetterRepository $letterRepository,
+        StudyLetterRepository $studyLetterRepository
     ): Response {
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $letterData = $request->request->get('clickedLetterStudy')[0];
+            if (count($request->request->get('clickedLetterStudy')) > 1) {
+                $this->addFlash('danger', 'Vous devez rentrer qu\'une seule lettre');
+                return $this->redirectToRoute('word_new');
+            }
+            $letter = $letterRepository->findOneBy(['content' => substr($letterData, 2)]);
+            $positionLetter = (int)substr($letterData, 0, 1);
+            $linkPosition = $wordGenerator->generateLetterPosition(
+                str_split($word->getContent()),
+                $letter->getContent(),
+                $positionLetter
+            );
+            $studyLetter = $studyLetterRepository->findOneBy(['audio' => $linkPosition]);
+            $word->setLetter($letter);
+            $word->setStudyLetter($studyLetter);
             $serie = $serieRepository->findOneBy(['id' => $request->request->get('word')['level']]);
             $word->setSerie($serie);
             $entityManager = $managerRegistry->getManager();
@@ -85,7 +103,8 @@ class WordController extends AbstractController
         Word $word,
         Request $request,
         ManagerRegistry $managerRegistry,
-        WordGenerator $wordGenerator
+        WordGenerator $wordGenerator,
+        LetterRepository $letterRepository
     ): Response {
         $endPoints = [];
         foreach ($word->getEndpoints() as $endpoint) {

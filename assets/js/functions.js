@@ -1,11 +1,11 @@
-const addPosition = (span, nameInput) => {
+const addPosition = (span, nameInput, letter = null) => {
     span.className = 'word-letter fs-1 text-danger btn positions';
     const input = document.createElement('input');
     input.classList.add('input-endpoint');
     input.type = 'hidden';
     input.id = `${nameInput}_${span.id}`;
     input.name = `${nameInput}[]`;
-    input.value = span.id;
+    input.value = letter !== null ? `${span.id}_${letter}` : span.id;
     return input;
 };
 const createSpan = (name, letter) => {
