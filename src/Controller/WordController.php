@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/word", name="word_")
+ * @Route("/admin/mot", name="word_")
  */
 class WordController extends AbstractController
 {
