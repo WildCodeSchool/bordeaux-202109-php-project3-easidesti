@@ -14,7 +14,12 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body class="d-none d-sm-block">
+	<body>
+	<div class="d-none d-sm-block">
 		{% block body %}{% endblock %}
+	</div>
+	<div class="d-block d-sm-none">
+		<h1 class="pt-5 text-center home ">L'application EASI-DESTI n'est pas prévue pour une utilisation nomade.</h1>
+	</div>
 	</body>
 </html>
