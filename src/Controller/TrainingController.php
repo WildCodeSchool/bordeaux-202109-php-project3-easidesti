@@ -84,12 +84,20 @@ class TrainingController extends AbstractController
                 }
             }
 
+            $resultLetter = [
+                ($wordsCount['e'] - $letterErrors['e']) / $wordsCount['e'] * 100,
+                ($wordsCount['a'] - $letterErrors['a']) / $wordsCount['a'] * 100,
+                ($wordsCount['s'] - $letterErrors['s']) / $wordsCount['s'] * 100,
+                ($wordsCount['i'] - $letterErrors['i']) / $wordsCount['i'] * 100,
+            ];
+
             $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
             $chart->setData([
                 'labels' => ['e', 'a', 's', 'i'],
                 'datasets' => [
                     [
                         'label' => 'Répartition des réponses',
+                        'borderRadius' => 5,
                         'backgroundColor' => [
                             'rgb(15, 175, 148, 0.5)',
                             'rgb(3, 94, 214, 0.5)',
@@ -103,14 +111,27 @@ class TrainingController extends AbstractController
                             'rgb(255, 213, 0)',
                             'rgb(159, 17, 17)',
                         ],
-                        'height' => '50px',
-                        'data' => $wordsCount,
+                        'data' => $resultLetter,
                     ],
                 ],
             ]);
             $chart->setOptions([
                 'responsive' => true,
                 'aspectRatio' => 3,
+                    'scales' => [
+                        'y' => [
+                          'grid' => [
+                              'display' => false,
+                          ]
+                        ],
+                        'x' => [
+                            'ticks' => [
+                                'font' => [
+                                    'size' => 25,
+                                    ]
+                            ]
+                        ]
+                    ]
             ]);
             return $this->render('training/result.html.twig', [
                 'game' => $training,
