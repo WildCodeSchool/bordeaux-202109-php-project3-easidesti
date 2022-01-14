@@ -1,0 +1,12 @@
+<div class="w-25 text-end">
+    {% if word.endpoints|length == 0 %}
+        <span class="badge bg-danger rounded-pill">Syllabes à définir</span>
+    {% else %}
+        <span class="badge bg-success rounded-pill">Syllabes OK</span>
+    {% endif %}
+    {% if word.definition == 'À définir' %}
+        <span class="badge bg-danger rounded-pill">Définition à rédiger</span>
+    {% else %}
+        <span class="badge bg-success rounded-pill">Définition OK</span>
+    {% endif %}
+</div>

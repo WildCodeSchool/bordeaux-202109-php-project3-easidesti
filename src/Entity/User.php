@@ -88,9 +88,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $games;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="player")
+     */
+    private $trainings;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
+        $this->trainings = new ArrayCollection();
     }
 
     /**
@@ -295,6 +301,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($game->getPlayer() === $this) {
                 $game->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Training[]
+     */
+    public function getTrainings(): Collection
+    {
+        return $this->trainings;
+    }
+
+    public function addTraining(Training $training): self
+    {
+        if (!$this->trainings->contains($training)) {
+            $this->trainings[] = $training;
+            $training->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraining(Training $training): self
+    {
+        if ($this->trainings->removeElement($training)) {
+            // set the owning side to null (unless already changed)
+            if ($training->getPlayer() === $this) {
+                $training->setPlayer(null);
             }
         }
 

@@ -2,10 +2,7 @@
 {% block title %}Accueil{% endblock %}
 {% block body %}
 <div class="home container-fluid">
-    <div class="pt-5">
-        {% include 'component/_flash.html.twig' %}
-    </div>
-    <div class="row my-5" >
+    <div class="row mb-5 pt-5" >
         <h1 class="m-3 mx-auto">Bienvenue sur EASI-DESTI {% if app.user %}{{ app.user.nickname }}{% endif %}</h1>
     </div>
     <div class="d-flex justify-content-around align-items-center pb-5">
@@ -16,7 +13,11 @@
             {% if app.user %}
                 <a href="{{ path('app_logout') }}" class="btn btn-app btn-home-registration-white">Se déconnecter</a>
             {% else %}
-                <a class="btn btn-app btn-home-registration-white" href="{{ path('login') }}">Se connecter</a>
+                <a class="btn btn-app btn-home-registration-white fs-4" href="{{ path('login') }}">
+                    <img class="px-3" src="{{ asset('build/images/favicon.png') }}" alt="livres">
+                    Se connecter
+                    <img class="px-3" src="{{ asset('build/images/favicon.png') }}" alt="livres">
+                </a>
             {% endif %}
         </div>
         <div class="col-3 me-5">

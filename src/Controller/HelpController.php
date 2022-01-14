@@ -31,7 +31,7 @@ class HelpController extends AbstractController
      */
     public function showHelpOne(Game $game, ManagerRegistry $managerRegistry): Response
     {
-        $word = $game->getWords()[$game->getStep()];
+        $word = $game->getSerie()->getWords()[$game->getStep()];
         if (!$this->hasEverRead($word, 1)) {
             $this->handleSession($word, 1);
             $game->setHelpCount($game->getHelpCount() + 1);
@@ -43,14 +43,18 @@ class HelpController extends AbstractController
             'danger',
         ];
         $letter = $word->getLetter();
-        $endpoints = $word->getEndpoints();
+        $allEndpoints = [];
+        foreach ($word->getEndpoints() as $endpoint) {
+            $allEndpoints[] = $endpoint->getPosition();
+        }
+        $endpoints = array_unique($allEndpoints);
         $syllabes = [];
         for ($i = 0; $i < count($endpoints); $i++) {
             $position = 0;
-            $lenght = $endpoints[$i]->getPosition() + 1;
-            if ($endpoints[$i - 1] !== null) {
-                $position = $endpoints[$i - 1]->getPosition() + 1;
-                $lenght = $endpoints[$i]->getPosition() - $endpoints[$i - 1]->getPosition();
+            $lenght = $endpoints[$i] + 1;
+            if (isset($endpoints[$i - 1])) {
+                $position = $endpoints[$i - 1] + 1;
+                $lenght = $endpoints[$i] - $endpoints[$i - 1];
             }
             $syllabes[] = substr($word->getContent(), $position, $lenght);
         }
@@ -70,7 +74,7 @@ class HelpController extends AbstractController
      */
     public function showHelpTwo(Game $game, ManagerRegistry $managerRegistry): Response
     {
-        $word = $game->getWords()[$game->getStep()];
+        $word = $game->getSerie()->getWords()[$game->getStep()];
 
         if (!$this->hasEverRead($word, 2)) {
             $this->handleSession($word, 2);
@@ -88,7 +92,7 @@ class HelpController extends AbstractController
     */
     public function showHelpThree(Game $game, ManagerRegistry $managerRegistry): Response
     {
-        $word = $game->getWords()[$game->getStep()];
+        $word = $game->getSerie()->getWords()[$game->getStep()];
         if (!$this->hasEverRead($word, 3)) {
             $this->handleSession($word, 3);
             $game->setHelpCount($game->getHelpCount() + 1);

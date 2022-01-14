@@ -7,7 +7,7 @@
     font-weight: bold;
 
     .proposition {
-        width: 10vw;
+        width: 7vw;
     }
 
     .word {
@@ -76,7 +76,7 @@
     }
 
     .easi-white-propositions {
-        width: 40vw;
+        width: 45vw;
         height : auto;
         color: $primary;
         background: #FFFFFF;
@@ -109,12 +109,14 @@
     }
     .img-letter{
         width: 10vw;
+        border-radius: 25px;
+
     }
     .img-help {
-        width: 30vw;
+        width: 25vw;
     }
     .emoji {
-        width: 10vw;
+        width: 7vw;
     }
     .score {
         width: 100%;
@@ -135,5 +137,28 @@
     .progress {
         height: 35px;
     }
+    .progress-training > .progress {
+        background-color: white;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
 
+    }
+    .progress-training > .progress .progress-bar {
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+    .sound-propositions {
+        width: 7vw;
+        padding: 0;
+        margin: 0;
+    }
+
+    .explication-sound-propositions {
+        width: 5vw;
+        padding: 0;
+        margin: 0;
+    }
+    .explication-proposition {
+        width: 5vw;
+    }
 }
