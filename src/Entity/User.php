@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -60,14 +61,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Merci de rentrer votre classe")
      * @Assert\Length(max="255", maxMessage="Votre classe ne doit pas dépasser {{ limit }} caractères")
      */
     private ?string $schoolLevel;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Merci de rentrer votre établissement scolaire")
      * @Assert\Length(max="255", maxMessage="Votre établissement ne doit pas dépasser {{ limit }} caractères")
      */
@@ -86,12 +87,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\OneToMany(targetEntity=Game::class, mappedBy="player")
      */
-    private $games;
+    private Collection $games;
 
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="player")
      */
-    private $trainings;
+    private Collection $trainings;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private bool $hasTest;
+
 
     public function __construct()
     {
@@ -336,4 +343,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getHasTest(): ?bool
+    {
+        return $this->hasTest;
+    }
+
+    public function setHasTest(?bool $hasTest): self
+    {
+        $this->hasTest = $hasTest;
+
+        return $this;
+    }
+
 }
