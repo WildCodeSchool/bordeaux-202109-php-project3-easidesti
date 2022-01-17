@@ -1,7 +1,8 @@
-import { addPosition, createSpan, deletePosition } from './functions';
+import { addPosition, createSpan, deletePosition, getLetterPosition } from './functions';
 
 const defaultDefinition = 'À définir';
 const blockHidden = document.getElementById('block-hidden');
+const divLetter = document.getElementById('study-letter');
 const divEndpoint = document.getElementById('endpoint');
 const divMuteLetter = document.getElementById('mute-letter');
 const wordInput = document.getElementById('word_content');
@@ -9,10 +10,15 @@ const blockDefinition = document.getElementById('word_definition');
 const emptyWorld = document.getElementById('empty-word');
 
 window.addEventListener('load', () => {
+    const letter = blockHidden.dataset.letter;
+    const positionLetter = blockHidden.dataset.position;
+    const position = getLetterPosition(wordInput.value, letter, positionLetter);
     const wordArray = wordInput.value.split('');
     for (let i = 0; i < wordArray.length; i++) {
+        const spanLetter = createSpan('study-letter', wordArray[i]);
         const spanEndpoint = createSpan('positions', wordArray[i]);
         const spanMuteLetter = createSpan('mute', wordArray[i]);
+        divLetter.appendChild(spanLetter);
         divEndpoint.appendChild(spanEndpoint);
         divMuteLetter.appendChild(spanMuteLetter);
         spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
@@ -25,6 +31,22 @@ window.addEventListener('load', () => {
                 });
         }
     }
+    const allLetters = document.querySelectorAll('.study-letter');
+    if (blockHidden.dataset.letter !== '' && blockHidden.dataset.position !== '') {
+        const letter = addPosition(allLetters[position], 'clickedLetterStudy');
+        blockHidden.appendChild(letter);
+    }
+    allLetters.forEach((letter) => {
+        letter.addEventListener('click', () => {
+            if (document.getElementById(`clickedLetterStudy_${letter.id}`)) {
+                deletePosition(letter, `clickedLetterStudy_${letter.id}`);
+            } else {
+                const input = addPosition(letter, 'clickedLetterStudy');
+                blockHidden.appendChild(input);
+            }
+        })
+    })
+    console.log(wordInput.value)
     const allEndpoints = document.querySelectorAll('.positions');
     if (!blockHidden.dataset.endpoints == '') {
         const endpoints = blockHidden.dataset.endpoints.split(',');

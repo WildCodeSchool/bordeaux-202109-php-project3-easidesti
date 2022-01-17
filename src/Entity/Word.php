@@ -257,11 +257,11 @@ class Word
         return $this;
     }
 
-    public function knowLetterPosition(Array $letters): int
+    public function knowLetterPosition(array $letters): int
     {
         $indexes = [];
-        foreach ($letters as $index => $letter){
-            if ($letter === $this->getLetter()->getContent()){
+        foreach ($letters as $index => $letter) {
+            if ($letter === $this->getLetter()->getContent()) {
                 $indexes[] = $index;
             }
         }

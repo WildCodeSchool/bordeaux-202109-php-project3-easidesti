@@ -77,6 +77,7 @@ class WordController extends AbstractController
                 $entityManager->persist($muteLetter);
                 $word->addMuteLetter($muteLetter);
             }
+            dd($word->getStudyLetter());
             $entityManager->persist($word);
             $entityManager->flush();
             $this->addFlash('success', 'Le mot a bien été ajouté !');
@@ -106,13 +107,17 @@ class WordController extends AbstractController
         WordGenerator $wordGenerator,
         LetterRepository $letterRepository
     ): Response {
+        if ($word->getStudyLetter()) {
+            $position = $word->getStudyLetter()->getPosition();
+        }
+        $letter = $word->getSerie()->getLetter()->getContent();
         $endPoints = [];
         foreach ($word->getEndpoints() as $endpoint) {
-            $endPoints[] = $endpoint->getPosition();
+            $endPoints[] = $endpoint->getPosition() + 1;
         }
         $muteLetters = [];
         foreach ($word->getMuteLetters() as $muteLetter) {
-            $muteLetters[] = $muteLetter->getPosition();
+            $muteLetters[] = $muteLetter->getPosition() + 1;
         }
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
@@ -148,6 +153,8 @@ class WordController extends AbstractController
             'form' => $form,
             'endpoints' => $endPoints,
             'muteLetters' => $muteLetters,
+            'letter' => $letter,
+            'position' => $position ?? null,
         ]);
     }
 }
