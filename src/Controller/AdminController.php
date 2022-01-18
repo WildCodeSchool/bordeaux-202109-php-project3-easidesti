@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Serie;
+use App\Entity\User;
 use App\Form\SearchWordType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,6 +69,24 @@ class AdminController extends AbstractController
     {
         return $this->renderForm('admin/series/show.html.twig', [
             'serie' => $serie,
+        ]);
+    }
+
+    /**
+     * @Route("/eleves", name="student_show")
+     */
+    public function showAllStudent(ManagerRegistry $managerRegistry): Response
+    {
+        $studentRepository = $managerRegistry->getRepository(User::class);
+        $users = $studentRepository->findALL();
+        $students = [];
+        foreach ($users as $user) {
+            if (in_array('STUDENT', $user->getRoles())) {
+                $students[] = $user;
+            }
+        }
+        return $this->render('admin/student/showStudent.html.twig', [
+            'students' => $students,
         ]);
     }
 }

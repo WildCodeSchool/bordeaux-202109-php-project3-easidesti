@@ -1,0 +1,15 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Elèves{% endblock %}
+
+{% block body %}
+    {% include 'admin/admin_component/_nav.html.twig' %}
+
+
+        {% for student in students %}
+            <div>
+                <h2>{{ student.firstname }}</h2>
+            </div>
+        {% endfor %}
+
+{% endblock %}

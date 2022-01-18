@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,11 +26,13 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/phoneme", name="phoneme")
+     * @Route("/phoneme/game/{id}", name="phoneme")
      */
-    public function showPhonemes(): Response
+    public function showPhonemes(Game $game): Response
     {
-        return $this->render('home/phoneme.html.twig');
+        return $this->render('home/phoneme.html.twig', [
+            'game' => $game
+        ]);
     }
 
     /**
