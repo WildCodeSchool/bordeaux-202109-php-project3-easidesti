@@ -4,12 +4,22 @@
 
 {% block body %}
     {% include 'admin/admin_component/_nav.html.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <h1>liste des élèves </h1>
+                <div class="list-group">
+                    {% for student in students %}
+                        <div>
+                            <p>{{ student.firstname }} {{ student.lastname }} - {{ student.schoolLevel }} - {{ student.school }}</p>
+                        </div>
+                    {% endfor %}
 
-
-        {% for student in students %}
-            <div>
-                <h2>{{ student.firstname }}</h2>
+                </div>
             </div>
-        {% endfor %}
+        </div>
+    </div>
+
+
 
 {% endblock %}

@@ -87,6 +87,7 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/student/showStudent.html.twig', [
             'students' => $students,
+
         ]);
     }
 }
