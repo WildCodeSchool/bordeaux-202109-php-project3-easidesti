@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row justify-content-around">
+        {% for i in 1..game.serie.letter.nbProposal %}
+            <div class="
+                d-flex btn-app pt-2 px-1 m-2 flex-column justify-content-end
+                {% if game.serie.letter.nbProposal == 4 %} col-4 {% endif %}
+                {% if game.serie.letter.nbProposal == 6 %} col-3 {% endif %}
+                {% if game.serie.letter.nbProposal == 8 %} col-2 {% endif %}
+            ">
+                <img class="proposition" src="{{ asset('build/images/lettre_' ~ game.serie.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
+
+                <img class="btn sound-propositions align-self-center" src="{{ asset('build/images/logo_ecouter.png') }}" alt="" data-audio="ecoute_{{ game.serie.letter.content ~ '_' ~ i ~ '.mp3' }}">
+                <audio class="audios" src="{{ asset('build/images/ecoute_' ~ game.serie.letter.content ~ '_' ~ i ~ '.mp3') }}"></audio>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -42,7 +42,10 @@ class GameController extends AbstractController
         $game->setSerie($serie);
         $entityManager->persist($game);
         $entityManager->flush();
-        return $this->redirectToRoute('game_play', ['id' => $game->getId()]);
+        return $this->redirectToRoute('phoneme', [
+            'id' => $game->getId(),
+            'serie' => $serie,
+        ]);
     }
     /**
      * @Route("easi/game/{id}", name="game_play")
