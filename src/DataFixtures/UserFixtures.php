@@ -23,6 +23,7 @@ class UserFixtures extends Fixture
         $user->setLastname('Caron');
         $user->setSchool('WCS');
         $user->setSchoolLevel('CM1');
+        $user->setRoles(['STUDENT']);
         $user->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
@@ -37,6 +38,7 @@ class UserFixtures extends Fixture
         $user2->setLastname('Juchet');
         $user2->setSchool('WCS');
         $user2->setSchoolLevel('CM2');
+        $user2->setRoles(['STUDENT']);
         $user2->setHasTest(true);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user2,
