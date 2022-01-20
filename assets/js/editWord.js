@@ -10,9 +10,6 @@ const blockDefinition = document.getElementById('word_definition');
 const emptyWorld = document.getElementById('empty-word');
 
 window.addEventListener('load', () => {
-    const letter = blockHidden.dataset.letter;
-    const positionLetter = blockHidden.dataset.position;
-    const position = getLetterPosition(wordInput.value, letter, positionLetter);
     const wordArray = wordInput.value.split('');
     for (let i = 0; i < wordArray.length; i++) {
         const spanLetter = createSpan('study-letter', wordArray[i]);
@@ -31,9 +28,13 @@ window.addEventListener('load', () => {
                 });
         }
     }
+    const letter = blockHidden.dataset.letter;
+    const positionLetter = blockHidden.dataset.position;
+    const position = getLetterPosition(wordInput.value, letter, positionLetter);
     const allLetters = document.querySelectorAll('.study-letter');
-    if (blockHidden.dataset.letter !== '' && blockHidden.dataset.position !== '') {
-        const letter = addPosition(allLetters[position], 'clickedLetterStudy');
+
+    if (blockHidden.dataset.letter !== '' && position !== undefined) {
+        const letter = addPosition(allLetters[position], 'clickedLetterStudy',  'study-letter-selected');
         blockHidden.appendChild(letter);
     }
     allLetters.forEach((letter) => {
@@ -41,17 +42,16 @@ window.addEventListener('load', () => {
             if (document.getElementById(`clickedLetterStudy_${letter.id}`)) {
                 deletePosition(letter, `clickedLetterStudy_${letter.id}`);
             } else {
-                const input = addPosition(letter, 'clickedLetterStudy');
+                const input = addPosition(letter, 'clickedLetterStudy',  'study-letter-selected', letter.innerText);
                 blockHidden.appendChild(input);
             }
         })
     })
-    console.log(wordInput.value)
     const allEndpoints = document.querySelectorAll('.positions');
     if (!blockHidden.dataset.endpoints == '') {
         const endpoints = blockHidden.dataset.endpoints.split(',');
         for (let i = 0; i < endpoints.length; i++) {
-            const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters');
+            const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters', 'endpoint-selected');
             blockHidden.appendChild(endpoint);
         }
     }
@@ -60,7 +60,7 @@ window.addEventListener('load', () => {
             if (document.getElementById(`clickedLetters_${endpoint.id}`)) {
                 deletePosition(endpoint, `clickedLetters_${endpoint.id}`);
             } else {
-                const input = addPosition(endpoint, 'clickedLetters');
+                const input = addPosition(endpoint, 'clickedLetters', 'endpoint-selected');
                 blockHidden.appendChild(input);
             }
         });
@@ -68,9 +68,9 @@ window.addEventListener('load', () => {
 
     const allMuteLetters = document.querySelectorAll('.mute');
     if (!blockHidden.dataset.muteletters == '') {
-        const muteLetters = blockHidden.dataset.endpoints.split(',');
+        const muteLetters = blockHidden.dataset.muteletters.split(',');
         for (let i = 0; i < muteLetters.length; i++) {
-            const muteLetter = addPosition(allEndpoints[muteLetters[i]], 'clickedMuteLetters');
+            const muteLetter = addPosition(allMuteLetters[muteLetters[i]], 'clickedMuteLetters', 'mute-selected');
             blockHidden.appendChild(muteLetter);
         }
     }
@@ -79,7 +79,7 @@ window.addEventListener('load', () => {
             if (document.getElementById(`clickedMuteLetters_${muteLetter.id}`)) {
                 deletePosition(muteLetter, `clickedMuteLetters_${muteLetter.id}`);
             } else {
-                const input = addPosition(muteLetter, 'clickedMuteLetters');
+                const input = addPosition(muteLetter, 'clickedMuteLetters', 'mute-selected');
                 blockHidden.appendChild(input);
             }
         });
