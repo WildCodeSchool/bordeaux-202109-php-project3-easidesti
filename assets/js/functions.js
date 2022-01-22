@@ -1,5 +1,5 @@
-const addPosition = (span, nameInput, letter = null) => {
-    span.className = 'word-letter fs-1 text-danger btn positions';
+const addPosition = (span, nameInput, className, letter = null) => {
+    span.className = `word-letter fs-1 text-danger btn ${className}`;
     const input = document.createElement('input');
     input.classList.add('input-endpoint');
     input.type = 'hidden';
@@ -19,10 +19,22 @@ const deletePosition = (span, nameInput) => {
     const hiddenInputs = document.getElementsByClassName('input-endpoint');
     for (let i = 0; i < hiddenInputs.length; i++) {
         if (hiddenInputs[i].id === nameInput) {
+            span.classList.remove('text-danger');
+            span.classList.remove('fs-1');
+            span.classList.add('fs-2');
             hiddenInputs[i].remove();
-            span.className = 'word-letter fs-2 btn positions';
         }
     }
 };
+const getLetterPosition = (word, letter, position) => {
+    const letters = [];
+    for (let i = 0; i < word.length; i++) {
+        console.log()
+        if (word[i] === letter) {
+            letters.push(i)
+        }
+    }
+    return letters[position - 1];
+}
 
-export { addPosition, createSpan, deletePosition };
+export { addPosition, createSpan, deletePosition, getLetterPosition };

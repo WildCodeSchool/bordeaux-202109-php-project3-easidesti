@@ -1,7 +1,8 @@
-import { addPosition, createSpan, deletePosition } from './functions';
+import { addPosition, createSpan, deletePosition, getLetterPosition } from './functions';
 
 const defaultDefinition = 'À définir';
 const blockHidden = document.getElementById('block-hidden');
+const divLetter = document.getElementById('study-letter');
 const divEndpoint = document.getElementById('endpoint');
 const divMuteLetter = document.getElementById('mute-letter');
 const wordInput = document.getElementById('word_content');
@@ -11,8 +12,10 @@ const emptyWorld = document.getElementById('empty-word');
 window.addEventListener('load', () => {
     const wordArray = wordInput.value.split('');
     for (let i = 0; i < wordArray.length; i++) {
+        const spanLetter = createSpan('study-letter', wordArray[i]);
         const spanEndpoint = createSpan('positions', wordArray[i]);
         const spanMuteLetter = createSpan('mute', wordArray[i]);
+        divLetter.appendChild(spanLetter);
         divEndpoint.appendChild(spanEndpoint);
         divMuteLetter.appendChild(spanMuteLetter);
         spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
@@ -25,11 +28,30 @@ window.addEventListener('load', () => {
                 });
         }
     }
+    const letter = blockHidden.dataset.letter;
+    const positionLetter = blockHidden.dataset.position;
+    const position = getLetterPosition(wordInput.value, letter, positionLetter);
+    const allLetters = document.querySelectorAll('.study-letter');
+
+    if (blockHidden.dataset.letter !== '' && position !== undefined) {
+        const letter = addPosition(allLetters[position], 'clickedLetterStudy',  'study-letter-selected');
+        blockHidden.appendChild(letter);
+    }
+    allLetters.forEach((letter) => {
+        letter.addEventListener('click', () => {
+            if (document.getElementById(`clickedLetterStudy_${letter.id}`)) {
+                deletePosition(letter, `clickedLetterStudy_${letter.id}`);
+            } else {
+                const input = addPosition(letter, 'clickedLetterStudy',  'study-letter-selected', letter.innerText);
+                blockHidden.appendChild(input);
+            }
+        })
+    })
     const allEndpoints = document.querySelectorAll('.positions');
     if (!blockHidden.dataset.endpoints == '') {
         const endpoints = blockHidden.dataset.endpoints.split(',');
         for (let i = 0; i < endpoints.length; i++) {
-            const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters');
+            const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters', 'endpoint-selected');
             blockHidden.appendChild(endpoint);
         }
     }
@@ -38,7 +60,7 @@ window.addEventListener('load', () => {
             if (document.getElementById(`clickedLetters_${endpoint.id}`)) {
                 deletePosition(endpoint, `clickedLetters_${endpoint.id}`);
             } else {
-                const input = addPosition(endpoint, 'clickedLetters');
+                const input = addPosition(endpoint, 'clickedLetters', 'endpoint-selected');
                 blockHidden.appendChild(input);
             }
         });
@@ -46,9 +68,9 @@ window.addEventListener('load', () => {
 
     const allMuteLetters = document.querySelectorAll('.mute');
     if (!blockHidden.dataset.muteletters == '') {
-        const muteLetters = blockHidden.dataset.endpoints.split(',');
+        const muteLetters = blockHidden.dataset.muteletters.split(',');
         for (let i = 0; i < muteLetters.length; i++) {
-            const muteLetter = addPosition(allEndpoints[muteLetters[i]], 'clickedMuteLetters');
+            const muteLetter = addPosition(allMuteLetters[muteLetters[i]], 'clickedMuteLetters', 'mute-selected');
             blockHidden.appendChild(muteLetter);
         }
     }
@@ -57,7 +79,7 @@ window.addEventListener('load', () => {
             if (document.getElementById(`clickedMuteLetters_${muteLetter.id}`)) {
                 deletePosition(muteLetter, `clickedMuteLetters_${muteLetter.id}`);
             } else {
-                const input = addPosition(muteLetter, 'clickedMuteLetters');
+                const input = addPosition(muteLetter, 'clickedMuteLetters', 'mute-selected');
                 blockHidden.appendChild(input);
             }
         });
