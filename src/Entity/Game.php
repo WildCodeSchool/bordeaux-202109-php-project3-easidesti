@@ -72,6 +72,11 @@ class Game
      */
     private Serie $serie;
 
+    public function getFirstWord(): Word
+    {
+        return $this->getSerie()->getWords()[0];
+    }
+
     public function getObjectifPoint(): int
     {
         return count($this->getSerie()->getWords()) * 3;
