@@ -12,7 +12,7 @@
                 <div class="col-8 d-flex flex-column justify-content-center align-items-center">
                     <p class="btn-app word fs-1">
                         {% for letter in letters %}
-                            <span class="{{ loop.index == position ? "text-danger" : "" }}">{{ letter }}</span>
+                            <span class="{{ loop.index in muteLettersPositions ? 'text-mute-letter' : '' }} {{ loop.index == position ? "text-danger" : "" }} ">{{ letter }}</span>
                         {% endfor %}
                     </p>
                     <p><img src="{{ asset('build/images/logo_hear.png') }}" alt=""></p>

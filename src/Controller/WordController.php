@@ -118,7 +118,7 @@ class WordController extends AbstractController
         }
         $muteLetters = [];
         foreach ($word->getMuteLetters() as $muteLetter) {
-            $muteLetters[] = $muteLetter->getPosition() + 1;
+            $muteLetters[] = $muteLetter->getPosition();
         }
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
@@ -150,7 +150,7 @@ class WordController extends AbstractController
             }
             foreach ($positionMuteLetters as $muteLetterPosition) {
                 $muteLetter = new MuteLetter();
-                $muteLetter->setPosition($muteLetterPosition - 1);
+                $muteLetter->setPosition($muteLetterPosition);
                 $entityManager->persist($muteLetter);
                 $word->addMuteLetter($muteLetter);
             }
