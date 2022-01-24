@@ -77,10 +77,16 @@ class Word
      */
     private ?StudyLetter $studyLetter;
 
+    /**
+     * @ORM\OneToMany(targetEntity=HelpStat::class, mappedBy="word")
+     */
+    private $helpStats;
+
     public function __construct()
     {
         $this->muteLetters = new ArrayCollection();
         $this->endpoints = new ArrayCollection();
+        $this->helpStats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,5 +272,35 @@ class Word
             }
         }
         return $indexes[$this->getStudyLetter()->getPosition() - 1] + 1;
+    }
+
+    /**
+     * @return Collection|HelpStat[]
+     */
+    public function getHelpStats(): Collection
+    {
+        return $this->helpStats;
+    }
+
+    public function addHelpStat(HelpStat $helpStat): self
+    {
+        if (!$this->helpStats->contains($helpStat)) {
+            $this->helpStats[] = $helpStat;
+            $helpStat->setWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHelpStat(HelpStat $helpStat): self
+    {
+        if ($this->helpStats->removeElement($helpStat)) {
+            // set the owning side to null (unless already changed)
+            if ($helpStat->getWord() === $this) {
+                $helpStat->setWord(null);
+            }
+        }
+
+        return $this;
     }
 }
