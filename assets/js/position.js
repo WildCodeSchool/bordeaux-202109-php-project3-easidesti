@@ -25,7 +25,7 @@ if (displayDivSyllabesMuteLetters) {
             divEndpoint.appendChild(spanEndpoint);
             divMuteLetter.appendChild(spanMuteLetter);
             divStudyLetter.appendChild(spanLetter);
-            fetch(`/word/definition/${wordInput.value}`)
+            fetch(`/admin/mot/definition/${wordInput.value}`)
                 .then((response) => response.json())
                 .then((data) => {
                     blockDefinition.innerHTML = data;

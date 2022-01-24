@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
         spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
         spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
         if (blockDefinition.value === defaultDefinition) {
-            fetch(`/word/definition/${wordInput.value}`)
+            fetch(`/admin/mot/definition/${wordInput.value}`)
                 .then((response) => response.json())
                 .then((data) => {
                     blockDefinition.innerHTML = data;
