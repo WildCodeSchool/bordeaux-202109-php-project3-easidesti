@@ -72,6 +72,16 @@ class Game
      */
     private Serie $serie;
 
+    /**
+     * @ORM\OneToMany(targetEntity=HelpStat::class, mappedBy="game")
+     */
+    private Collection $helpStats;
+
+    public function __construct()
+    {
+        $this->helpStats = new ArrayCollection();
+    }
+
     public function getFirstWord(): Word
     {
         return $this->getSerie()->getWords()[0];
@@ -230,6 +240,36 @@ class Game
     public function setSerie(Serie $serie): self
     {
         $this->serie = $serie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HelpStat[]
+     */
+    public function getHelpStats(): Collection
+    {
+        return $this->helpStats;
+    }
+
+    public function addHelpStat(HelpStat $helpStat): self
+    {
+        if (!$this->helpStats->contains($helpStat)) {
+            $this->helpStats[] = $helpStat;
+            $helpStat->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHelpStat(HelpStat $helpStat): self
+    {
+        if ($this->helpStats->removeElement($helpStat)) {
+            // set the owning side to null (unless already changed)
+            if ($helpStat->getGame() === $this) {
+                $helpStat->setGame(null);
+            }
+        }
 
         return $this;
     }
