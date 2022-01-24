@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\Serie;
+use App\Entity\Training;
+use App\Entity\User;
 use App\Entity\Word;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +18,8 @@ class GameController extends AbstractController
 {
 
     public const MAX_ERROR_ALLOWED = 3;
+
+    public const TRAINING_START= 1;
 
     private SessionInterface $session;
 
@@ -31,6 +35,11 @@ class GameController extends AbstractController
     {
         $this->session->remove('helps');
         $entityManager = $managerRegistry->getManager();
+        if ($this->getUser()->getHasTest() === false) {
+            return $this->redirectToRoute('training_training', [
+                'trainingNumber' => self::TRAINING_START,
+            ]);
+        }
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());

@@ -16,7 +16,7 @@
                  <h1>Séries</h1>
                  <div class="list-group">
                      {% for serie in series %}
-                         <a href="{{ path('admin_series_show', {id: serie.id}) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                          <a href="{{ path('admin_series_show', {id: serie.id}) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                              <div class="w-25">
                                 Lettre <span class="fw-bolder">{{ serie.letter.content|upper }}</span> - <span>Niveau {% for i in 1..serie.level %} <i class="text-warning fas fa-star"></i>{% endfor %}</span>
                              Série N° {{ serie.number }}
