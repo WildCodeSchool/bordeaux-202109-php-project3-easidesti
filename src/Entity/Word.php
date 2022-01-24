@@ -108,8 +108,6 @@ class Word
         $this->muteLetters = new ArrayCollection();
         $this->endpoints = new ArrayCollection();
         $this->helpStats = new ArrayCollection();
-<<<<<<< HEAD
-=======
     }
 
     /**
@@ -145,7 +143,6 @@ class Word
     public function getImageName(): ?string
     {
         return $this->imageName;
->>>>>>> 45a6c949fcd3a04f01dcee92efe3d01cf050797b
     }
 
     public function getId(): ?int
