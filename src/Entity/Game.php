@@ -75,11 +75,8 @@ class Game
     /**
      * @ORM\OneToMany(targetEntity=HelpStat::class, mappedBy="game")
      */
-<<<<<<< HEAD
-    private $helpStats;
-=======
+
     private Collection $helpStats;
->>>>>>> 45a6c949fcd3a04f01dcee92efe3d01cf050797b
 
     public function __construct()
     {
