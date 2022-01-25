@@ -7,6 +7,7 @@ use App\Entity\Serie;
 use App\Entity\Training;
 use App\Entity\User;
 use App\Entity\Word;
+use App\Service\WorkLetter;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,7 +32,7 @@ class GameController extends AbstractController
     /**
      * @Route("/game", name="game_init")
      */
-    public function initEasiGame(ManagerRegistry $managerRegistry): Response
+    public function initEasiGame(ManagerRegistry $managerRegistry, WorkLetter $workLetter): Response
     {
         $this->session->remove('helps');
         $entityManager = $managerRegistry->getManager();
@@ -40,6 +41,8 @@ class GameController extends AbstractController
                 'trainingNumber' => self::TRAINING_START,
             ]);
         }
+        $lastTraining = $this->getUser()->getLastTraining();
+        $studentLetter = $workLetter->getWorkLetters($lastTraining);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());

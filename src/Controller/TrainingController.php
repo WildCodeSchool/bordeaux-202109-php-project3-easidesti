@@ -57,7 +57,8 @@ class TrainingController extends AbstractController
     public function play(
         Training $training,
         HistoryTrainingRepository $historyTrainingRepository,
-        ChartBuilderInterface $chartBuilder
+        ChartBuilderInterface $chartBuilder,
+        ManagerRegistry $managerRegistry
     ) {
         $words = $training->getWords();
         if (!isset($words[$training->getStep()])) {
@@ -92,7 +93,8 @@ class TrainingController extends AbstractController
                 ($wordsCount['s'] - $letterErrors['s']) / $wordsCount['s'] * 100,
                 ($wordsCount['i'] - $letterErrors['i']) / $wordsCount['i'] * 100,
             ];
-
+            $this->getUser()->setHasTest(1);
+            $managerRegistry->getManager()->flush();
             $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
             $chart->setData([
                 'labels' => ['e', 'a', 's', 'i'],

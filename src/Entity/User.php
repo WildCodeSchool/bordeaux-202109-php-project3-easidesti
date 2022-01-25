@@ -97,13 +97,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $hasTest;
+    private bool $hasTest;
 
 
     public function __construct()
     {
         $this->games = new ArrayCollection();
         $this->trainings = new ArrayCollection();
+    }
+
+    public function getLastTraining(): Training
+    {
+        return $this->getTrainings()[count($this->getTrainings()) - 1];
     }
 
     /**
