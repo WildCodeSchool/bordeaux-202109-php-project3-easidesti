@@ -62,12 +62,16 @@ class TrainingController extends AbstractController
         $words = $training->getWords();
         if (!isset($words[$training->getStep()])) {
             $letterErrors = [];
+            $letterPercent = [];
+            $totalErrors = count($historyTrainingRepository->findBy(['training' => $training->getId()]));
             foreach ($this->letters as $letter) {
                 $letterErrors[$letter] =  count($historyTrainingRepository->findBy([
                     'training' => $training->getId(),
                     'letter' => $letter
                 ]));
+                $letterPercent[$letter] = $letterErrors[$letter] * 100 / $totalErrors;
             }
+
             $wordsCount = [
                 'a' => 0,
                 'e' => 0,
