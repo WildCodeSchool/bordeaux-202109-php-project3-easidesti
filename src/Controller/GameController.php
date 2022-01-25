@@ -73,12 +73,19 @@ class GameController extends AbstractController
         if ($word->getStudyLetter()) {
             $position = $word->knowLetterPosition($letters);
         }
+        if ($word->getMuteLetters()) {
+            $muteLettersPositions = [];
+            foreach ($word->getMuteLetters() as $key => $muteLetter) {
+                $muteLettersPositions[$muteLetter->getPosition() + 1] = $muteLetter->getPosition() + 1;
+            }
+        }
         return $this->render('easi/index.html.twig', [
-            'game'          => $game,
-            'word'          => $word,
-            'istraining'    => false,
-            'position'      => $position ?? null,
-            'letters'       => $letters,
+            'game'                  => $game,
+            'word'                  => $word,
+            'istraining'            => false,
+            'position'              => $position ?? null,
+            'letters'               => $letters,
+            'muteLettersPositions'  => $muteLettersPositions ?? null,
         ]);
     }
 
