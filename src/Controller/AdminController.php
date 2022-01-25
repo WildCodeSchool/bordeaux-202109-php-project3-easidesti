@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\Serie;
 use App\Entity\User;
 use App\Form\SearchWordType;
@@ -85,9 +86,21 @@ class AdminController extends AbstractController
                 $students[] = $user;
             }
         }
-        return $this->render('admin/student/showStudent.html.twig', [
+        return $this->render('admin/student/index.html.twig', [
             'students' => $students,
 
+        ]);
+    }
+
+    /**
+     * @Route("/eleve/{nickname}", name="student_result_show")
+     */
+    public function showResultStudent(User $user): Response
+    {
+        $user -> getTrainings();
+
+        return $this->render('admin/student/show.html.twig', [
+            'student' => $user,
         ]);
     }
 }
