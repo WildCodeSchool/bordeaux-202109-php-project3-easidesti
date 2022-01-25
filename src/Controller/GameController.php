@@ -20,7 +20,7 @@ class GameController extends AbstractController
 
     public const MAX_ERROR_ALLOWED = 3;
 
-    public const TRAINING_START= 1;
+    public const TRAINING_START = 1;
 
     private SessionInterface $session;
 
@@ -42,7 +42,7 @@ class GameController extends AbstractController
             ]);
         }
         $lastTraining = $this->getUser()->getLastTraining();
-        $studentLetter = $workLetter->getWorkLetters($lastTraining);
+        $serie = $workLetter->getWorkLetters($lastTraining);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());
@@ -50,7 +50,6 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $serie = $entityManager->getRepository(Serie::class)->findOneBy(['number' => 1]);
         $game->setSerie($serie);
         $entityManager->persist($game);
         $entityManager->flush();
