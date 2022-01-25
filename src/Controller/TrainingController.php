@@ -71,6 +71,7 @@ class TrainingController extends AbstractController
                 ]));
                 $letterPercent[$letter] = $letterErrors[$letter] * 100 / $totalErrors;
             }
+            dd($letterPercent);
 
             $wordsCount = [
                 'a' => 0,
