@@ -22,7 +22,7 @@
                     <a class="nav-link">Créer un compte enseignant</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Créer un compte enfant</a>
+                    <a class="nav-link  {{ app.request.pathInfo == path('word_new') ? 'active' : '' }}" href="{{ path('app_register') }}">Créer un compte enfant</a>
                 </li>
             </ul>
         </div>

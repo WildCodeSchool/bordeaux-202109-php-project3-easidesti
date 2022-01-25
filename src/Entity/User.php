@@ -97,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private bool $hasTest;
+    private $hasTest;
 
 
     public function __construct()
@@ -113,6 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->createdAt = new DateTime();
         $this->updateAt = new DateTime();
+        $this->hasTest = false;
     }
 
     /**

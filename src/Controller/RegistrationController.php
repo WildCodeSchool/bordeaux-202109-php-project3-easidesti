@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/inscription", name="app_register")
+     * @Route("/admin/inscription", name="app_register")
      */
     public function register(
         Request $request,
@@ -35,7 +35,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('admin/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
