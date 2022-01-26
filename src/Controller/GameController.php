@@ -42,7 +42,7 @@ class GameController extends AbstractController
             ]);
         }
         $lastTraining = $this->getUser()->getLastTraining();
-        $serie = $workLetter->getWorkLetters($lastTraining);
+        $workSerie = $workLetter->getSerieForResultTraining($lastTraining);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());
@@ -50,12 +50,12 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $game->setSerie($serie);
+        $game->setSerie($workSerie);
         $entityManager->persist($game);
         $entityManager->flush();
         return $this->redirectToRoute('phoneme', [
             'id' => $game->getId(),
-            'serie' => $serie,
+            'serie' => $workSerie,
         ]);
     }
     /**

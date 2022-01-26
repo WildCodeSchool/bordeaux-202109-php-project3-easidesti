@@ -29,7 +29,7 @@ class WorkLetter
         $this->letterRepository = $letterRepository;
     }
 
-    public function getWorkLetters(Training $training): Serie
+    public function getSerieForResultTraining(Training $training): Serie
     {
         $datas = [];
         $totalErrors = count($this->historyRepository->findBy(['training' => $training]));
