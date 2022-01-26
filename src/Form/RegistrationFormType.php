@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\School;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -42,7 +44,11 @@ class RegistrationFormType extends AbstractType
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]
             ])
-            ->add('school', TextType::class, [
+            ->add('school', EntityType::class, [
+                'class' => School::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => false,
                 'label' => 'Etablissement :',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
