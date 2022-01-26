@@ -3,7 +3,13 @@
 {% block title %}Félicitation{% endblock %}
 
 {% block body %}
-
-<h1> Bravo intello de la classe tu vas te faire taper !!!!</h1>
-
+    <div class="container-fluid easi">
+            <div class="col-12 d-flex justify-content-center align-content-center">
+                <div class="mt-5 col-6 d-flex flex-column align-items-center">
+                    <img src="{{ asset('build/images/emoji_success.png') }}" class="emoji" alt="help">
+                    <h1 class="text-info mt-2 fs-1">Bravo !</h1>
+                    <p class="fs-2">Tu as réussi, tu n'as pas besoin d'entrainement</p>
+                </div>
+            </div>
+        </div>
 {% endblock %}
