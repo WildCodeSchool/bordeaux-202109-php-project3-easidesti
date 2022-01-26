@@ -7,6 +7,7 @@ use App\Entity\Serie;
 use App\Entity\Training;
 use App\Entity\User;
 use App\Entity\Word;
+use App\Service\WorkLetter;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,7 +20,7 @@ class GameController extends AbstractController
 
     public const MAX_ERROR_ALLOWED = 3;
 
-    public const TRAINING_START= 1;
+    public const TRAINING_START = 1;
 
     private SessionInterface $session;
 
@@ -31,7 +32,7 @@ class GameController extends AbstractController
     /**
      * @Route("/game", name="game_init")
      */
-    public function initEasiGame(ManagerRegistry $managerRegistry): Response
+    public function initEasiGame(ManagerRegistry $managerRegistry, WorkLetter $workLetter): Response
     {
         $this->session->remove('helps');
         $entityManager = $managerRegistry->getManager();
@@ -40,6 +41,8 @@ class GameController extends AbstractController
                 'trainingNumber' => self::TRAINING_START,
             ]);
         }
+        $lastTraining = $this->getUser()->getLastTraining();
+        $workSerie = $workLetter->getSerieForResultTraining($lastTraining);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());
@@ -47,13 +50,12 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $serie = $entityManager->getRepository(Serie::class)->findOneBy(['number' => 1]);
-        $game->setSerie($serie);
+        $game->setSerie($workSerie);
         $entityManager->persist($game);
         $entityManager->flush();
         return $this->redirectToRoute('phoneme', [
             'id' => $game->getId(),
-            'serie' => $serie,
+            'serie' => $workSerie,
         ]);
     }
     /**
