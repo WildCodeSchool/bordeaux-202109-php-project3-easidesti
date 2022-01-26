@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\School;
 use App\Entity\Serie;
 use App\Entity\User;
+use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
@@ -101,6 +103,26 @@ class AdminController extends AbstractController
 
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("/nouvel_etablissement", name="new_school")
+     */
+    public function newSchool(Request $request): Response
+    {
+        $school = new School();
+        $form = $this->createForm(SchoolType::class, $school);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $school = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($school);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchool.html.twig', [
+            'form' => $form,
         ]);
     }
 }
