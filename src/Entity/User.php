@@ -97,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private bool $hasTest;
+    private $hasTest;
 
 
     public function __construct()
