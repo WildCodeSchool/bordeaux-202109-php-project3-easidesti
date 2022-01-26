@@ -68,13 +68,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $schoolLevel;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Merci de rentrer votre établissement scolaire")
-     * @Assert\Length(max="255", maxMessage="Votre établissement ne doit pas dépasser {{ limit }} caractères")
-     */
-    private ?string $school;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private \DateTimeInterface $createdAt;
@@ -99,6 +92,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $hasTest;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=School::class, inversedBy="user")
+     */
+    private $school;
 
     public function __construct()
     {
@@ -259,17 +256,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSchool(): ?string
-    {
-        return $this->school;
-    }
-
-    public function setSchool(string $school): self
-    {
-        $this->school = $school;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -363,6 +349,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setHasTest(?bool $hasTest): self
     {
         $this->hasTest = $hasTest;
+
+        return $this;
+    }
+
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    public function setSchool(?School $school): self
+    {
+        $this->school = $school;
 
         return $this;
     }
