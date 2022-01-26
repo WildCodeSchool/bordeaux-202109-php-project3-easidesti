@@ -41,6 +41,9 @@ class GameController extends AbstractController
                 'trainingNumber' => self::TRAINING_START,
             ]);
         }
+        if (!$this->getUser()->hasNeedTest()) {
+            return $this->redirectToRoute('congralate');
+        }
         $lastTraining = $this->getUser()->getLastTraining();
         $workSerie = $workLetter->getSerieForResultTraining($lastTraining);
         $game = new Game();

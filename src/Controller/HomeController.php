@@ -42,4 +42,12 @@ class HomeController extends AbstractController
     {
         return $this->render('home/games.html.twig');
     }
+
+    /**
+     * @Route("/felicitation", name="congralate")
+     */
+    public function congrate(): Response
+    {
+        return $this->render('home/congrate.html.twig');
+    }
 }

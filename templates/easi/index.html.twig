@@ -17,7 +17,7 @@
                     </p>
                     <p><img class="btn" id="btn-audio" src="{{ asset('build/images/logo_hear.png') }}">
                         {% if word.studyLetter %}
-                        <audio id="audio" src="{{ asset('build/images/consigne_' ~ word.letter.content ~ '_' ~ word.studyLetter.position ~ '.mp3')}}"></audio></p>
+                        <audio id="audio" src="{{ asset('build/images/consigne_' ~ word.letter.content ~ '_' ~ word.studyLetter.position ~ '.mp3') }}"></audio></p>
                         {% endif %}
                     <div class="btn-app easi-white-propositions d-flex">
                         {% include 'component/_proposition.html.twig' %}

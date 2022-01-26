@@ -111,6 +111,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->getTrainings()[count($this->getTrainings()) - 1];
     }
 
+    public function hasNeedTest(): bool
+    {
+        return (bool)$this->getLastTraining()->getErrorCount();
+    }
+
     /**
      * @ORM\PrePersist
      */
@@ -361,5 +366,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 }
