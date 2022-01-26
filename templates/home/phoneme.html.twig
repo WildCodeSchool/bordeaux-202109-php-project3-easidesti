@@ -14,7 +14,7 @@
         <h1 class="text-center mx-2"> Explication des différents phonèmes possibles avec la lettre {{ game.serie.letter.content }}</h1>
         <div class="mx-auto">
             <div>
-                <audio id="audio-phoneme" src="{{ asset('build/images/explication-phoneme.mp3') }}"></audio>
+                <audio id="audio-phoneme" src="{{ asset('build/images/explication_' ~ game.serie.letter.content ~ ".mp3") }}"></audio>
                 <img id="phoneme-listen" class="btn w-75 text-center p-0 m-0" src="{{ asset('build/images/logo_hear.png') }}" alt="logo écouter">
             </div>
         </div>

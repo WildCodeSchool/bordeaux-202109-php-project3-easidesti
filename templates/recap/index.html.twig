@@ -5,6 +5,7 @@
 {% block body %}
     <div class="container-fluid easi pt-5">
         <img src="{{ asset('build/images/image_' ~ letter ~ '.png') }}" alt="lettre">
+        <div class="d-flex justify-content-center"><img class="btn" id="btn-audio" src="{{ asset('build/images/logo_hear.png') }}"></div>
         <div class="d-flex flex-column flex-md-row justify-content-center col-auto col-md-9 mx-md-auto bg-light">
             {% for i in 1..word.letter.nbProposal %}
                 <div class="d-flex flex-column mx-3 border pb-4 mt-2 mb-2">
