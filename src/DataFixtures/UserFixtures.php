@@ -52,6 +52,7 @@ class UserFixtures extends Fixture
         $admin->setFirstname('Odile');
         $admin->setLastname('Amadou');
         $admin->setRoles(['ROLE_ADMIN']);
+        $user2->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
             'azerty'
