@@ -70,7 +70,10 @@ class TrainingController extends AbstractController
                     'training' => $training->getId(),
                     'letter' => $letter
                 ]));
-                $letterPercent[$letter] = $letterErrors[$letter] * 100 / $totalErrors;
+                $letterPercent[$letter] = 100;
+                if ($totalErrors !== 0) {
+                    $letterPercent[$letter] = $letterErrors[$letter] * 100 / $totalErrors;
+                }
             }
 
             $wordsCount = [

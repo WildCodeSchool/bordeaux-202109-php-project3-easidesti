@@ -11,11 +11,11 @@
                 <div class="list-group">
                 {% for game in student.games %}
                     <table>
-                    <p>L'élève suit actuellement la partie {{ game.isEasi ? 'EASI' : 'DESTI'}}</p>
+                    <p>L'élève suit actuellement la partie {{ game.isEasi ? 'EASI' : 'DESTI' }}</p>
                     <p>Pour la série n° <span>{{ game.serie.number }} de la lettre {{ game.serie.letter.content }}</span>
                     </p>
                     <p>Score de {{ game.score }} sur {{ game.objectifPoint }}</p>
-                    <p>L'élève suit actuellement la partie {{ game.isEasi ? 'EASI' : 'DESTI'}}</p>
+                    <p>L'élève suit actuellement la partie {{ game.isEasi ? 'EASI' : 'DESTI' }}</p>
                     {% endfor %}
                 </div>
             </div>
