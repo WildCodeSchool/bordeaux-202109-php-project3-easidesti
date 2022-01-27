@@ -21,7 +21,7 @@ class UserFixtures extends Fixture
         $user->setNickname('eleve1');
         $user->setFirstname('Greg');
         $user->setLastname('Caron');
-        $user->setSchool('WCS');
+        $user->setSchool($this->getReference('Poudlard'));
         $user->setSchoolLevel('CM1');
         $user->setRoles(['STUDENT']);
         $user->setHasTest(false);
@@ -36,7 +36,7 @@ class UserFixtures extends Fixture
         $user2->setNickname('Panpan');
         $user2->setFirstname('Sébastien');
         $user2->setLastname('Juchet');
-        $user2->setSchool('WCS');
+        $user2->setSchool($this->getReference('Beauxbâtons'));
         $user2->setSchoolLevel('CM2');
         $user2->setRoles(['STUDENT']);
         $user2->setHasTest(true);

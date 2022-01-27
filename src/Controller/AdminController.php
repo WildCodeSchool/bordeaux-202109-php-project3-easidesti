@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\School;
 use App\Entity\Serie;
 use App\Entity\User;
+use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,6 +115,57 @@ class AdminController extends AbstractController
 
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("/nouvel_etablissement", name="new_school")
+     */
+    public function newSchool(Request $request): Response
+    {
+        $school = new School();
+        $form = $this->createForm(SchoolType::class, $school);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $school = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($school);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchool.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/modification/{name}", name="edit_school")
+     */
+    public function editSchool(Request $request, School $school, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(SchoolType::class, $school);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('admin/registration/editSchool.html.twig', [
+            'school' => $school,
+             'form'  => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/liste_des_etablissement", name="show_school")
+     */
+    public function showSchool(ManagerRegistry $managerRegistry): Response
+    {
+        $schools = $managerRegistry->getRepository(School::class)->findAll();
+
+        return $this->render('admin/registration/showSchool.html.twig', [
+            'schools' => $schools,
         ]);
     }
 }
