@@ -60,7 +60,7 @@ class SchoolLevel
 
     public function getSchool(): ?School
     {
-        return $this->re;
+        return $this->school;
     }
 
     public function setSchool(?School $school): self

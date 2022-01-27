@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\School;
+use App\Entity\SchoolLevel;
 use App\Entity\Serie;
 use App\Entity\User;
+use App\Form\SchoolLevelType;
 use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
@@ -167,5 +169,37 @@ class AdminController extends AbstractController
         return $this->render('admin/registration/showSchool.html.twig', [
             'schools' => $schools,
         ]);
+    }
+
+    /**
+     * @Route("/selection_etablissement", name="select_school")
+     */
+    public function selectSchoolForLevelSchool(ManagerRegistry $managerRegistry): Response
+    {
+        $schools = $managerRegistry->getRepository(School::class)->findAll();
+
+        return $this->render('admin/registration/selectSchool.html.twig', [
+            'schools' => $schools,
+        ]);
+    }
+
+    /**
+     * @Route("/nouvelle_classe", name="new_school_level")
+     */
+    public function newSchoolLevel(Request $request): Response
+    {
+        $schoolLevel = new SchoolLevel();
+        $form = $this->createForm(SchoolLevelType::class, $schoolLevel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $schoolLevel = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($schoolLevel);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchoolLevel.html.twig', [
+            'form' => $form,
+            ]);
     }
 }
