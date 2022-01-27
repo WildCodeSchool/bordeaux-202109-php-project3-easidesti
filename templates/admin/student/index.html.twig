@@ -12,7 +12,7 @@
                     {% for student in students %}
                         <div>
                             <p>
-                                {{ student.firstname }} {{ student.lastname }} - {{ student.schoolLevel }} - {{ student.school }} -
+                                {{ student.firstname }} {{ student.lastname }} -
                                 <a href="{{ path('admin_student_result_show', {'nickname': student.nickname}) }}">Ses résultats</a>
                             </p>
                         </div>

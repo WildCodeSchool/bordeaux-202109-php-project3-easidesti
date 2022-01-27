@@ -77,7 +77,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $managerRegistry->getManager()->flush();
-            return $this->redirectToRoute('admin_series_show',[
+            return $this->redirectToRoute('admin_series_show', [
                 'id' => $serie->getId(),
             ]);
         }
@@ -111,8 +111,6 @@ class AdminController extends AbstractController
      */
     public function showResultStudent(User $user): Response
     {
-        $user -> getTrainings();
-
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
         ]);
