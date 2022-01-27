@@ -83,6 +83,11 @@ class Game
         $this->helpStats = new ArrayCollection();
     }
 
+    public function getDateGame(): string
+    {
+        return $this->getCreatedAt()->format('d-m-Y à H:i');
+    }
+
     public function getFirstWord(): Word
     {
         return $this->getSerie()->getWords()[0];
