@@ -55,12 +55,13 @@ class WordGenerator
         $datas = [];
         foreach ($words as $word) {
             $letters = mb_str_split($word->getContent());
+            $position = null;
             if ($word->getStudyLetter()) {
                 $position = $word->knowLetterPosition($letters);
             }
             $datas[$word->getContent()] = [
                 $letters,
-                $position ?? null,
+                $position,
             ];
         }
         return $datas;
