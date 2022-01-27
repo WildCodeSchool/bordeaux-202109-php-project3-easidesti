@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/easi/help", name="easi_")
+ * @Route("eleve/easi/help", name="easi_")
  */
 class HelpController extends AbstractController
 {

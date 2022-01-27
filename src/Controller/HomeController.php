@@ -18,7 +18,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/help", name="help")
+     * @Route("/eleve/help", name="help")
      */
     public function showHelps(): Response
     {
@@ -26,7 +26,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/phoneme/game/{id}", name="phoneme")
+     * @Route("/eleve/phoneme/game/{id}", name="phoneme")
      */
     public function showPhonemes(Game $game): Response
     {
@@ -40,11 +40,17 @@ class HomeController extends AbstractController
      */
     public function showGames(): Response
     {
+        if (
+            in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ||
+            in_array('ROLE_TEACHER', $this->getUser()->getRoles())
+        ) {
+            return $this->redirectToRoute('admin_series');
+        }
         return $this->render('home/games.html.twig');
     }
 
     /**
-     * @Route("/felicitation", name="congralate")
+     * @Route("/eleve/felicitation", name="congralate")
      */
     public function congrate(): Response
     {

@@ -15,9 +15,8 @@ use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 /**
- * @Route("/training", name="training_")
+ * @Route("/eleve/training", name="training_")
  */
-
 class TrainingController extends AbstractController
 {
     private array $letters = [

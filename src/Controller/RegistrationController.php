@@ -15,9 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/admin/inscription", name="app_register")
+     * @Route("/admin/inscription/{role}", name="app_register")
      */
     public function register(
+        string $role,
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager
@@ -29,6 +30,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
+            $user->setRoles([$role]);
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
