@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/eleve")
+ */
 class GameController extends AbstractController
 {
 
@@ -62,7 +65,7 @@ class GameController extends AbstractController
         ]);
     }
     /**
-     * @Route("easi/game/{id}", name="game_play")
+     * @Route("/easi/game/{id}", name="game_play")
      */
     public function play(Game $game): Response
     {
@@ -74,7 +77,7 @@ class GameController extends AbstractController
             ]);
         }
         $word = $words[$step];
-        $letters = str_split($word->getContent());
+        $letters = mb_str_split($word->getContent());
         if ($word->getStudyLetter()) {
             $position = $word->knowLetterPosition($letters);
         }
@@ -95,7 +98,7 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("easi/game/{id}/mot/{word}/prononciation/{picture}", name="check_response")
+     * @Route("/easi/game/{id}/mot/{word}/prononciation/{picture}", name="check_response")
      */
     public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
     {
