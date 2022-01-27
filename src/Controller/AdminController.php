@@ -172,18 +172,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/selection_etablissement", name="select_school")
-     */
-    public function selectSchoolForLevelSchool(ManagerRegistry $managerRegistry): Response
-    {
-        $schools = $managerRegistry->getRepository(School::class)->findAll();
-
-        return $this->render('admin/registration/selectSchool.html.twig', [
-            'schools' => $schools,
-        ]);
-    }
-
-    /**
      * @Route("/nouvelle_classe", name="new_school_level")
      */
     public function newSchoolLevel(Request $request): Response

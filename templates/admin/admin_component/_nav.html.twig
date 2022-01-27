@@ -22,7 +22,7 @@
                     <a class="nav-link">Créer un compte enseignant</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  {{ app.request.pathInfo == path('word_new') ? 'active' : '' }}" href="{{ path('app_register') }}">Créer un compte enfant</a>
+                    <a class="nav-link  {{ app.request.pathInfo == path('word_new') ? 'active' : '' }}" href="{{ path('admin_select_school') }}">Créer un compte enfant</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ app.request.pathInfo == path('admin_show_school') ? 'active' : '' }}" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
