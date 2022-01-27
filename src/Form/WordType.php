@@ -27,11 +27,7 @@ class WordType extends AbstractType
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
             ])
-            ->add('definition', TextareaType::class, [
-                'label'    => 'Définition',
-                'required' => false,
-                'attr'     => ['rows' => '6'],
-            ])
+
             ->add('pronunciation', EntityType::class, [
                 'label'        => 'Prononciation',
                 'class'        => Pronunciation::class,
@@ -42,6 +38,15 @@ class WordType extends AbstractType
                     'class'    => 'd-flex col-4',
                 ]
             ])
+
+            ->add('definition', TextareaType::class, [
+                'label'    => 'Définition',
+                'required' => false,
+                'attr'     => [
+                    'rows' => '6',
+                ],
+            ])
+
             ->add('imageFile', VichFileType::class, [
                 'label'        => 'image du mot',
                 'required'      => false,
