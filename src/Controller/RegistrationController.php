@@ -50,8 +50,8 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
-            $this->addFlash('success', 'Bravo vous êtes maintenant inscrit sur EASI-DESTI');
-            return $this->redirectToRoute('home');
+            $this->addFlash('success', 'L\'éléve a bien été inscrit');
+            return $this->redirectToRoute('admin_series');
         }
 
         return $this->render('admin/registration/register.html.twig', [

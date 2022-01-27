@@ -4,6 +4,13 @@
 
 {% block body %}
     {% include 'admin/admin_component/_nav.html.twig' %}
+    {% for label, messages in app.flashes(['success', 'warning']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
      <div class="container mt-5">
          <div class="row">
              <div class="col-12 mb-4">
