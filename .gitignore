@@ -8,6 +8,7 @@
 /var/
 /vendor/
 
+
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -19,6 +20,8 @@
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
+/public/audios/
+/public/images/
 npm-debug.log
 yarn-error.log
 yarn.lock
