@@ -6,6 +6,7 @@ use App\Entity\Game;
 use App\Entity\Serie;
 use App\Entity\User;
 use App\Form\SearchWordType;
+use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -64,12 +65,21 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/series/{id}", name="series_show", methods={"GET"})
+     * @Route("/series/{id}", name="series_show", methods={"GET", "POST"})
      */
-    public function show(Serie $serie): Response
+    public function show(Serie $serie, Request $request, ManagerRegistry $managerRegistry): Response
     {
+        $form = $this->createForm(SerieType::class, $serie);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $managerRegistry->getManager()->flush();
+            return $this->redirectToRoute('admin_series_show',[
+                'id' => $serie->getId(),
+            ]);
+        }
         return $this->renderForm('admin/series/show.html.twig', [
             'serie' => $serie,
+            'form'  => $form,
         ]);
     }
 
