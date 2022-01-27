@@ -25,13 +25,14 @@ class School
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="school")
+     * @ORM\OneToMany(targetEntity=SchoolLevel::class, mappedBy="school")
      */
-    private $user;
+    private $schoolLevels;
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->schoolLevels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,29 +53,29 @@ class School
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|SchoolLevel[]
      */
-    public function getUser(): Collection
+    public function getSchoolLevels(): Collection
     {
-        return $this->user;
+        return $this->schoolLevels;
     }
 
-    public function addUser(User $user): self
+    public function addSchoolLevel(SchoolLevel $schoolLevel): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setSchool($this);
+        if (!$this->schoolLevels->contains($schoolLevel)) {
+            $this->schoolLevels[] = $schoolLevel;
+            $schoolLevel->setSchool($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeSchoolLevel(SchoolLevel $schoolLevel): self
     {
-        if ($this->user->removeElement($user)) {
+        if ($this->schoolLevels->removeElement($schoolLevel)) {
             // set the owning side to null (unless already changed)
-            if ($user->getSchool() === $this) {
-                $user->setSchool(null);
+            if ($schoolLevel->getSchool() === $this) {
+                $schoolLevel->setSchool(null);
             }
         }
 

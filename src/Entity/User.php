@@ -61,13 +61,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Merci de rentrer votre classe")
-     * @Assert\Length(max="255", maxMessage="Votre classe ne doit pas dépasser {{ limit }} caractères")
-     */
-    private ?string $schoolLevel;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private \DateTimeInterface $createdAt;
@@ -93,14 +86,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $hasTest;
 
     /**
-     * @ORM\ManyToOne(targetEntity=School::class, inversedBy="user")
+     * @ORM\ManyToOne(targetEntity=SchoolLevel::class, inversedBy="students")
      */
-    private $school;
+    private $schoolLevel;
+
 
     public function __construct()
     {
         $this->games = new ArrayCollection();
         $this->trainings = new ArrayCollection();
+        $this->school_level = new ArrayCollection();
     }
 
     public function getLastTraining(): Training
@@ -243,20 +238,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getSchoolLevel(): ?string
-    {
-        return $this->schoolLevel;
-    }
-
-    public function setSchoolLevel(string $schoolLevel): self
-    {
-        $this->schoolLevel = $schoolLevel;
-
-        return $this;
-    }
-
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -353,15 +334,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSchool(): ?School
+    public function getSchoolLevel(): ?SchoolLevel
     {
-        return $this->school;
+        return $this->schoolLevel;
     }
 
-    public function setSchool(?School $school): self
+    public function setSchoolLevel(?SchoolLevel $schoolLevel): self
     {
-        $this->school = $school;
+        $this->schoolLevel = $schoolLevel;
 
         return $this;
     }
+
 }
