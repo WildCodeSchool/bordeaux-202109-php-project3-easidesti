@@ -107,8 +107,9 @@ class AdminController extends AbstractController
         }
         $schools = [];
         foreach ($students as $student) {
-                $schools[$student->getSchool()->getName()] [] = $student;
+                $schools[$student->getSchoolLevel()->getName()] [] = $student;
         }
+
         return $this->render('admin/student/index.html.twig', [
             'students' => $students,
             'schools'   => $schools,
@@ -146,7 +147,7 @@ class AdminController extends AbstractController
                 'success',
                 'L\'établissement a bien été créé!'
             );
-            return $this->redirectToRoute('admin_series');
+            return $this->redirectToRoute('admin_new_school_level');
         }
         return $this->renderForm('admin/registration/newSchool.html.twig', [
             'form' => $form,

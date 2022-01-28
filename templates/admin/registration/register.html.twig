@@ -10,7 +10,7 @@
             <a class="text-decoration-none" href="{{ path('home') }}">
             <h1 class="m-3 text-center">Bonjour {% if app.user %}{{ app.user.nickname }}{% endif %}</h1>
             </a>
-            <h2 class="mb-5 text-center">Formulaire d'inscription d'élève</h2>
+            <h2 class="mb-5 text-center">Formulaire d'inscription d'élève - {{ school.name }}</h2>
         </div>
 
         <div class="row d-flex">
