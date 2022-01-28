@@ -23,11 +23,11 @@ class WordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        dump($options['edit']);
         $builder
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
             ])
-
             ->add('pronunciation', EntityType::class, [
                 'label'        => 'Prononciation',
                 'class'        => Pronunciation::class,
@@ -38,7 +38,6 @@ class WordType extends AbstractType
                     'class'    => 'd-flex col-4',
                 ]
             ])
-
             ->add('definition', TextareaType::class, [
                 'label'    => 'Définition',
                 'required' => false,
@@ -46,37 +45,53 @@ class WordType extends AbstractType
                     'rows' => '6',
                 ],
             ])
-
             ->add('imageFile', VichFileType::class, [
                 'label'        => 'image du mot',
                 'required'      => false,
                 'allow_delete'  => true, // not mandatory, default is true
                 'download_uri' => true, // not mandatory, default is true
             ])
-
-            ->add('level', EntityType::class, [
-                'class'        => Serie::class,
-                'choice_label' => 'fullName',
-                'query_builder' => function (SerieRepository $sr) {
-                    return $sr->createQueryBuilder('s')
-                        ->orderBy('s.letter', 'ASC')
-                        ->addOrderBy('s.level', 'ASC')
-                        ->addOrderBy('s.number', 'ASC');
-                },
-                'expanded'     => false,
-                'multiple'     => false,
-                'mapped'    => false,
-                'attr'         => [
-                    'class'    => 'd-flex col-4',
-                ]
-            ])
         ;
+        if ($options['edit'] === true) {
+            $builder
+                ->add('serie', EntityType::class, [
+                    'label' => 'Série',
+                    'class'        => Serie::class,
+                    'choice_label' => 'fullName',
+                    'expanded'     => false,
+                    'multiple'     => false,
+                    //'mapped'    => false,
+                    'attr'         => [
+                        'class'    => 'd-flex col-4',
+                    ]
+                ]);
+        } else {
+            $builder
+                ->add('serie', EntityType::class, [
+                    'label' => 'Série',
+                    'class'        => Serie::class,
+                    'choice_label' => 'fullName',
+                    'query_builder' => function (SerieRepository $sr) {
+                        return $sr->createQueryBuilder('s')
+                            ->orderBy('s.letter', 'ASC')
+                            ->addOrderBy('s.level', 'ASC')
+                            ->addOrderBy('s.number', 'ASC');
+                    },
+                    'expanded'     => false,
+                    'multiple'     => false,
+                    'mapped'    => false,
+                    'attr'         => [
+                        'class'    => 'd-flex col-4',
+                    ]
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Word::class,
+            'edit' => false,
         ]);
     }
 }

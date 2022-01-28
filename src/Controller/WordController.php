@@ -120,7 +120,7 @@ class WordController extends AbstractController
         foreach ($word->getMuteLetters() as $muteLetter) {
             $muteLetters[] = $muteLetter->getPosition();
         }
-        $form = $this->createForm(WordType::class, $word);
+        $form = $this->createForm(WordType::class, $word, ['edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $wordGenerator->cleanWordLetters($word, Endpoint::class);
