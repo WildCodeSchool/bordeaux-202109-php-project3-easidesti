@@ -1,0 +1,20 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Ecoles{% endblock %}
+
+{% block body %}
+    {% include 'admin/admin_component/_nav.html.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <h1>liste des écoles</h1>
+                    <ul class="list-group">
+                        {% for school in schools %}
+                            <h2><a href="{{ path('admin_school_show', {name: school.name}) }}" >{{ school.name }}</a></h2>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
