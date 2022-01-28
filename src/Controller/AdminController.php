@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\Letter;
 use App\Entity\School;
 use App\Entity\Serie;
 use App\Entity\User;
+use App\Entity\Word;
 use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
@@ -96,7 +98,7 @@ class AdminController extends AbstractController
         $users = $studentRepository->findALL();
         $students = [];
         foreach ($users as $user) {
-            if (in_array('STUDENT', $user->getRoles())) {
+            if (in_array('ROLE_STUDENT', $user->getRoles())) {
                 $students[] = $user;
             }
         }
@@ -109,8 +111,9 @@ class AdminController extends AbstractController
     /**
      * @Route("/eleve/{nickname}", name="student_result_show")
      */
-    public function showResultStudent(User $user): Response
+    public function showResultStudent(User $user, ManagerRegistry $managerRegistry): Response
     {
+        $user->getTrainings()[0]->countLetterErrors();
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
         ]);
