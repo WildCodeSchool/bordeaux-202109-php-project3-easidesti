@@ -18,7 +18,9 @@
                     {% for word in game.serie.words %}
                         {% if word.pronunciation.picture == 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png' %}
                             <p class="fs-3 text-dark text-center">
-                                {{ word.content }}
+                                {% for letter in words[word.content].0 %}
+                                    <span class="{{ loop.index == words[word.content].1 ? 'text-danger' : '' }}">{{ letter }}</span>
+                                {% endfor %}
                             </p>
                         {% endif %}
                         {% if loop.last %}

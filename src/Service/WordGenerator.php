@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Word;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 class WordGenerator
@@ -47,5 +48,22 @@ class WordGenerator
         }
 
         $this->managerRegistry->getManager()->flush();
+    }
+
+    public function getWordsGameCutInArray(Collection $words): array
+    {
+        $datas = [];
+        foreach ($words as $word) {
+            $letters = mb_str_split($word->getContent());
+            $position = null;
+            if ($word->getStudyLetter()) {
+                $position = $word->knowLetterPosition($letters);
+            }
+            $datas[$word->getContent()] = [
+                $letters,
+                $position,
+            ];
+        }
+        return $datas;
     }
 }

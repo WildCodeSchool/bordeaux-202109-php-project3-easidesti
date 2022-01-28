@@ -5,14 +5,17 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\Letter;
 use App\Entity\School;
+use App\Entity\SchoolLevel;
 use App\Entity\Serie;
 use App\Entity\User;
 use App\Entity\Word;
+use App\Form\SchoolLevelType;
 use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -102,11 +105,18 @@ class AdminController extends AbstractController
                 $students[] = $user;
             }
         }
+        $schools = [];
+        foreach ($students as $student) {
+                $schools[$student->getSchool()->getName()] [] = $student;
+        }
         return $this->render('admin/student/index.html.twig', [
             'students' => $students,
+            'schools'   => $schools,
 
         ]);
     }
+
+
 
     /**
      * @Route("/eleve/{nickname}", name="student_result_show")
@@ -132,6 +142,10 @@ class AdminController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($school);
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'établissement a bien été créé!'
+            );
             return $this->redirectToRoute('admin_series');
         }
         return $this->renderForm('admin/registration/newSchool.html.twig', [
@@ -149,6 +163,10 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'établissement a bien été modifié!'
+            );
 
             return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
         }
@@ -168,5 +186,29 @@ class AdminController extends AbstractController
         return $this->render('admin/registration/showSchool.html.twig', [
             'schools' => $schools,
         ]);
+    }
+
+    /**
+     * @Route("/nouvelle_classe", name="new_school_level")
+     */
+    public function newSchoolLevel(Request $request): Response
+    {
+        $schoolLevel = new SchoolLevel();
+        $form = $this->createForm(SchoolLevelType::class, $schoolLevel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $schoolLevel = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($schoolLevel);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'La classe a bien été créé!'
+            );
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchoolLevel.html.twig', [
+            'form' => $form,
+            ]);
     }
 }

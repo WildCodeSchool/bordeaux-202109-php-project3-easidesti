@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\School;
+use App\Entity\SchoolLevel;
 use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -20,6 +22,7 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $school = $options['school'];
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom :',
@@ -33,27 +36,16 @@ class RegistrationFormType extends AbstractType
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]
             ])
-            ->add('schoolLevel', ChoiceType::class, [
-                'label' => 'Classe :',
-                'choices' => [
-                    'CM1' => 'CM1',
-                    'CM2' => 'CM2',
-                    '6E' => '6E',
-                ],
-                'attr' => [
-                    'class' => 'text-center border rounded-3 shadow-lg',
-                ]
-            ])
-            ->add('school', EntityType::class, [
-                'class' => School::class,
+            ->add('schoolLevel', EntityType::class, [
+                'class' => SchoolLevel::class,
                 'choice_label' => 'name',
-                'multiple' => false,
-                'expanded' => false,
-                'label' => 'Etablissement :',
-                'attr' => [
-                    'class' => 'text-center border rounded-3 shadow-lg',
-                ]
+                'query_builder' => function (EntityRepository $entityRepository) use ($school) {
+                    return $entityRepository->createQueryBuilder('sl')
+                        ->where('sl.school = :school')
+                        ->setParameter('school', $school);
+                }
             ])
+
             ->add('nickname', TextType::class, [
                 'label' => 'Pseudo :',
                 'attr' => [
@@ -87,6 +79,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'school' => null,
         ]);
     }
 }
