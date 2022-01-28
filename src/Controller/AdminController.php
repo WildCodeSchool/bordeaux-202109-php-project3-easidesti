@@ -2,10 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
+use App\Entity\Letter;
+use App\Entity\School;
+use App\Entity\SchoolLevel;
 use App\Entity\Serie;
+use App\Entity\User;
+use App\Entity\Word;
+use App\Form\SchoolLevelType;
+use App\Form\SchoolType;
 use App\Form\SearchWordType;
+use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,12 +74,141 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/series/{id}", name="series_show", methods={"GET"})
+     * @Route("/series/{id}", name="series_show", methods={"GET", "POST"})
      */
-    public function show(Serie $serie): Response
+    public function show(Serie $serie, Request $request, ManagerRegistry $managerRegistry): Response
     {
+        $form = $this->createForm(SerieType::class, $serie);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $managerRegistry->getManager()->flush();
+            return $this->redirectToRoute('admin_series_show', [
+                'id' => $serie->getId(),
+            ]);
+        }
         return $this->renderForm('admin/series/show.html.twig', [
             'serie' => $serie,
+            'form'  => $form,
         ]);
+    }
+
+    /**
+     * @Route("/eleves", name="student_show")
+     */
+    public function showAllStudent(ManagerRegistry $managerRegistry): Response
+    {
+        $studentRepository = $managerRegistry->getRepository(User::class);
+        $users = $studentRepository->findALL();
+        $students = [];
+        foreach ($users as $user) {
+            if (in_array('ROLE_STUDENT', $user->getRoles())) {
+                $students[] = $user;
+            }
+        }
+        $schools = [];
+        foreach ($students as $student) {
+                $schools[$student->getSchool()->getName()] [] = $student;
+        }
+        return $this->render('admin/student/index.html.twig', [
+            'students' => $students,
+            'schools'   => $schools,
+
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/eleve/{nickname}", name="student_result_show")
+     */
+    public function showResultStudent(User $user, ManagerRegistry $managerRegistry): Response
+    {
+        $user->getTrainings()[0]->countLetterErrors();
+        return $this->render('admin/student/show.html.twig', [
+            'student' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("/nouvel_etablissement", name="new_school")
+     */
+    public function newSchool(Request $request): Response
+    {
+        $school = new School();
+        $form = $this->createForm(SchoolType::class, $school);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $school = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($school);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'établissement a bien été créé!'
+            );
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchool.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/modification/{name}", name="edit_school")
+     */
+    public function editSchool(Request $request, School $school, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(SchoolType::class, $school);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'établissement a bien été modifié!'
+            );
+
+            return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('admin/registration/editSchool.html.twig', [
+            'school' => $school,
+             'form'  => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/liste_des_etablissement", name="show_school")
+     */
+    public function showSchool(ManagerRegistry $managerRegistry): Response
+    {
+        $schools = $managerRegistry->getRepository(School::class)->findAll();
+
+        return $this->render('admin/registration/showSchool.html.twig', [
+            'schools' => $schools,
+        ]);
+    }
+
+    /**
+     * @Route("/nouvelle_classe", name="new_school_level")
+     */
+    public function newSchoolLevel(Request $request): Response
+    {
+        $schoolLevel = new SchoolLevel();
+        $form = $this->createForm(SchoolLevelType::class, $schoolLevel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $schoolLevel = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($schoolLevel);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'La classe a bien été créé!'
+            );
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchoolLevel.html.twig', [
+            'form' => $form,
+            ]);
     }
 }

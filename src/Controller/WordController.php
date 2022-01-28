@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/word", name="word_")
+ * @Route("/admin/mot", name="word_")
  */
 class WordController extends AbstractController
 {
@@ -104,8 +104,14 @@ class WordController extends AbstractController
         Request $request,
         ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator,
-        LetterRepository $letterRepository
+        LetterRepository $letterRepository,
+        StudyLetterRepository $studyLetterRepository
     ): Response {
+        $entityManager = $managerRegistry->getManager();
+        if ($word->getStudyLetter()) {
+            $position = $word->getStudyLetter()->getPosition();
+        }
+        $letter = $word->getSerie()->getLetter()->getContent();
         $endPoints = [];
         foreach ($word->getEndpoints() as $endpoint) {
             $endPoints[] = $endpoint->getPosition();
@@ -117,7 +123,26 @@ class WordController extends AbstractController
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $managerRegistry->getManager();
+            $wordGenerator->cleanWordLetters($word, Endpoint::class);
+            $wordGenerator->cleanWordLetters($word, MuteLetter::class);
+            $letterData = $request->request->get('clickedLetterStudy')[0];
+            if (count($request->request->get('clickedLetterStudy')) > 1) {
+                $this->addFlash('danger', 'Vous devez rentrer qu\'une seule lettre');
+                return $this->redirectToRoute('word_new');
+            }
+            $letter = $word->getSerie()->getLetter()->getContent();
+            $positionLetter = (int)substr($letterData, 0, 1);
+            $linkPosition = $wordGenerator->generateLetterPosition(
+                str_split($word->getContent()),
+                $letter,
+                $positionLetter
+            );
+            $studyLetter = $studyLetterRepository->findOneBy(['audio' => $linkPosition]);
+            $word->setStudyLetter($studyLetter);
+            $allEndpoints = $entityManager->getRepository(Endpoint::class)->findBy(['word' => $word]) ?? [];
+            foreach ($allEndpoints as $endpoint) {
+                $word->removeEndpoint($endpoint);
+            }
             $word = $form->getData();
             $positionMuteLetters = [];
             if ($request->request->get('clickedMuteLetters')) {
@@ -138,9 +163,8 @@ class WordController extends AbstractController
                 $endpoint->setPosition($position);
                 $entityManager->persist($endpoint);
                 $word->addEndpoint($endpoint);
-
-                $entityManager->flush();
             }
+            $entityManager->flush();
             return $this->redirectToRoute('admin_series_show', ['id' => $word->getSerie()->getId()]);
         }
         return $this->renderForm('admin/word/edit.html.twig', [
@@ -148,6 +172,8 @@ class WordController extends AbstractController
             'form' => $form,
             'endpoints' => $endPoints,
             'muteLetters' => $muteLetters,
+            'letter' => $letter,
+            'position' => $position ?? null,
         ]);
     }
 }

@@ -1,0 +1,29 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Elèves{% endblock %}
+
+{% block body %}
+    {% include 'admin/admin_component/_nav.html.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <h1>liste des élèves </h1>
+                        <ul class="list-group">
+
+                            {% for school_name, students in schools%}
+                                <h2>{{ school_name}}</h2>
+                                <ul>
+                                {% for student in students %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>{{ student.firstname }} {{ student.lastname }} {{ student.nickname }} {{ student.schoolLevel }}</span>
+                                    <span><a href="{{ path('admin_student_result_show', {'nickname': student.nickname}) }}">Ses résultats</a></span>
+                                </li>
+                            {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

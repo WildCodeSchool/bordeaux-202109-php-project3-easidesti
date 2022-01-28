@@ -7,10 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=SerieRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Serie
 {
@@ -63,6 +66,17 @@ class Serie
      */
     private Letter $letter;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $audio;
+
+    /**
+     * @Vich\UploadableField(mapping="audio_serie", fileNameProperty="audio")
+     * @var File
+     */
+    private $audioFile;
+
     private int $noDefinitionCount = 0;
 
     private int $noEndPointCount = 0;
@@ -77,6 +91,31 @@ class Serie
         $this->words = new ArrayCollection();
         $this->games = new ArrayCollection();
     }
+
+    public function getAudio(): ?string
+    {
+        return $this->audio;
+    }
+
+    public function setAudio(?string $audio): void
+    {
+        $this->audio = $audio;
+    }
+
+    public function getAudioFile(): ?File
+    {
+        return $this->audioFile;
+    }
+
+    public function setAudioFile(?File $audioFile = null): void
+    {
+        $this->audioFile = $audioFile;
+        if (null !== $audioFile) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+
 
     public function getFullName(): string
     {

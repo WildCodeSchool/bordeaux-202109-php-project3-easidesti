@@ -15,9 +15,8 @@ use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 /**
- * @Route("/training", name="training_")
+ * @Route("/eleve/training", name="training_")
  */
-
 class TrainingController extends AbstractController
 {
     private array $letters = [
@@ -45,8 +44,6 @@ class TrainingController extends AbstractController
         }
         $manager->getManager()->persist($training);
         $manager->getManager()->flush();
-        $words = $training->getWords();
-        $word = $words[$training->getStep()];
 
         return $this->redirectToRoute('training_play', [
             'id' => $training->getId(),
@@ -59,17 +56,25 @@ class TrainingController extends AbstractController
     public function play(
         Training $training,
         HistoryTrainingRepository $historyTrainingRepository,
-        ChartBuilderInterface $chartBuilder
+        ChartBuilderInterface $chartBuilder,
+        ManagerRegistry $managerRegistry
     ) {
         $words = $training->getWords();
         if (!isset($words[$training->getStep()])) {
             $letterErrors = [];
+            $letterPercent = [];
+            $totalErrors = count($historyTrainingRepository->findBy(['training' => $training->getId()]));
             foreach ($this->letters as $letter) {
                 $letterErrors[$letter] =  count($historyTrainingRepository->findBy([
                     'training' => $training->getId(),
                     'letter' => $letter
                 ]));
+                $letterPercent[$letter] = 100;
+                if ($totalErrors !== 0) {
+                    $letterPercent[$letter] = $letterErrors[$letter] * 100 / $totalErrors;
+                }
             }
+
             $wordsCount = [
                 'a' => 0,
                 'e' => 0,
@@ -90,7 +95,8 @@ class TrainingController extends AbstractController
                 ($wordsCount['s'] - $letterErrors['s']) / $wordsCount['s'] * 100,
                 ($wordsCount['i'] - $letterErrors['i']) / $wordsCount['i'] * 100,
             ];
-
+            $this->getUser()->setHasTest(1);
+            $managerRegistry->getManager()->flush();
             $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
             $chart->setData([
                 'labels' => ['e', 'a', 's', 'i'],
@@ -145,12 +151,19 @@ class TrainingController extends AbstractController
         if ($word->getStudyLetter()) {
             $position = $word->knowLetterPosition($letters);
         }
+        if ($word->getMuteLetters()) {
+            $muteLettersPositions = [];
+            foreach ($word->getMuteLetters() as $key => $muteLetter) {
+                $muteLettersPositions[$muteLetter->getPosition() + 1] = $muteLetter->getPosition() + 1;
+            }
+        }
         return $this->render('easi/index.html.twig', [
             'word'          => $word,
             'game'          => $training,
             'istraining'    => true,
             'letters'       => $letters,
             'position'      => $position ?? null,
+            'muteLettersPositions'  => $muteLettersPositions ?? null,
         ]);
     }
 

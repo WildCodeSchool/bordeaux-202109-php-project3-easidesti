@@ -5,6 +5,12 @@
 {% block body %}
     <div class="container-fluid easi pt-5">
         <img src="{{ asset('build/images/image_' ~ letter ~ '.png') }}" alt="lettre">
+        <div class="d-flex justify-content-center">
+            <img class="btn" id="btn-audio" src="{{ asset('build/images/logo_hear.png') }}">
+        {% if game.serie.audio %}
+            <audio id="audio" src="{{ asset('audios/serie/' ~ game.serie.audio) }}"></audio></p>
+        {% endif %}
+        </div>
         <div class="d-flex flex-column flex-md-row justify-content-center col-auto col-md-9 mx-md-auto bg-light">
             {% for i in 1..word.letter.nbProposal %}
                 <div class="d-flex flex-column mx-3 border pb-4 mt-2 mb-2">
@@ -12,7 +18,9 @@
                     {% for word in game.serie.words %}
                         {% if word.pronunciation.picture == 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png' %}
                             <p class="fs-3 text-dark text-center">
-                                {{ word.content }}
+                                {% for letter in words[word.content].0 %}
+                                    <span class="{{ loop.index == words[word.content].1 ? 'text-danger' : '' }}">{{ letter }}</span>
+                                {% endfor %}
                             </p>
                         {% endif %}
                         {% if loop.last %}
@@ -26,4 +34,8 @@
             <a href="{{ path('game_init') }}" class="next btn btn-app bg-secondary p-2 fs-2 mx-auto">Nouvelle série</a>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('audioConsigne') }}
 {% endblock %}

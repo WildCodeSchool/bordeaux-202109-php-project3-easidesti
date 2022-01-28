@@ -7,13 +7,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Accueil</a>
+                    <a class="nav-link " href="#">Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.pathInfo == path('admin_series') ? 'active' : '' }}" href="{{ path('admin_series') }}">Liste des séries</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#">Statistiques</a>
+                    <a class="nav-link {{ app.request.pathInfo == path('admin_student_show') ? 'active' : '' }}" href="{{ path('admin_student_show') }}">Statistiques</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.pathInfo == path('word_new') ? 'active' : '' }}" href="{{ path('word_new') }}">Créer un nouveau mot</a>
@@ -22,7 +22,18 @@
                     <a class="nav-link">Créer un compte enseignant</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Créer un compte enfant</a>
+                    <a class="nav-link  {{ app.request.pathInfo == path('word_new') ? 'active' : '' }}" href="{{ path('admin_app_register', {role: 'ROLE_STUDENT'}) }}">Créer un compte élève</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{ app.request.pathInfo == path('admin_show_school') ? 'active' : '' }}" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Gestion des établissement
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_new_school') }}">Création d'une école</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_show_school') }}">Modification d'une école</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_new_school_level') }}">Création d'une classe</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

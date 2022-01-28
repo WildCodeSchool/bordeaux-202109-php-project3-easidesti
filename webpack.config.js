@@ -38,6 +38,7 @@ Encore
     .addEntry('definition', './assets/js/definition.js')
     .addEntry('edit_word', './assets/js/editWord.js')
     .addEntry('audioPhoneme', './assets/js/audioPhoneme.js')
+    .addEntry('audioConsigne', './assets/js/order.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

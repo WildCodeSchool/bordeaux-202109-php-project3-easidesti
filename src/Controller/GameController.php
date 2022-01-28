@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\Serie;
+use App\Entity\Training;
+use App\Entity\User;
 use App\Entity\Word;
+use App\Service\WorkLetter;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -12,10 +15,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/eleve")
+ */
 class GameController extends AbstractController
 {
 
     public const MAX_ERROR_ALLOWED = 3;
+
+    public const TRAINING_START = 1;
 
     private SessionInterface $session;
 
@@ -27,10 +35,20 @@ class GameController extends AbstractController
     /**
      * @Route("/game", name="game_init")
      */
-    public function initEasiGame(ManagerRegistry $managerRegistry): Response
+    public function initEasiGame(ManagerRegistry $managerRegistry, WorkLetter $workLetter): Response
     {
         $this->session->remove('helps');
         $entityManager = $managerRegistry->getManager();
+        if ($this->getUser()->getHasTest() === false) {
+            return $this->redirectToRoute('training_training', [
+                'trainingNumber' => self::TRAINING_START,
+            ]);
+        }
+        if (!$this->getUser()->hasNeedTest()) {
+            return $this->redirectToRoute('congralate');
+        }
+        $lastTraining = $this->getUser()->getLastTraining();
+        $workSerie = $workLetter->getSerieForResultTraining($lastTraining);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());
@@ -38,14 +56,16 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $serie = $entityManager->getRepository(Serie::class)->findOneBy(['number' => 1]);
-        $game->setSerie($serie);
+        $game->setSerie($workSerie);
         $entityManager->persist($game);
         $entityManager->flush();
-        return $this->redirectToRoute('game_play', ['id' => $game->getId()]);
+        return $this->redirectToRoute('phoneme', [
+            'id' => $game->getId(),
+            'serie' => $workSerie,
+        ]);
     }
     /**
-     * @Route("easi/game/{id}", name="game_play")
+     * @Route("/easi/game/{id}", name="game_play")
      */
     public function play(Game $game): Response
     {
@@ -57,21 +77,28 @@ class GameController extends AbstractController
             ]);
         }
         $word = $words[$step];
-        $letters = str_split($word->getContent());
+        $letters = mb_str_split($word->getContent());
         if ($word->getStudyLetter()) {
             $position = $word->knowLetterPosition($letters);
         }
+        if ($word->getMuteLetters()) {
+            $muteLettersPositions = [];
+            foreach ($word->getMuteLetters() as $key => $muteLetter) {
+                $muteLettersPositions[$muteLetter->getPosition() + 1] = $muteLetter->getPosition() + 1;
+            }
+        }
         return $this->render('easi/index.html.twig', [
-            'game'          => $game,
-            'word'          => $word,
-            'istraining'    => false,
-            'position'      => $position ?? null,
-            'letters'       => $letters,
+            'game'                  => $game,
+            'word'                  => $word,
+            'istraining'            => false,
+            'position'              => $position ?? null,
+            'letters'               => $letters,
+            'muteLettersPositions'  => $muteLettersPositions ?? null,
         ]);
     }
 
     /**
-     * @Route("easi/game/{id}/mot/{word}/prononciation/{picture}", name="check_response")
+     * @Route("/easi/game/{id}/mot/{word}/prononciation/{picture}", name="check_response")
      */
     public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
     {

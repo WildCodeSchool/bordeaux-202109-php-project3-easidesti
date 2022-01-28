@@ -1,13 +1,21 @@
-{% extends 'base_admin.html.twig' %}
+{% extends 'admin/base_admin.html.twig' %}
 
 {% block title %}Admin{% endblock %}
 
 {% block body %}
+    {% include 'admin/admin_component/_nav.html.twig' %}
     <div class="container">
         <div class="row">
             <div class="col-12 mt-5">
-                <h1>Série N° {{ serie.number }} Lettre <span class="fw-bolder">{{ serie.letter.content|upper }}</span> - <span>Niveau {% for i in 1..serie.level %} <i class="fas fa-star"></i>{% endfor %}</span></h1>
+                <h1>Série N° {{ serie.number }} Lettre <span class="fw-bolder">{{ serie.letter.content|upper }}</span> - <span>Niveau {% for i in 1..serie.level %} <i class="text-warning fas fa-star"></i>{% endfor %}</span></h1>
                 <a class="btn btn-primary mb-3" href="{{ path('admin_series') }}">Retour aux séries</a>
+                <div>
+                    {{ serie.audio }}
+                    {{ form_start(form) }}
+                    {{ form_row(form.audioFile) }}
+                        <button class="btn btn-primary mb-3">Mettre à jour</button>
+                    {{ form_end(form) }}
+                </div>
                 <div class="list-group">
                     {% for word in serie.words %}
                         <a href="{{ path('word_edit', {word: word.id}) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">

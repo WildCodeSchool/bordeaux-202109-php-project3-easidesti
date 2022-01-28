@@ -7,10 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=WordRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Word
 {
@@ -52,9 +55,27 @@ class Word
     private DateTime $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="word_image", fileNameProperty="picture")
+     *
+     * @var File
      */
-    private ?string $picture;
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $picture;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTimeInterface
+     */
+    private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Letter::class, inversedBy="words")
@@ -77,10 +98,49 @@ class Word
      */
     private ?StudyLetter $studyLetter;
 
+    /**
+     * @ORM\OneToMany(targetEntity=HelpStat::class, mappedBy="word")
+     */
+    private $helpStats;
+
     public function __construct()
     {
         $this->muteLetters = new ArrayCollection();
         $this->endpoints = new ArrayCollection();
+        $this->helpStats = new ArrayCollection();
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 
     public function getId(): ?int
@@ -123,6 +183,24 @@ class Word
 
         return $this;
     }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTimeInterface $updatedAt
+     */
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+
 
     /**
      * @return Collection|MuteLetter[]
@@ -257,14 +335,44 @@ class Word
         return $this;
     }
 
-    public function knowLetterPosition(Array $letters): int
+    public function knowLetterPosition(array $letters): int
     {
         $indexes = [];
-        foreach ($letters as $index => $letter){
-            if ($letter === $this->getLetter()->getContent()){
+        foreach ($letters as $index => $letter) {
+            if ($letter === $this->getLetter()->getContent()) {
                 $indexes[] = $index;
             }
         }
         return $indexes[$this->getStudyLetter()->getPosition() - 1] + 1;
+    }
+
+    /**
+     * @return Collection|HelpStat[]
+     */
+    public function getHelpStats(): Collection
+    {
+        return $this->helpStats;
+    }
+
+    public function addHelpStat(HelpStat $helpStat): self
+    {
+        if (!$this->helpStats->contains($helpStat)) {
+            $this->helpStats[] = $helpStat;
+            $helpStat->setWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHelpStat(HelpStat $helpStat): self
+    {
+        if ($this->helpStats->removeElement($helpStat)) {
+            // set the owning side to null (unless already changed)
+            if ($helpStat->getWord() === $this) {
+                $helpStat->setWord(null);
+            }
+        }
+
+        return $this;
     }
 }

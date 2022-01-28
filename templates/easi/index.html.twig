@@ -12,10 +12,13 @@
                 <div class="col-8 d-flex flex-column justify-content-center align-items-center">
                     <p class="btn-app word fs-1">
                         {% for letter in letters %}
-                            <span class="{{ loop.index == position ? "text-danger" : "" }}">{{ letter }}</span>
+                            <span class="{{ loop.index in muteLettersPositions ? 'text-mute-letter' : '' }} {{ loop.index == position ? "text-danger" : "" }}">{{ letter }}</span>
                         {% endfor %}
                     </p>
-                    <p><img src="{{ asset('build/images/logo_hear.png') }}" alt=""></p>
+                    <p><img class="btn" id="btn-audio" src="{{ asset('build/images/logo_hear.png') }}">
+                        {% if word.studyLetter %}
+                        <audio id="audio" src="{{ asset('build/images/consigne_' ~ word.letter.content ~ '_' ~ word.studyLetter.position ~ '.mp3') }}"></audio></p>
+                        {% endif %}
                     <div class="btn-app easi-white-propositions d-flex">
                         {% include 'component/_proposition.html.twig' %}
                     </div>
@@ -29,4 +32,5 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('audioPhoneme') }}
+    {{ encore_entry_script_tags('audioConsigne') }}
 {% endblock %}

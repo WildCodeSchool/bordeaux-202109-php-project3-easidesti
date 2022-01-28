@@ -25,7 +25,7 @@ if (displayDivSyllabesMuteLetters) {
             divEndpoint.appendChild(spanEndpoint);
             divMuteLetter.appendChild(spanMuteLetter);
             divStudyLetter.appendChild(spanLetter);
-            fetch(`/word/definition/${wordInput.value}`)
+            fetch(`/admin/mot/definition/${wordInput.value}`)
                 .then((response) => response.json())
                 .then((data) => {
                     blockDefinition.innerHTML = data;
@@ -34,11 +34,10 @@ if (displayDivSyllabesMuteLetters) {
         const letters = document.querySelectorAll('.letter');
         letters.forEach((letter) => {
             letter.addEventListener('click', () => {
-                console.log(letter.innerText);
                 if (document.getElementById(`clickedLetterStudy_${letter.id}`)) {
                     deletePosition(letter, `clickedLetterStudy_${letter.id}`);
                 } else {
-                    const input = addPosition(letter, 'clickedLetterStudy', letter.innerText);
+                    const input = addPosition(letter, 'clickedLetterStudy', 'study-letter-selected', letter.innerText);
                     blockHidden.appendChild(input);
                 }
             });
