@@ -17,16 +17,14 @@ class SchoolFixtures extends Fixture
 
          $school2 = new School();
          $school2->setName('Poudlard');
-        $this->addReference('Poudlard', $school2);
-
-        $manager->persist($school2);
+         $this->addReference('Poudlard', $school2);
+         $manager->persist($school2);
 
          $school3 = new School();
          $school3->setName('Beauxbâtons');
-        $this->addReference('Beauxbâtons', $school3);
+         $this->addReference('Beauxbâtons', $school3);
+         $manager->persist($school3);
 
-        $manager->persist($school3);
-
-        $manager->flush();
+         $manager->flush();
     }
 }
