@@ -93,38 +93,44 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/eleves", name="student_show")
+     * @Route("/ecoles", name="schools")
      */
-    public function showAllStudent(ManagerRegistry $managerRegistry): Response
+    public function showAllSchools(ManagerRegistry $managerRegistry): Response
     {
-        $studentRepository = $managerRegistry->getRepository(User::class);
-        $users = $studentRepository->findALL();
-        $students = [];
-        foreach ($users as $user) {
-            if (in_array('ROLE_STUDENT', $user->getRoles())) {
-                $students[] = $user;
-            }
-        }
-        $schools = [];
-        foreach ($students as $student) {
-                $schools[$student->getSchoolLevel()->getName()] [] = $student;
-        }
-
-        return $this->render('admin/student/index.html.twig', [
-            'students' => $students,
+        $schoolRepository = $managerRegistry->getRepository(School::class);
+        $schools = $schoolRepository->findAll();
+        return $this->render('admin/school/index.html.twig', [
             'schools'   => $schools,
-
         ]);
     }
 
+    /**
+    * @Route("/ecole/{name}", name="school_show")
+    */
+    public function classroomSchool(School $school): Response
+    {
+        return $this->render('admin/school/show.html.twig', [
+            'school_levels' => $school->getSchoolLevels(),
+            'school' => $school,
+        ]);
+    }
 
+    /**
+     * @Route("/classe/{name}", name="students")
+     */
+    public function allStudent(SchoolLevel $schoolLevel): Response
+    {
+        return $this->render('admin/student/index.html.twig', [
+            'school_level' => $schoolLevel,
+            'students' => $schoolLevel->getStudents(),
+        ]);
+    }
 
     /**
      * @Route("/eleve/{nickname}", name="student_result_show")
      */
-    public function showResultStudent(User $user, ManagerRegistry $managerRegistry): Response
+    public function showResultStudent(User $user): Response
     {
-        $user->getTrainings()[0]->countLetterErrors();
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
         ]);
