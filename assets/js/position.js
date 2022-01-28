@@ -12,6 +12,7 @@ const displayDivSyllabesMuteLetters = document.getElementById('display-div');
 const blockSyllabe = document.getElementById('div-syllabe');
 const blockMuteLetter = document.getElementById('div-mute-letter');
 const blockLetter = document.getElementById('div-letter');
+const url = blockHidden.dataset.url;
 if (displayDivSyllabesMuteLetters) {
     displayDivSyllabesMuteLetters.addEventListener('click', () => {
         blockSyllabe.classList.remove('d-none');
@@ -25,7 +26,7 @@ if (displayDivSyllabesMuteLetters) {
             divEndpoint.appendChild(spanEndpoint);
             divMuteLetter.appendChild(spanMuteLetter);
             divStudyLetter.appendChild(spanLetter);
-            fetch(`/admin/mot/definition/${wordInput.value}`)
+            fetch(`${url}${wordInput.value}`)
                 .then((response) => response.json())
                 .then((data) => {
                     blockDefinition.innerHTML = data;

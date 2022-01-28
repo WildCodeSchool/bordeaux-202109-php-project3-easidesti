@@ -7,7 +7,7 @@
     <h1 class="text-center pt-5">Création d'un nouveau mot</h1>
     <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto pb-5">
         {{ form_start(form) }}
-        <div id="block-hidden"></div>
+        <div id="block-hidden" data-url="{{ url }}"></div>
             {{ form_row(form.content) }}
         <div class="btn btn-primary mb-3" id="display-div">Selectionner les syllabes et les lettres muettes</div>
         <div id="div-letter" class="d-none mt-3 border">
@@ -32,7 +32,6 @@
             {{ form_row(form.pronunciation) }}
             {{ form_row(form.definition) }}
             {{ form_row(form.imageFile) }}
-            <img src="{{ vich_uploader_asset(word.imageFile) }}" alt="{{ word.content }}">
 
         {{ form_row(form.serie) }}
         <div class="d-flex justify-content-center col-auto">

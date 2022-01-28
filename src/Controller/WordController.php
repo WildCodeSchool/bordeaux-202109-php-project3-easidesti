@@ -9,9 +9,6 @@ use App\Entity\Serie;
 use App\Entity\StudyLetter;
 use App\Entity\Word;
 use App\Form\WordType;
-use App\Repository\LetterRepository;
-use App\Repository\SerieRepository;
-use App\Repository\StudyLetterRepository;
 use App\Service\WordGenerator;
 use App\Service\Definition;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +17,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
  * @Route("/admin/mot", name="word_")
@@ -34,10 +30,8 @@ class WordController extends AbstractController
         Request $request,
         ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator
-        //SerieRepository $serieRepository,
-        //LetterRepository $letterRepository,
-        //StudyLetterRepository $studyLetterRepository
     ): Response {
+        $url = substr($this->generateUrl('word_definition', ['word' => 'u']), 0, -1);
         $serieRepository = $managerRegistry->getRepository(Serie::class);
         $letterRepository = $managerRegistry->getRepository(Letter::class);
         $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
@@ -91,6 +85,7 @@ class WordController extends AbstractController
         }
         return $this->renderForm('admin/word/new.html.twig', [
             'form' => $form,
+            'url' => $url,
         ]);
     }
 
@@ -110,10 +105,9 @@ class WordController extends AbstractController
         Word $word,
         Request $request,
         ManagerRegistry $managerRegistry,
-        WordGenerator $wordGenerator,
-        //LetterRepository $letterRepository,
-        UploaderHelper $helper
+        WordGenerator $wordGenerator
     ): Response {
+        $url = $this->generateUrl('word_definition', ['word' => $word->getContent()]);
         $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
         $entityManager = $managerRegistry->getManager();
         if ($word->getStudyLetter()) {
@@ -182,6 +176,7 @@ class WordController extends AbstractController
             'muteLetters' => $muteLetters,
             'letter' => $letter,
             'position' => $position ?? null,
+            'url' => $url,
         ]);
     }
 }
