@@ -8,16 +8,16 @@
         <div class="row">
             <div class="col-12 mt-5">
                 <h1>Résultat de l'élève {{ student.firstname }} {{ student.lastname }}</h1>
-                <div class="list-group">
-                {% for game in student.games %}
-                    <table>
-                    <p>L'élève suit actuellement la partie {{ game.isEasi ? 'EASI' : 'DESTI' }}</p>
-                    <p>Pour la série n° <span>{{ game.serie.number }} de la lettre {{ game.serie.letter.content }}</span>
-                    </p>
-                    <p>Score de {{ game.score }} sur {{ game.objectifPoint }}</p>
-                    <p>L'élève suit actuellement la partie {{ game.isEasi ? 'EASI' : 'DESTI' }}</p>
+                <h2>L'élève suit actuellement la partie EASI</h2>
+                <ul class="list-group">
+                    {% for game in student.games %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Pour la série n° <span>{{ game.serie.number }} de la lettre {{ game.serie.letter.content }}</span></span>
+                            <span>Score de {{ game.score }} sur {{ game.objectifPoint }}</span>
+                            <span> Fait le {{ game.dateGame }}</span>
+                        </li>
                     {% endfor %}
-                </div>
+                </ul>
             </div>
         </div>
     </div>

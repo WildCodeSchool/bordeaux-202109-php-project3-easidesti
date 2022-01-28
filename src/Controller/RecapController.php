@@ -5,12 +5,16 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\HelpStat;
 use App\Repository\WordRepository;
+use App\Service\WordGenerator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/eleve")
+ */
 class RecapController extends AbstractController
 {
     /**
@@ -20,7 +24,8 @@ class RecapController extends AbstractController
         Game $game,
         RequestStack $requestStack,
         WordRepository $wordRepository,
-        ManagerRegistry $managerRegistry
+        ManagerRegistry $managerRegistry,
+        WordGenerator $wordGenerator
     ): Response {
         $entityManager = $managerRegistry->getManager();
         $letter = $game->getFirstWord()->getLetter()->getContent();
@@ -37,10 +42,12 @@ class RecapController extends AbstractController
             }
             $entityManager->flush();
         }
+        $words = $wordGenerator->getWordsGameCutInArray($game->getSerie()->getWords());
         return $this->render('recap/index.html.twig', [
             'game' => $game,
             'letter' => $letter,
             'word' => $word,
+            'words' => $words,
         ]);
     }
 }

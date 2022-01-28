@@ -13,6 +13,7 @@ use App\Form\SearchWordType;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -79,7 +80,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $managerRegistry->getManager()->flush();
-            return $this->redirectToRoute('admin_series_show',[
+            return $this->redirectToRoute('admin_series_show', [
                 'id' => $serie->getId(),
             ]);
         }
@@ -102,19 +103,24 @@ class AdminController extends AbstractController
                 $students[] = $user;
             }
         }
+        $schools = [];
+        foreach ($students as $student) {
+                $schools[$student->getSchool()->getName()] [] = $student;
+        }
         return $this->render('admin/student/index.html.twig', [
             'students' => $students,
+            'schools'   => $schools,
 
         ]);
     }
+
+
 
     /**
      * @Route("/eleve/{nickname}", name="student_result_show")
      */
     public function showResultStudent(User $user): Response
     {
-        $user -> getTrainings();
-
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
         ]);
