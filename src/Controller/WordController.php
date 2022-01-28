@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Endpoint;
+use App\Entity\Letter;
 use App\Entity\MuteLetter;
+use App\Entity\Serie;
+use App\Entity\StudyLetter;
 use App\Entity\Word;
 use App\Form\WordType;
 use App\Repository\LetterRepository;
@@ -17,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
  * @Route("/admin/mot", name="word_")
@@ -29,11 +33,14 @@ class WordController extends AbstractController
     public function index(
         Request $request,
         ManagerRegistry $managerRegistry,
-        WordGenerator $wordGenerator,
-        SerieRepository $serieRepository,
-        LetterRepository $letterRepository,
-        StudyLetterRepository $studyLetterRepository
+        WordGenerator $wordGenerator
+        //SerieRepository $serieRepository,
+        //LetterRepository $letterRepository,
+        //StudyLetterRepository $studyLetterRepository
     ): Response {
+        $serieRepository = $managerRegistry->getRepository(Serie::class);
+        $letterRepository = $managerRegistry->getRepository(Letter::class);
+        $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
@@ -104,9 +111,10 @@ class WordController extends AbstractController
         Request $request,
         ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator,
-        LetterRepository $letterRepository,
-        StudyLetterRepository $studyLetterRepository
+        //LetterRepository $letterRepository,
+        UploaderHelper $helper
     ): Response {
+        $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
         $entityManager = $managerRegistry->getManager();
         if ($word->getStudyLetter()) {
             $position = $word->getStudyLetter()->getPosition();

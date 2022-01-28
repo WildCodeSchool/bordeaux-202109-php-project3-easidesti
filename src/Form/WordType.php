@@ -23,7 +23,6 @@ class WordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        dump($options['edit']);
         $builder
             ->add('content', TextType::class, [
                 'label' => 'Entrez le mot',
@@ -49,7 +48,7 @@ class WordType extends AbstractType
                 'label'        => 'image du mot',
                 'required'      => false,
                 'allow_delete'  => true, // not mandatory, default is true
-                'download_uri' => true, // not mandatory, default is true
+                'download_uri' => false, // not mandatory, default is true
             ])
         ;
         if ($options['edit'] === true) {
@@ -60,7 +59,6 @@ class WordType extends AbstractType
                     'choice_label' => 'fullName',
                     'expanded'     => false,
                     'multiple'     => false,
-                    //'mapped'    => false,
                     'attr'         => [
                         'class'    => 'd-flex col-4',
                     ]
@@ -79,7 +77,6 @@ class WordType extends AbstractType
                     },
                     'expanded'     => false,
                     'multiple'     => false,
-                    'mapped'    => false,
                     'attr'         => [
                         'class'    => 'd-flex col-4',
                     ]
