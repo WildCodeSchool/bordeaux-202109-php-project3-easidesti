@@ -4,10 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -21,9 +22,8 @@ class UserFixtures extends Fixture
         $user->setNickname('eleve1');
         $user->setFirstname('Greg');
         $user->setLastname('Caron');
-        $user->setSchool($this->getReference('Poudlard'));
-        $user->setSchoolLevel('CM1');
-        $user->setRoles(['STUDENT']);
+        $user->setSchoolLevel($this->getReference('Wild CM1'));
+        $user->setRoles(['ROLE_STUDENT']);
         $user->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
@@ -36,9 +36,8 @@ class UserFixtures extends Fixture
         $user2->setNickname('Panpan');
         $user2->setFirstname('Sébastien');
         $user2->setLastname('Juchet');
-        $user2->setSchool($this->getReference('Beauxbâtons'));
-        $user2->setSchoolLevel('CM2');
-        $user2->setRoles(['STUDENT']);
+        $user2->setSchoolLevel($this->getReference('Wild CM1'));
+        $user2->setRoles(['ROLE_STUDENT']);
         $user2->setHasTest(true);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user2,
@@ -106,5 +105,10 @@ class UserFixtures extends Fixture
         $manager->persist($admin);
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [SchoolLevelFixtures::class];
     }
 }

@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\School;
+use App\Entity\SchoolLevel;
 use App\Entity\Serie;
 use App\Entity\User;
+use App\Form\SchoolLevelType;
 use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
@@ -137,6 +139,10 @@ class AdminController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($school);
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'établissement a bien été créé!'
+            );
             return $this->redirectToRoute('admin_series');
         }
         return $this->renderForm('admin/registration/newSchool.html.twig', [
@@ -154,6 +160,10 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'établissement a bien été modifié!'
+            );
 
             return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
         }
@@ -173,5 +183,29 @@ class AdminController extends AbstractController
         return $this->render('admin/registration/showSchool.html.twig', [
             'schools' => $schools,
         ]);
+    }
+
+    /**
+     * @Route("/nouvelle_classe", name="new_school_level")
+     */
+    public function newSchoolLevel(Request $request): Response
+    {
+        $schoolLevel = new SchoolLevel();
+        $form = $this->createForm(SchoolLevelType::class, $schoolLevel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $schoolLevel = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($schoolLevel);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'La classe a bien été créé!'
+            );
+            return $this->redirectToRoute('admin_series');
+        }
+        return $this->renderForm('admin/registration/newSchoolLevel.html.twig', [
+            'form' => $form,
+            ]);
     }
 }
