@@ -38,7 +38,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user2->setLastname('Juchet');
         $user2->setSchoolLevel($this->getReference('Wild CM1'));
         $user2->setRoles(['ROLE_STUDENT']);
-        $user2->setHasTest(true);
+        $user2->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user2,
             'azerty'
@@ -50,9 +50,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user3->setNickname('Machine');
         $user3->setFirstname('Olivier');
         $user3->setLastname('Chatelin');
-        $user->setSchoolLevel($this->getReference('Poudlard CM1'));
+        $user3->setSchoolLevel($this->getReference('Wild CM1'));
         $user3->setRoles(['ROLE_STUDENT']);
-        $user3->setHasTest(true);
+        $user3->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user3,
             'azerty'
@@ -64,9 +64,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user4->setNickname('Bambi');
         $user4->setFirstname('Guillaume');
         $user4->setLastname('Harari');
-        $user->setSchoolLevel($this->getReference('Poudlard CM2'));
+        $user4->setSchoolLevel($this->getReference('Poudlard CM2'));
         $user4->setRoles(['ROLE_STUDENT']);
-        $user4->setHasTest(true);
+        $user4->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user4,
             'azerty'
@@ -78,9 +78,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user5->setNickname('Karim');
         $user5->setFirstname('Karine');
         $user5->setLastname('Laurent');
-        $user->setSchoolLevel($this->getReference('Beauxbâtons CM1'));
+        $user5->setSchoolLevel($this->getReference('Beauxbâtons CM1'));
         $user5->setRoles(['ROLE_STUDENT']);
-        $user5->setHasTest(true);
+        $user5->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user5,
             'azerty'
@@ -93,7 +93,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setFirstname('Odile');
         $admin->setLastname('Amadou');
         $admin->setRoles(['ROLE_ADMIN']);
-        $user2->setHasTest(false);
+        $admin->setHasTest(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
             'azerty'

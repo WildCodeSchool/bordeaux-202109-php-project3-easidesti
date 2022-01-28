@@ -32,10 +32,10 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/inscription/{role}", name="app_register")
+     * @Route("/inscription/{name}", name="app_register")
      */
     public function register(
-        string $role,
+        School $school,
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager
@@ -47,7 +47,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
-            $user->setRoles([$role]);
+            $user->setRoles(['ROLE_STUDENT']);
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
@@ -57,6 +57,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('admin/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'school' => $school,
         ]);
     }
 }
