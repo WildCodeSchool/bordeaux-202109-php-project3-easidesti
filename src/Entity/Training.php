@@ -63,6 +63,16 @@ class Training
         $this->historyTrainings = new ArrayCollection();
     }
 
+    public function countLetterErrors(): array
+    {
+        $errors = [];
+        foreach ($this->getHistoryTrainings() as $historyTraining) {
+            $errors[] = $historyTraining->getLetter();
+        }
+        return array_count_values($errors);
+
+    }
+
     /**
      * @ORM\PrePersist
      */

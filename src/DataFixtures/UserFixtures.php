@@ -50,9 +50,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user3->setNickname('Machine');
         $user3->setFirstname('Olivier');
         $user3->setLastname('Chatelin');
-        $user3->setSchool($this->getReference('Beauxbâtons'));
-        $user3->setSchoolLevel('CM2');
-        $user3->setRoles(['STUDENT']);
+        $user->setSchoolLevel($this->getReference('Poudlard CM1'));
+        $user3->setRoles(['ROLE_STUDENT']);
         $user3->setHasTest(true);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user3,
@@ -65,9 +64,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user4->setNickname('Bambi');
         $user4->setFirstname('Guillaume');
         $user4->setLastname('Harari');
-        $user4->setSchool($this->getReference('Poudlard'));
-        $user4->setSchoolLevel('CM1');
-        $user4->setRoles(['STUDENT']);
+        $user->setSchoolLevel($this->getReference('Poudlard CM2'));
+        $user4->setRoles(['ROLE_STUDENT']);
         $user4->setHasTest(true);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user4,
@@ -80,9 +78,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user5->setNickname('Karim');
         $user5->setFirstname('Karine');
         $user5->setLastname('Laurent');
-        $user5->setSchool($this->getReference('Wild Code School'));
-        $user5->setSchoolLevel('CM1');
-        $user5->setRoles(['STUDENT']);
+        $user->setSchoolLevel($this->getReference('Beauxbâtons CM1'));
+        $user5->setRoles(['ROLE_STUDENT']);
         $user5->setHasTest(true);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user5,
