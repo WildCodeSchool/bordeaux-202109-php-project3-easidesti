@@ -8,7 +8,7 @@ const divMuteLetter = document.getElementById('mute-letter');
 const wordInput = document.getElementById('word_content');
 const blockDefinition = document.getElementById('word_definition');
 const emptyWorld = document.getElementById('empty-word');
-
+const url = blockHidden.dataset.url;
 window.addEventListener('load', () => {
     const wordArray = wordInput.value.split('');
     for (let i = 0; i < wordArray.length; i++) {
@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
         spanEndpoint.addEventListener('click', () => addPosition(spanEndpoint, 'clickedLetters'));
         spanMuteLetter.addEventListener('click', () => addPosition(spanMuteLetter, 'clickedMuteLetters'));
         if (blockDefinition.value === defaultDefinition) {
-            fetch(`/admin/mot/definition/${wordInput.value}`)
+            fetch(`${url}`)
                 .then((response) => response.json())
                 .then((data) => {
                     blockDefinition.innerHTML = data;

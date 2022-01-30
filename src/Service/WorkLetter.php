@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
+use App\Entity\HistoryTraining;
+use App\Entity\Letter;
 use App\Entity\Serie;
 use App\Entity\Training;
-use App\Repository\HistoryTrainingRepository;
-use App\Repository\LetterRepository;
-use App\Repository\SerieRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 
 class WorkLetter
 {
@@ -16,17 +17,15 @@ class WorkLetter
         's',
         'i',
     ];
-    public HistoryTrainingRepository $historyRepository;
-    public SerieRepository $serieRepository;
-    public LetterRepository $letterRepository;
+    private ObjectRepository $historyRepository;
+    private ObjectRepository $serieRepository;
+    private ObjectRepository $letterRepository;
     public function __construct(
-        HistoryTrainingRepository $historyTrainingRepository,
-        SerieRepository $serieRepository,
-        LetterRepository $letterRepository
+        ManagerRegistry $managerRegistry
     ) {
-        $this->historyRepository = $historyTrainingRepository;
-        $this->serieRepository = $serieRepository;
-        $this->letterRepository = $letterRepository;
+        $this->historyRepository = $managerRegistry->getRepository(HistoryTraining::class);
+        $this->serieRepository = $managerRegistry->getRepository(Serie::class);
+        $this->letterRepository = $managerRegistry->getRepository(Letter::class);
     }
 
     public function getSerieForResultTraining(Training $training): Serie
@@ -41,13 +40,18 @@ class WorkLetter
                 $datas[$letter] = (int)round($letterCountErrors * 100 / $totalErrors);
             }
         }
-        $level = $this->getLevelForLetterWork($this->getLetterWork($datas), $training);
-        $letter = $this->letterRepository->findOneBy(['content' => $this->getLetterWork($datas)]);
+        $level = $this->getLevelForLetterWork($this->getRandomLetterWork($datas), $training);
+        $letter = $this->letterRepository->findOneBy(['content' => $this->getRandomLetterWork($datas)]);
         $series = $this->serieRepository->findBy(['letter' => $letter, 'level' => $level]);
         return $series[array_rand($series)];
     }
 
-    public function getLetterWork(array $letters): string
+    /**
+     * @param array $letters
+     * @return string
+     * Method that will return the letter to work
+     */
+    public function getRandomLetterWork(array $letters): string
     {
         $data = [];
         foreach ($letters as $letter => $value) {
