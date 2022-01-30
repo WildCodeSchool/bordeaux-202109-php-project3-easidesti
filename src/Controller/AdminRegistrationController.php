@@ -14,9 +14,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin", name="admin_")
+ * @Route("/admin/inscription", name="admin_registration_")
  */
-class RegistrationController extends AbstractController
+class AdminRegistrationController extends AbstractController
 {
 
     /**
@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/inscription/{name}", name="app_register")
+     * @Route("/{name}", name="app_register")
      */
     public function register(
         School $school,

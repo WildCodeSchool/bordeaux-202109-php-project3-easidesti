@@ -14,7 +14,7 @@
             <div class="form col-11 col-sm-9 col-md-7 col-lg-5 mx-auto justify-content-center p-3 border border-2 border-primary shadow-lg p-3 mb-5 rounded text-center">
                 <ul>
                     {% for school in schools %}
-                        <a href="{{ path('admin_app_register', {name: school.name}) }}" class="text-decoration-none m-2"><li class="list-unstyled">
+                        <a href="{{ path('admin_registration_app_register', {name: school.name}) }}" class="text-decoration-none m-2"><li class="list-unstyled">
                         {{ school.name }}
                     </li></a>
                     {% endfor %}
