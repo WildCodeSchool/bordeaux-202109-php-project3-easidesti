@@ -184,7 +184,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/liste_des_etablissement", name="show_school")
+     * @Route("/liste_des_etablissements", name="show_school")
      */
     public function showSchool(ManagerRegistry $managerRegistry): Response
     {
