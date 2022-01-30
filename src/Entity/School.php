@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\SchoolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SchoolRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Ce nom d'école est déjà utilisé, merci d'en choissir un autre.")
  */
 class School
 {
@@ -20,7 +22,7 @@ class School
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $name;
 
