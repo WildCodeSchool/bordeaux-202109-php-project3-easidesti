@@ -33,8 +33,10 @@ class AdminSchoolLevelController extends AbstractController
             );
             return $this->redirectToRoute('admin_series');
         }
-        return $this->renderForm('admin/registration/newSchoolLevel.html.twig', [
+        return $this->renderForm('admin/registration/schoolLevel/newSchoolLevel.html.twig', [
             'form' => $form,
         ]);
     }
+
+
 }
