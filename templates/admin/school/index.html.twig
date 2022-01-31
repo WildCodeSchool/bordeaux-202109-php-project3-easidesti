@@ -7,10 +7,10 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mt-5">
-                <h1>liste des écoles</h1>
+                <h1 class="my-3">Liste des écoles</h1>
                     <ul class="list-group">
                         {% for school in schools %}
-                            <h2><a href="{{ path('admin_school_show', {name: school.name}) }}" >{{ school.name }}</a></h2>
+                            <li class="list-group-item"><a class="btn fs-4" href="{{ path('admin_school_show', {name: school.name}) }}" >{{ school.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

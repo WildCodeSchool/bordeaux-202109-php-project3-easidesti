@@ -70,7 +70,6 @@ class Training
             $errors[] = $historyTraining->getLetter();
         }
         return array_count_values($errors);
-
     }
 
     /**

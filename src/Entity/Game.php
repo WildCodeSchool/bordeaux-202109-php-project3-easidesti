@@ -83,6 +83,18 @@ class Game
         $this->helpStats = new ArrayCollection();
     }
 
+    public function countHelpsByWord(): array
+    {
+        $helps = [];
+        foreach ($this->getHelpStats() as $helpStat) {
+            $helps[] = [
+                'word' => $helpStat->getWord()->getContent(),
+                'helpNumber' => $helpStat->getHelpNumber(),
+            ];
+        }
+        return $helps;
+    }
+
     public function getDateGame(): string
     {
         return $this->getCreatedAt()->format('d-m-Y à H:i');

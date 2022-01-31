@@ -10,7 +10,7 @@
                 <h1>{{ school.name }} - liste des classes</h1>
                 <ul class="list-group">
                     {% for school_level in school_levels %}
-                        <li class="list-group-item"><a href="{{ path('admin_students', {name: school_level.name}) }}">{{ school_level.name }}</a></li>
+                        <li class="list-group-item"><a class="btn fs-4" href="{{ path('admin_students', {name: school_level.name}) }}">{{ school_level.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

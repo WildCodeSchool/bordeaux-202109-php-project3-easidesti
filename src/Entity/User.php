@@ -98,6 +98,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->school_level = new ArrayCollection();
     }
 
+    public function showScoreTotal(): int
+    {
+        $score = 0;
+        foreach ($this->getGames() as $game) {
+            $score = (($game->getWordCount() - $game->getErrorCount()) * 100 / $game->getWordCount());
+        }
+        return $score / count($this->getGames());
+    }
+
+    public function showHelpStatsForAllGames(): array
+    {
+        $datas = [
+            1 => 0,
+            2 => 0,
+            3 => 0,
+        ];
+        foreach ($this->getGames() as $game) {
+            foreach ($game->getHelpStats() as $helpStat) {
+                $datas[$helpStat->getHelpNumber()] ++ ;
+            }
+        }
+        return $datas;
+    }
     public function getLastTraining(): Training
     {
         return $this->getTrainings()[count($this->getTrainings()) - 1];
