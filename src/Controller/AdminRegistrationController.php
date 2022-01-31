@@ -22,11 +22,11 @@ class AdminRegistrationController extends AbstractController
     /**
      * @Route("/creation_eleve/selection_etablissement", name="select_school")
      */
-    public function selectSchoolForLevelSchool(ManagerRegistry $managerRegistry): Response
+    public function selectSchoolForCreateStudent(ManagerRegistry $managerRegistry): Response
     {
         $schools = $managerRegistry->getRepository(School::class)->findAll();
 
-        return $this->render('admin/registration/user/selectSchool.html.twig', [
+        return $this->render('admin/registration/user/selectSchoolForCreateStudent.html.twig', [
             'schools' => $schools,
         ]);
     }
@@ -60,4 +60,40 @@ class AdminRegistrationController extends AbstractController
             'school' => $school,
         ]);
     }
+
+
+    /**
+     * @Route("/modifiaction_eleve/selection_eleve/", name="select_student_for_edit_student")
+     */
+    public function selectStudentForEditStudent(ManagerRegistry $managerRegistry): Response
+    {
+        $students = $managerRegistry->getRepository(User::class)->findAll();
+
+        return $this->render('admin/registration/user/selectStudentForEditStudent.html.twig', [
+            'students' => $students,
+        ]);
+    }
+
+    /**
+     * @Route("/modification_eleve/eleve/{id}", name="edit_student")
+     */
+    public function editStudent(Request $request, User $user, School $school, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(RegistrationFormType::class, $user, ['school' => $school]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'L\'élève a bien été modifié!'
+            );
+            return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/registration/user/editStudent.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
 }
