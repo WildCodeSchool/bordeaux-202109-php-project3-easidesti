@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/class", name="admin_school_level_")
+ * @Route("/admin/gestion_des_classes", name="admin_school_level_")
  */
 class AdminSchoolLevelController extends AbstractController
 {
@@ -51,7 +51,7 @@ class AdminSchoolLevelController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modification/{id}", name="edit")
+     * @Route("/modification_classe/{id}", name="edit")
      */
     public function editSchoolLevel(
         Request $request,

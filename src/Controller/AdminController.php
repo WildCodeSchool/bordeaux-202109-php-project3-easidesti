@@ -40,7 +40,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/series", name="series")
+     * @Route("/affichage/series/easi", name="series")
      */
     public function index(Request $request): Response
     {
@@ -74,7 +74,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/series/{id}", name="series_show", methods={"GET", "POST"})
+     * @Route("/affichage/series/easi/{id}", name="series_show", methods={"GET", "POST"})
      */
     public function show(Serie $serie, Request $request, ManagerRegistry $managerRegistry): Response
     {
@@ -93,7 +93,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/ecoles", name="schools")
+     * @Route("/affichage/statistique/easi/ecoles", name="schools")
      */
     public function showAllSchools(ManagerRegistry $managerRegistry): Response
     {
@@ -105,7 +105,7 @@ class AdminController extends AbstractController
     }
 
     /**
-    * @Route("/ecole/{name}", name="school_show")
+    * @Route("/affichage/statistique/easi/ecole/{name}", name="school_show")
     */
     public function classroomSchool(School $school): Response
     {
@@ -116,7 +116,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/classe/{name}", name="students")
+     * @Route("/affichage/statistique/easi/classe/{name}", name="students")
      */
     public function allStudent(SchoolLevel $schoolLevel): Response
     {
@@ -127,7 +127,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/eleve/{nickname}", name="student_result_show")
+     * @Route("/affichage/statistique/easi/eleve/{nickname}", name="student_result_show")
      */
     public function showResultStudent(User $user): Response
     {
