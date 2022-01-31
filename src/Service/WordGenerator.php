@@ -40,7 +40,6 @@ class WordGenerator
 
     public function cleanWordLetters(Word $word, $entityName): void
     {
-        dump($word->getEndpoints());
         $allResults = $this->managerRegistry->getRepository($entityName)->findBy(['word' => $word]);
         $name = 'remove' . substr($entityName, 11);
         foreach ($allResults as $result) {

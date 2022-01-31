@@ -10,7 +10,14 @@
         <h1 class="text-center pt-5">{{ word.content }}</h1>
         <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto">
             {{ form_start(form) }}
-            <div id="block-hidden" data-edit="true" data-position="{{ position }}" data-letter="{{ letter }}" data-endpoints="{{ endpoints|join(',') }}" data-muteletters="{{ muteLetters|join(',') }}"></div>
+            <div id="block-hidden"
+                 data-edit="true"
+                 data-position="{{ position }}"
+                 data-letter="{{ letter }}"
+                 data-endpoints="{{ endpoints|join(',') }}"
+                 data-muteletters="{{ muteLetters|join(',') }}"
+                 data-url="{{ url }}">
+            </div>
             {{ form_row(form.content) }}
             <div>Selectionnez la lettre à travailler</div>
             <div class="d-flex flex-row justify-content-between align-items-center">
@@ -27,8 +34,13 @@
             </div>
             {{ form_row(form.definition) }}
             {{ form_row(form.pronunciation) }}
-            {{ form_row(form.imageFile) }}
-            {{ form_row(form.level) }}
+            <div class="d-flex justify-content-between">
+                {{ form_row(form.imageFile) }}
+                {% if vich_uploader_asset(word, 'imageFile') %}
+                    <img class="mb-5 w-25" src="{{ vich_uploader_asset(word, 'imageFile') }}" alt="{{ word.content }}">
+                {% endif %}
+            </div>
+            {{ form_row(form.serie) }}
             <div class="d-flex justify-content-center col-auto">
                 <button class="btn-app btn bg-light mx-auto px-5 py-2 fs-4">Modifier le mot</button>
             </div>

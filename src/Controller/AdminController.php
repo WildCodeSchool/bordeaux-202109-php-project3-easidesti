@@ -40,7 +40,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/series", name="series")
+     * @Route("/affichage/series/easi", name="series")
      */
     public function index(Request $request): Response
     {
@@ -74,7 +74,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/series/{id}", name="series_show", methods={"GET", "POST"})
+     * @Route("/affichage/series/easi/{id}", name="series_show", methods={"GET", "POST"})
      */
     public function show(Serie $serie, Request $request, ManagerRegistry $managerRegistry): Response
     {
@@ -93,7 +93,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/ecoles", name="schools")
+     * @Route("/affichage/statistique/easi/ecoles", name="schools")
      */
     public function showAllSchools(ManagerRegistry $managerRegistry): Response
     {
@@ -105,7 +105,7 @@ class AdminController extends AbstractController
     }
 
     /**
-    * @Route("/ecole/{name}", name="school_show")
+    * @Route("/affichage/statistique/easi/ecole/{name}", name="school_show")
     */
     public function classroomSchool(School $school): Response
     {
@@ -116,7 +116,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/classe/{name}", name="students")
+     * @Route("/affichage/statistique/easi/classe/{name}", name="students")
      */
     public function allStudent(SchoolLevel $schoolLevel): Response
     {
@@ -127,95 +127,12 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/eleve/{nickname}", name="student_result_show")
+     * @Route("/affichage/statistique/easi/eleve/{nickname}", name="student_result_show")
      */
     public function showResultStudent(User $user): Response
     {
         return $this->render('admin/student/show.html.twig', [
             'student' => $user,
         ]);
-    }
-
-    /**
-     * @Route("/nouvel_etablissement", name="new_school")
-     */
-    public function newSchool(Request $request): Response
-    {
-        $school = new School();
-        $form = $this->createForm(SchoolType::class, $school);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $school = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($school);
-            $entityManager->flush();
-            $this->addFlash(
-                'success',
-                'L\'établissement a bien été créé!'
-            );
-            return $this->redirectToRoute('admin_new_school_level');
-        }
-        return $this->renderForm('admin/registration/newSchool.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/modification/{name}", name="edit_school")
-     */
-    public function editSchool(Request $request, School $school, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(SchoolType::class, $school);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash(
-                'success',
-                'L\'établissement a bien été modifié!'
-            );
-
-            return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
-        }
-        return $this->renderForm('admin/registration/editSchool.html.twig', [
-            'school' => $school,
-             'form'  => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/liste_des_etablissements", name="show_school")
-     */
-    public function showSchool(ManagerRegistry $managerRegistry): Response
-    {
-        $schools = $managerRegistry->getRepository(School::class)->findAll();
-
-        return $this->render('admin/registration/showSchool.html.twig', [
-            'schools' => $schools,
-        ]);
-    }
-
-    /**
-     * @Route("/nouvelle_classe", name="new_school_level")
-     */
-    public function newSchoolLevel(Request $request): Response
-    {
-        $schoolLevel = new SchoolLevel();
-        $form = $this->createForm(SchoolLevelType::class, $schoolLevel);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $schoolLevel = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($schoolLevel);
-            $entityManager->flush();
-            $this->addFlash(
-                'success',
-                'La classe a bien été créé!'
-            );
-            return $this->redirectToRoute('admin_series');
-        }
-        return $this->renderForm('admin/registration/newSchoolLevel.html.twig', [
-            'form' => $form,
-            ]);
     }
 }

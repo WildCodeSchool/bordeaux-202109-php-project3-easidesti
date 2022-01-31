@@ -29,7 +29,6 @@ const deletePosition = (span, nameInput) => {
 const getLetterPosition = (word, letter, position) => {
     const letters = [];
     for (let i = 0; i < word.length; i++) {
-        console.log()
         if (word[i] === letter) {
             letters.push(i)
         }

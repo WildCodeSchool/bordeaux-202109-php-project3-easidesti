@@ -20,13 +20,13 @@ class SchoolLevelType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => 'Nom de l\'établissement de la nouvelle classe:',
+                'label' => 'Nom de l\'établissement de la classe:',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]
             ])
             ->add('name', TextType::class, [
-                'label' => 'Nom de la nouvelle classe',
+                'label' => 'Nom de la classe',
                 'attr' => [
                     'class' => 'text-center border rounded-3 shadow-lg',
                 ]

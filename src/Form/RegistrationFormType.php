@@ -39,6 +39,10 @@ class RegistrationFormType extends AbstractType
             ->add('schoolLevel', EntityType::class, [
                 'class' => SchoolLevel::class,
                 'choice_label' => 'name',
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'text-center border rounded-3 shadow-lg',
+                ],
                 'query_builder' => function (EntityRepository $entityRepository) use ($school) {
                     return $entityRepository->createQueryBuilder('sl')
                         ->where('sl.school = :school')

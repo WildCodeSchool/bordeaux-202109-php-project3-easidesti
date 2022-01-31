@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Endpoint;
+use App\Entity\Letter;
 use App\Entity\MuteLetter;
+use App\Entity\Serie;
+use App\Entity\StudyLetter;
 use App\Entity\Word;
 use App\Form\WordType;
-use App\Repository\LetterRepository;
-use App\Repository\SerieRepository;
-use App\Repository\StudyLetterRepository;
 use App\Service\WordGenerator;
 use App\Service\Definition;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,11 +29,12 @@ class WordController extends AbstractController
     public function index(
         Request $request,
         ManagerRegistry $managerRegistry,
-        WordGenerator $wordGenerator,
-        SerieRepository $serieRepository,
-        LetterRepository $letterRepository,
-        StudyLetterRepository $studyLetterRepository
+        WordGenerator $wordGenerator
     ): Response {
+        $url = substr($this->generateUrl('word_definition', ['word' => 'u']), 0, -1);
+        $serieRepository = $managerRegistry->getRepository(Serie::class);
+        $letterRepository = $managerRegistry->getRepository(Letter::class);
+        $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
@@ -84,6 +85,7 @@ class WordController extends AbstractController
         }
         return $this->renderForm('admin/word/new.html.twig', [
             'form' => $form,
+            'url' => $url,
         ]);
     }
 
@@ -103,10 +105,10 @@ class WordController extends AbstractController
         Word $word,
         Request $request,
         ManagerRegistry $managerRegistry,
-        WordGenerator $wordGenerator,
-        LetterRepository $letterRepository,
-        StudyLetterRepository $studyLetterRepository
+        WordGenerator $wordGenerator
     ): Response {
+        $url = $this->generateUrl('word_definition', ['word' => $word->getContent()]);
+        $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
         $entityManager = $managerRegistry->getManager();
         if ($word->getStudyLetter()) {
             $position = $word->getStudyLetter()->getPosition();
@@ -120,7 +122,7 @@ class WordController extends AbstractController
         foreach ($word->getMuteLetters() as $muteLetter) {
             $muteLetters[] = $muteLetter->getPosition();
         }
-        $form = $this->createForm(WordType::class, $word);
+        $form = $this->createForm(WordType::class, $word, ['edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $wordGenerator->cleanWordLetters($word, Endpoint::class);
@@ -174,6 +176,7 @@ class WordController extends AbstractController
             'muteLetters' => $muteLetters,
             'letter' => $letter,
             'position' => $position ?? null,
+            'url' => $url,
         ]);
     }
 }
