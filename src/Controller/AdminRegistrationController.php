@@ -26,7 +26,7 @@ class AdminRegistrationController extends AbstractController
     {
         $schools = $managerRegistry->getRepository(School::class)->findAll();
 
-        return $this->render('admin/registration/selectSchool.html.twig', [
+        return $this->render('admin/registration/user/selectSchool.html.twig', [
             'schools' => $schools,
         ]);
     }
@@ -55,7 +55,7 @@ class AdminRegistrationController extends AbstractController
             return $this->redirectToRoute('admin_series');
         }
 
-        return $this->render('admin/registration/register.html.twig', [
+        return $this->render('admin/registration/user/register.html.twig', [
             'registrationForm' => $form->createView(),
             'school' => $school,
         ]);

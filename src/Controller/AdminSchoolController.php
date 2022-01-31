@@ -35,19 +35,19 @@ class AdminSchoolController extends AbstractController
             );
             return $this->redirectToRoute('admin_school_level_new');
         }
-        return $this->renderForm('admin/registration/newSchool.html.twig', [
+        return $this->renderForm('admin/registration/school/newSchool.html.twig', [
             'form' => $form,
         ]);
     }
 
     /**
-     * @Route("/liste_des_etablissement", name="show_school")
+     * @Route("/liste_des_etablissements", name="show_school")
      */
     public function showSchoolForEdit(ManagerRegistry $managerRegistry): Response
     {
         $schools = $managerRegistry->getRepository(School::class)->findAll();
 
-        return $this->render('admin/registration/showSchool.html.twig', [
+        return $this->render('admin/registration/school/showSchool.html.twig', [
             'schools' => $schools,
         ]);
     }
@@ -69,7 +69,7 @@ class AdminSchoolController extends AbstractController
 
             return $this->redirectToRoute('admin_series', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->renderForm('admin/registration/editSchool.html.twig', [
+        return $this->renderForm('admin/registration/school/editSchool.html.twig', [
             'school' => $school,
             'form'  => $form,
         ]);
