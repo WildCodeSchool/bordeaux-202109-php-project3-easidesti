@@ -21,8 +21,13 @@
                 <li class="nav-item">
                     <a class="nav-link">Créer un compte enseignant</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link  {{ app.request.pathInfo == path('word_new') ? 'active' : '' }}" href="{{ path('admin_registration_select_school') }}">Créer un compte élève</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{ app.request.pathInfo == path('admin_registration_select_school') ? 'active' : '' }}" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Gestion des élèves
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_registration_select_school') }}">Création d'un élève</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ app.request.pathInfo == path('admin_school_show_school') ? 'active' : '' }}" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

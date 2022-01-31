@@ -12,12 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/etablissement", name="admin_school_")
+ * @Route("/admin/gestion_des_etablissements", name="admin_school_")
  */
 class AdminSchoolController extends AbstractController
 {
     /**
-     * @Route("/nouvel_etablissement", name="new_school")
+     * @Route("/creation", name="new_school")
      */
     public function newSchool(Request $request): Response
     {
@@ -53,7 +53,7 @@ class AdminSchoolController extends AbstractController
     }
 
     /**
-     * @Route("/modification/{id}", name="edit")
+     * @Route("/modification_etablissement/{id}", name="edit")
      */
     public function editSchool(Request $request, School $school, EntityManagerInterface $entityManager): Response
     {

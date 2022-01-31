@@ -14,13 +14,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/inscription", name="admin_registration_")
+ * @Route("/admin/gestion_des_utilisateurs", name="admin_registration_")
  */
 class AdminRegistrationController extends AbstractController
 {
 
     /**
-     * @Route("/selection_etablissement", name="select_school")
+     * @Route("/creation_eleve/selection_etablissement", name="select_school")
      */
     public function selectSchoolForLevelSchool(ManagerRegistry $managerRegistry): Response
     {
@@ -32,7 +32,7 @@ class AdminRegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/{name}", name="app_register")
+     * @Route("/inscription_eleve/{name}", name="app_register")
      */
     public function register(
         School $school,
