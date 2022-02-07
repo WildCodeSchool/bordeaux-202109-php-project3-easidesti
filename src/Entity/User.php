@@ -83,28 +83,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $hasTest;
+    private bool $hasTest;
 
     /**
      * @ORM\ManyToOne(targetEntity=SchoolLevel::class, inversedBy="students")
      */
-    private $schoolLevel;
+    private SchoolLevel $schoolLevel;
 
 
     public function __construct()
     {
         $this->games = new ArrayCollection();
         $this->trainings = new ArrayCollection();
-        $this->school_level = new ArrayCollection();
     }
 
-    public function showScoreTotal(): int
+    public function showScoreTotal(): ?int
     {
-        $score = 0;
-        foreach ($this->getGames() as $game) {
-            $score = (($game->getWordCount() - $game->getErrorCount()) * 100 / $game->getWordCount());
+        $score = null;
+        if (count($this->getGames()) > 0) {
+            foreach ($this->getGames() as $game) {
+                $score = (($game->getWordCount() - $game->getErrorCount()) * 100 / $game->getWordCount());
+            }
+            $score = $score / count($this->getGames());
         }
-        return $score / count($this->getGames());
+        return $score;
     }
 
     public function showHelpStatsForAllGames(): array

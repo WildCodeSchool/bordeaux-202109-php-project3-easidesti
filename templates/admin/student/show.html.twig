@@ -40,6 +40,7 @@
                     {% endfor %}
                 <h2 class="text-center text-light bg-dark my-3">Partie EASI</h2>
                 <h5 class="my-2 border-1 fs-3">Entraînement</h5>
+                {% if student.showScoreTotal != null %}
                 <div class="progress w-50 my-2  fs-5">
                     <div class="progress-bar bg-success" role="progressbar" style="width:{{ student.showScoreTotal }}%" aria-valuenow="{{ student.showScoreTotal }}" aria-valuemin="0" aria-valuemax="100">{{ student.showScoreTotal }}% de réussite</div>
                     <div class="progress-bar bg-danger" role="progressbar" style="width:{{ 100 - student.showScoreTotal }}%" aria-valuenow="{{ 100 - student.showScoreTotal }}" aria-valuemin="0" aria-valuemax="100">{{ 100 - student.showScoreTotal }}% d'échec</div>
@@ -78,6 +79,9 @@
 
                     {% endfor %}
                 </ul>
+                {% else %}
+                    <h5 class="my-2 border-1">Aucun entraînement effectué</h5>
+                {% endif %}
             </div>
         </div>
     </div>
