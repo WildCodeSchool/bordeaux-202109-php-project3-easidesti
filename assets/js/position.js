@@ -71,11 +71,11 @@ if (displayDivSyllabesMuteLetters) {
 emptyWorld.addEventListener('click', () => {
     divMuteLetter.innerHTML = '';
     divStudyLetter.innerHTML = '';
-    blockLetter.innerHTML = '';
     blockHidden.innerHTML = '';
     blockDefinition.innerHTML = '';
     blockSyllabe.classList.add('d-none');
     blockMuteLetter.classList.add('d-none');
+    blockLetter.classList.add('d-none');
     wordInput.value = '';
     divEndpoint.innerHTML = '';
 });
