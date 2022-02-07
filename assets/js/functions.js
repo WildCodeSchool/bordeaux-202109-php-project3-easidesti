@@ -30,7 +30,7 @@ const getLetterPosition = (word, letter, position) => {
     const letters = [];
     for (let i = 0; i < word.length; i++) {
         if (word[i] === letter) {
-            letters.push(i)
+            letters.push(i);
         }
     }
     return letters[position - 1];
