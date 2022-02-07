@@ -7,7 +7,6 @@ const divEndpoint = document.getElementById('endpoint');
 const divMuteLetter = document.getElementById('mute-letter');
 const wordInput = document.getElementById('word_content');
 const blockDefinition = document.getElementById('word_definition');
-const emptyWorld = document.getElementById('empty-word');
 const url = blockHidden.dataset.url;
 window.addEventListener('load', () => {
     const wordArray = wordInput.value.split('');
@@ -83,16 +82,5 @@ window.addEventListener('load', () => {
                 blockHidden.appendChild(input);
             }
         });
-    });
-});
-emptyWorld.addEventListener('click', () => {
-    blockHidden.innerHTML = '';
-    const allEndpoints = document.querySelectorAll('.positions');
-    allEndpoints.forEach((endpoint) => {
-        endpoint.className = 'word-letter btn fs-2 positions';
-    });
-    const allMuteLetters = document.querySelectorAll('.mute');
-    allMuteLetters.forEach((muteLetter) => {
-        muteLetter.className = 'word-letter btn fs-2 mute';
     });
 });

@@ -2,10 +2,10 @@
     <div class="row justify-content-around">
         {% for i in 1..word.letter.nbProposal %}
             <div class="
-                d-flex btn-app pt-2 px-1 m-2 flex-column justify-content-end
-                {% if word.letter.nbProposal == 4 %} col-4 {% endif %}
-                {% if word.letter.nbProposal == 6 %} col-3 {% endif %}
-                {% if word.letter.nbProposal == 8 %} col-2 ms-4 {% endif %}
+                d-flex btn-app pt-2 px-1 flex-column justify-content-end
+                {% if word.letter.nbProposal == 4 %} col-4 m-2{% endif %}
+                {% if word.letter.nbProposal == 6 %} col-3 m-2{% endif %}
+                {% if word.letter.nbProposal == 8 %} col-2 m-2 mx-5 {% endif %}
             ">
                 {% if istraining == false %}
                     <a href="{{ path('check_response', {id: game.id, word: word.id, picture: 'lettre_' ~ word.letter.content ~ '_' ~ i ~ '.png'}) }}" class="col-auto mx-auto">
