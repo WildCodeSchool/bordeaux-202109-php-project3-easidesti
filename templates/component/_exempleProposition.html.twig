@@ -5,7 +5,7 @@
                 d-flex btn-app pt-2 px-1 m-2 flex-column justify-content-end
                 {% if game.serie.letter.nbProposal == 4 %} col-4 {% endif %}
                 {% if game.serie.letter.nbProposal == 6 %} col-3 {% endif %}
-                {% if game.serie.letter.nbProposal == 8 %} col-2 {% endif %}
+                {% if game.serie.letter.nbProposal > 6 %} col-2 mx-3 {% endif %}
             ">
                 <img class="proposition col-auto mx-auto" src="{{ asset('build/images/lettre_' ~ game.serie.letter.content ~ '_' ~ i ~ '.png') }}" alt="son table">
 
