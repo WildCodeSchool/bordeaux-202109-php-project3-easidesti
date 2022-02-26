@@ -55,8 +55,6 @@ class WordController extends AbstractController
             $studyLetter = $studyLetterRepository->findOneBy(['audio' => $linkPosition]);
             $word->setLetter($letter);
             $word->setStudyLetter($studyLetter);
-            $serie = $serieRepository->findOneBy(['id' => $request->request->get('word')['level']]);
-            $word->setSerie($serie);
             $entityManager = $managerRegistry->getManager();
             $endpointLetters = $wordGenerator->generateEndpoint(
                 $word->getContent(),
@@ -81,7 +79,7 @@ class WordController extends AbstractController
             $entityManager->persist($word);
             $entityManager->flush();
             $this->addFlash('success', 'Le mot a bien été ajouté !');
-            return $this->redirectToRoute('word_new');
+            return $this->redirectToRoute('admin_series');
         }
         return $this->renderForm('admin/word/new.html.twig', [
             'form' => $form,
