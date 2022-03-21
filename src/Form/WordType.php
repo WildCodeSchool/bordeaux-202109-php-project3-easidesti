@@ -7,6 +7,7 @@ use App\Entity\Pronunciation;
 use App\Entity\Serie;
 use App\Entity\StudyLetter;
 use App\Entity\Word;
+use App\Repository\PronunciationRepository;
 use App\Repository\SerieRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -35,7 +36,11 @@ class WordType extends AbstractType
                 'multiple'     => false,
                 'attr'         => [
                     'class'    => 'd-flex col-4',
-                ]
+                ],
+                'query_builder' => function(PronunciationRepository $pr) {
+                    return $pr->createQueryBuilder('p')
+                        ->orderBy('p.picture', 'ASC');
+                }
             ])
             ->add('definition', TextareaType::class, [
                 'label'    => 'Définition',
