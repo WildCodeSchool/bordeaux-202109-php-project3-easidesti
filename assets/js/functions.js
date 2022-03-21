@@ -1,4 +1,13 @@
 const addPosition = (span, nameInput, className, letter = null) => {
+    if (letter === 'é' || letter === 'é' || letter === 'ê' || letter === 'ë') {
+        letter = 'e';
+    }
+    if (letter === 'à' || letter === 'â' || letter === 'ä') {
+        letter = 'a';
+    }
+    if (letter === 'î' || letter === 'ï') {
+        letter = 'i';
+    }
     span.className = `word-letter fs-1 text-danger btn ${className}`;
     const input = document.createElement('input');
     input.classList.add('input-endpoint');

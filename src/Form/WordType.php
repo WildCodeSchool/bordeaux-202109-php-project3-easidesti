@@ -37,7 +37,7 @@ class WordType extends AbstractType
                 'attr'         => [
                     'class'    => 'd-flex col-4',
                 ],
-                'query_builder' => function(PronunciationRepository $pr) {
+                'query_builder' => function (PronunciationRepository $pr) {
                     return $pr->createQueryBuilder('p')
                         ->orderBy('p.picture', 'ASC');
                 }
