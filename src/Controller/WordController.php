@@ -133,7 +133,7 @@ class WordController extends AbstractController
             $letter = $word->getSerie()->getLetter()->getContent();
             $positionLetter = (int)substr($letterData, 0, 1);
             $linkPosition = $wordGenerator->generateLetterPosition(
-                str_split($word->getContent()),
+                mb_str_split($word->getContent()),
                 $letter,
                 $positionLetter
             );
