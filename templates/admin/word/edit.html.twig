@@ -40,8 +40,9 @@
                 {% endif %}
             </div>
             {{ form_row(form.serie) }}
-            <div class="d-flex justify-content-center col-auto">
+            <div class="d-flex justify-content-around col-auto my-4">
                 <button class="btn-app btn bg-light mx-auto px-5 py-2 fs-4">Modifier le mot</button>
+                <a class="btn-app btn bg-light mx-auto px5 py-2 fs-4" href="{{ path('word_delete', {id: word.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce mot?')">Supprimer le mot</a>
             </div>
             {{ form_end(form) }}
         </div>

@@ -48,7 +48,7 @@ class WordController extends AbstractController
             $letter = $letterRepository->findOneBy(['content' => substr($letterData, 2)]);
             $positionLetter = (int)substr($letterData, 0, 1);
             $linkPosition = $wordGenerator->generateLetterPosition(
-                str_split($word->getContent()),
+                mb_str_split($word->getContent()),
                 $letter->getContent(),
                 $positionLetter
             );
@@ -175,6 +175,20 @@ class WordController extends AbstractController
             'letter' => $letter,
             'position' => $position ?? null,
             'url' => $url,
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function delete(Word $word, ManagerRegistry $managerRegistry): Response
+    {
+        $managerRegistry->getManager()->remove($word);
+        $managerRegistry->getManager()->flush();
+        $this->addFlash('success', 'Le mot à bien été supprimer');
+
+        return $this->redirectToRoute('admin_series_show', [
+            'id' => $word->getSerie()->getId(),
         ]);
     }
 }
