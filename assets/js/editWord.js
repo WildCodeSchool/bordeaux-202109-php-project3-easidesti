@@ -27,21 +27,21 @@ window.addEventListener('load', () => {
                 });
         }
     }
-    const letter = blockHidden.dataset.letter;
+    const studyLetter = blockHidden.dataset.letter;
     const positionLetter = blockHidden.dataset.position;
-    const position = getLetterPosition(wordInput.value, letter, positionLetter);
+    const position = getLetterPosition(wordInput.value, studyLetter, positionLetter);
     const allLetters = document.querySelectorAll('.study-letter');
 
     if (blockHidden.dataset.letter !== '' && position !== undefined) {
-        const letter = addPosition(allLetters[position], 'clickedLetterStudy',  'study-letter-selected');
-        blockHidden.appendChild(letter);
+        const letterStudy = addPosition(allLetters[position], 'clickedLetterStudy', 'study-letter-selected');
+        blockHidden.appendChild(letterStudy);
     }
     allLetters.forEach((letter) => {
         letter.addEventListener('click', () => {
             if (document.getElementById(`clickedLetterStudy_${letter.id}`)) {
                 deletePosition(letter, `clickedLetterStudy_${letter.id}`);
             } else {
-                const input = addPosition(letter, 'clickedLetterStudy',  'study-letter-selected', letter.innerText);
+                const input = addPosition(letter, 'clickedLetterStudy', 'study-letter-selected', letter.innerText);
                 blockHidden.appendChild(input);
             }
         })

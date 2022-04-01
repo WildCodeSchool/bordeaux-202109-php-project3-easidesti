@@ -45,8 +45,8 @@ class WordController extends AbstractController
                 $this->addFlash('danger', 'Vous devez rentrer qu\'une seule lettre');
                 return $this->redirectToRoute('word_new');
             }
-            $letter = $letterRepository->findOneBy(['content' => substr($letterData, 2)]);
-            $positionLetter = (int)substr($letterData, 0, 1);
+            $letter = $letterRepository->findOneBy(['content' => substr($letterData, -1)]);
+            $positionLetter = (int)substr($letterData,0, -2);
             $linkPosition = $wordGenerator->generateLetterPosition(
                 mb_str_split($word->getContent()),
                 $letter->getContent(),
@@ -131,7 +131,7 @@ class WordController extends AbstractController
                 return $this->redirectToRoute('word_new');
             }
             $letter = $word->getSerie()->getLetter()->getContent();
-            $positionLetter = (int)substr($letterData, 0, 1);
+            $positionLetter = (int)substr($letterData, 0, -2);
             $linkPosition = $wordGenerator->generateLetterPosition(
                 mb_str_split($word->getContent()),
                 $letter,

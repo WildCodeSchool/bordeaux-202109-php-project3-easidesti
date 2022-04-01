@@ -24,6 +24,7 @@ class WordGenerator
     public function generateLetterPosition(array $wordLetters, string $letter, int $positionLetter): string
     {
         $datas = [];
+        $wordLetters = $this->letterWithoutAccent($wordLetters);
         foreach ($wordLetters as $key => $arrLetter) {
             if ($arrLetter === $letter) {
                 $datas[] = $key;
@@ -36,6 +37,24 @@ class WordGenerator
             }
         }
         return $letter . '_' . $result;
+    }
+
+    public function letterWithoutAccent(array $wordLetter)
+    {
+        $letterA = [
+            'à',
+            'ä',
+            'â',
+        ];
+        $letterE = [
+            'é',
+            'è',
+            'ê',
+            'ë',
+        ];
+        $wordLetter = str_replace($letterE, 'e', $wordLetter);
+        $wordLetter = str_replace($letterA, 'a', $wordLetter);
+        return $wordLetter;
     }
 
     public function cleanWordLetters(Word $word, $entityName): void
