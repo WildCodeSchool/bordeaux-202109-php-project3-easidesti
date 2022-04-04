@@ -40,7 +40,7 @@ class Word
     private ?string $audio;
 
     /**
-     * @ORM\OneToMany(targetEntity=MuteLetter::class, mappedBy="word")
+     * @ORM\OneToMany(targetEntity=MuteLetter::class, mappedBy="word", orphanRemoval=true)
      */
     private Collection $muteLetters;
 
