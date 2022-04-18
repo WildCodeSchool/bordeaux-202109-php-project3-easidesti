@@ -56,7 +56,7 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $game->setSerie($managerRegistry->getRepository(Serie::class)->findOneById(1));
+        $game->setSerie($workSerie);
         $entityManager->persist($game);
         $entityManager->flush();
         return $this->redirectToRoute('phoneme', [
