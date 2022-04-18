@@ -70,18 +70,22 @@ class WordGenerator
 
     public function getWordsGameCutInArray(Collection $words): array
     {
-        $datas = [];
+//        dd($words);
+        $data = [];
         foreach ($words as $word) {
-            $letters = mb_str_split($word->getContent());
+            $cleanWord = iconv('UTF-8', 'ASCII//TRANSLIT', $word->getContent());
+            $letters = str_split($cleanWord);
             $position = null;
             if ($word->getStudyLetter()) {
                 $position = $word->knowLetterPosition($letters);
             }
-            $datas[$word->getContent()] = [
-                $letters,
-                $position,
+            $data[] = [
+                $word->getContent() => [
+                    $letters,
+                    $position,
+                ],
             ];
         }
-        return $datas;
+        return $data;
     }
 }
