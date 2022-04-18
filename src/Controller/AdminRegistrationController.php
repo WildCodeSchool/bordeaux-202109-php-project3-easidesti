@@ -77,9 +77,9 @@ class AdminRegistrationController extends AbstractController
     /**
      * @Route("/modification_eleve/eleve/{id}", name="edit_student")
      */
-    public function editStudent(Request $request, User $user, School $school, EntityManagerInterface $entityManager): Response
+    public function editStudent(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(RegistrationFormType::class, $user, ['school' => $school]);
+        $form = $this->createForm(RegistrationFormType::class, $user, ['school' => $user->getSchoolLevel()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -107,7 +107,7 @@ class AdminRegistrationController extends AbstractController
             'success',
             'L\'élève a bien été supprimé!'
         );
-        return $this->redirectToRoute('admin_registration_select_student_for_edit_student', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_registration_select_student_for_edit_student   ', [], Response::HTTP_SEE_OTHER);
     }
 
 }
