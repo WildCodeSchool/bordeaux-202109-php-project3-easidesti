@@ -79,7 +79,7 @@ class GameController extends AbstractController
         $word = $words[$step];
         $letters = mb_str_split($word->getContent());
         if ($word->getStudyLetter()) {
-            $position = $word->knowLetterPosition($letters);
+            $position = $word->knowLetterPosition();
         }
         if ($word->getMuteLetters()) {
             $muteLettersPositions = [];

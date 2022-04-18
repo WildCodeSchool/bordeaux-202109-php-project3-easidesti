@@ -71,12 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private \DateTimeInterface $updateAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="player")
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="player", cascade={"persist", "remove"})
      */
     private Collection $games;
 
     /**
-     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="player")
+     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="player", cascade={"persist", "remove"})
      */
     private Collection $trainings;
 

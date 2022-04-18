@@ -4,40 +4,33 @@
 
 {% block body %}
     {% include 'admin/admin_component/_nav.html.twig' %}
-    {% for label, messages in app.flashes(['success', 'warning']) %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }} text-center">
-                {{ message }}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 mb-4">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">Rechercher</button>
+                {{ form_end(form) }}
             </div>
-        {% endfor %}
-    {% endfor %}
-     <div class="container mt-5">
-         <div class="row">
-             <div class="col-12 mb-4">
-                 {{ form_start(form) }}
-                 {{ form_widget(form) }}
-                 <button class="btn btn-primary">Rechercher</button>
-                 {{ form_end(form) }}
-             </div>
-             <div class="col-12">
-                 <h1>Séries</h1>
-                 <div class="list-group">
-                     {% for serie in series %}
-                          <a href="{{ path('admin_series_show', {id: serie.id}) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                             <div class="w-25">
+            <div class="col-12">
+                <h1>Séries</h1>
+                <div class="list-group">
+                    {% for serie in series %}
+                        <a href="{{ path('admin_series_show', {id: serie.id}) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div class="w-25">
                                 Lettre <span class="fw-bolder">{{ serie.letter.content|upper }}</span> - <span>Niveau {% for i in 1..serie.level %} <i class="text-warning fas fa-star"></i>{% endfor %}</span>
-                             Série N° {{ serie.number }}
-                             </div>
-                                 <div class="progress w-50 bg-danger">
-                                     <div class="progress-bar bg-{{ serie.stats.color }}" role="progressbar" style="width: {{ serie.stats.rate }}%;" aria-valuenow="{{ serie.stats.rate }}" aria-valuemin="0" aria-valuemax="100">
-                                         {{ serie.stats.rate }} %
-                                     </div>
-                                 </div>
-                             <span class="badge bg-success rounded-pill">{{ serie.stats.max }} / {{ serie.words|length }} Mots non complétés</span>
-                         </a>
-                     {% endfor %}
-                 </div>
-             </div>
-         </div>
-     </div>
+                                Série N° {{ serie.number }}
+                            </div>
+                            <div class="progress w-50 bg-danger">
+                                <div class="progress-bar bg-{{ serie.stats.color }}" role="progressbar" style="width: {{ serie.stats.rate }}%;" aria-valuenow="{{ serie.stats.rate }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ serie.stats.rate }} %
+                                </div>
+                            </div>
+                            <span class="badge bg-success rounded-pill">{{ serie.stats.max }} / {{ serie.words|length }} Mots non complétés</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

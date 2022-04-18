@@ -335,8 +335,11 @@ class Word
         return $this;
     }
 
-    public function knowLetterPosition(array $letters): int
+    public function knowLetterPosition(): int
     {
+        //clean letter without accent
+        $cleanWord = iconv('UTF-8', 'ASCII//TRANSLIT', $this->getContent());
+        $letters = str_split($cleanWord);
         $indexes = [];
         foreach ($letters as $index => $letter) {
             if ($letter === $this->getLetter()->getContent()) {

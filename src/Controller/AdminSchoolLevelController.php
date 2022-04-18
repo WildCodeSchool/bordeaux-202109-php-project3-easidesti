@@ -33,7 +33,7 @@ class AdminSchoolLevelController extends AbstractController
                 'success',
                 'La classe a bien été créé!'
             );
-            return $this->redirectToRoute('admin_series');
+            return $this->redirectToRoute('admin_school_level_select_school_level');
         }
         return $this->renderForm('admin/registration/schoolLevel/newSchoolLevel.html.twig', [
             'form' => $form,
@@ -73,5 +73,21 @@ class AdminSchoolLevelController extends AbstractController
             'schoolLevel' => $schoolLevel,
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/suppression_classe/{id}", name="delete")
+     */
+    public function deleteSchoolLevel(
+        SchoolLevel $schoolLevel,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $entityManager->remove($schoolLevel);
+        $entityManager->flush();
+        $this->addFlash(
+            'success',
+            'L\'établissement a bien été supprimé!'
+        );
+        return $this->redirectToRoute('admin_school_level_select_school_level', [], Response::HTTP_SEE_OTHER);
     }
 }

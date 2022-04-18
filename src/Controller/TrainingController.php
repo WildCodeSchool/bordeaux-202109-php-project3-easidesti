@@ -153,7 +153,7 @@ class TrainingController extends AbstractController
         }
         if ($word->getMuteLetters()) {
             $muteLettersPositions = [];
-            foreach ($word->getMuteLetters() as $key => $muteLetter) {
+            foreach ($word->getMuteLetters() as $muteLetter) {
                 $muteLettersPositions[$muteLetter->getPosition() + 1] = $muteLetter->getPosition() + 1;
             }
         }

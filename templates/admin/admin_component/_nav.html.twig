@@ -26,8 +26,8 @@
                         Gestion des élèves
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_registration_select_student_for_edit_student') }}">Liste des élèves</a></li>
                         <li><a class="dropdown-item" href="{{ path('admin_registration_select_school') }}">Création d'un élève</a></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_registration_select_student_for_edit_student') }}">Modification d'un élève</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -35,11 +35,11 @@
                         Gestion des établissements
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_school_show_school') }}">Liste des écoles</a></li>
                         <li><a class="dropdown-item" href="{{ path('admin_school_new_school') }}">Création d'une école</a></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_school_show_school') }}">Modification d'une école</a></li>
                         <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_school_level_select_school_level') }}">Liste des classes</a></li>
                         <li><a class="dropdown-item" href="{{ path('admin_school_level_new') }}">Création d'une classe</a></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_school_level_select_school_level') }}">Modification d'une classe</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -49,3 +49,11 @@
         </div>
     </div>
 </nav>
+
+{% for label, messages in app.flashes(['success', 'warning']) %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}

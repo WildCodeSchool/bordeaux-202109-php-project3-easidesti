@@ -96,4 +96,18 @@ class AdminRegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/suppression_eleve/{id}", name="delete_student")
+     */
+    public function deleteStudent(User $user, ManagerRegistry $managerRegistry): Response
+    {
+        $managerRegistry->getManager()->remove($user);
+        $managerRegistry->getManager()->flush();
+        $this->addFlash(
+            'success',
+            'L\'élève a bien été supprimé!'
+        );
+        return $this->redirectToRoute('admin_registration_select_student_for_edit_student', [], Response::HTTP_SEE_OTHER);
+    }
+
 }
