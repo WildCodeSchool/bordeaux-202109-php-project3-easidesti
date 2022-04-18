@@ -15,28 +15,30 @@
                             <p class="d-flex align-items-end">effectué le {{ training.createdAt|date('d-m-Y à h:i') }}</p>
                         </div>
                     <div class="d-flex flex-row">
-                            <div class="col-6">
+                        <div class="col-6">
+                            {% if training.step > 0 %}
                                 <div class="progress w-75 my-2 h-25 fs-5">
                                     <div class="progress-bar bg-success" role="progressbar" style="width:{{ (((training.step - training.errorCount) * 100) / training.step)|round }}%" aria-valuenow="{{ (((training.step - training.errorCount) * 100) / training.step)|round }}" aria-valuemin="0" aria-valuemax="100">{{ (((training.step - training.errorCount) * 100) / training.step)|round }}% de réussite</div>
                                     <div class="progress-bar bg-danger" role="progressbar" style="width: {{ ((training.errorCount * 100) / training.step)|round }}%" aria-valuenow="{{ ((training.errorCount * 100) / training.step)|round }}" aria-valuemin="0" aria-valuemax="100">{{ ((training.errorCount * 100) / training.step)|round }}%</div>
                                 </div>
                                 <div class="progress w-75 h-25 fs-5">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width:{{ (((training.step - training.errorCount) * 100) / training.step)|round }}%" aria-valuenow="{{ (((training.step - training.errorCount) * 100) / training.step)|round }}" aria-valuemin="0" aria-valuemax="100">{{ training.step - training.errorCount }} bonnes réponses / 120</div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width:{{ (((training.step - training.errorCount) * 100) / training.step)|round }}%" aria-valuenow="{{ (((training.step - training.errorCount) * 100) / training.step)|round }}" aria-valuemin="0" aria-valuemax="100">{{ training.step - training.errorCount }} bonnes réponses / {{ training.step }}</div>
                                     <div class="progress-bar bg-danger" role="progressbar" style="width: {{ ((training.errorCount * 100) / training.step)|round }}%" aria-valuenow="{{ ((training.errorCount * 100) / training.step)|round }}" aria-valuemin="0" aria-valuemax="100">{{ training.errorCount }}</div>
                                 </div>
-                            </div>
-                            <div class="col-9">
-                                 <table class="table border border-warning w-50">
-                                      {% for letter, value in training.countLetterErrors %}
-                                         <tr>
-                                             <th class="border border-warning text-center" scope="col">Lettre <span class="text-warning">{{ letter }}</span></th>
-                                              <td> <span class="text-danger fw-bold">{{ value }} </span> faute{{ value > 1 ? 's' : '' }}</td>
-                                              <td> <span class="text-danger fw-bold">{{ ((value * 100) / 120)|round }}</span> % de mauvaises réponses</td>
-                                         </tr>
-                                     {% endfor %}
-                                 </table>
-                            </div>
-                     </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-9">
+                            <table class="table border border-warning w-50">
+                                {% for letter, value in training.countLetterErrors %}
+                                    <tr>
+                                        <th class="border border-warning text-center" scope="col">Lettre <span class="text-warning">{{ letter }}</span></th>
+                                        <td> <span class="text-danger fw-bold">{{ value }} </span> faute{{ value > 1 ? 's' : '' }}</td>
+                                        <td> <span class="text-danger fw-bold">{{ ((value * 100) / 120)|round }}</span> % de mauvaises réponses</td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
                     {% endfor %}
                 <h2 class="text-center text-light bg-dark my-3">Partie EASI</h2>
                 <h5 class="my-2 border-1 fs-3">Entraînement</h5>
