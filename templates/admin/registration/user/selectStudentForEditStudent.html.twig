@@ -18,6 +18,7 @@
                                 {{ student.firstname }} {{ student.lastname }}
                             </div>
                             <div>
+                                <a href="{{ path('admin_student_result_show', {nickname: student.nickname}) }}" class="me-3"><i class="fa-solid fa-eye"></i></a>
                                 <a href="{{ path('admin_registration_edit_student', {id: student.id}) }}" class="me-3"><i class="fa-solid fa-pen"></i></a>
                                 <a href="{{ path('admin_registration_delete_student', {id: student.id}) }}" class="me-3" onclick="return confirm('Êtes-vous sur de vouloir supprimer cet élève ?')"><i class="fa-solid fa-trash-can"></i></a>
                             </div>
