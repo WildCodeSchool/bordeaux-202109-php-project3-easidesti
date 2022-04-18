@@ -56,7 +56,7 @@ class GameController extends AbstractController
         $game->setErrorCount(0);
         $game->setErrorStep(0);
         $game->setScore(0);
-        $game->setSerie($workSerie);
+        $game->setSerie($managerRegistry->getRepository(Serie::class)->findOneById(49));
         $entityManager->persist($game);
         $entityManager->flush();
         return $this->redirectToRoute('phoneme', [
@@ -79,7 +79,7 @@ class GameController extends AbstractController
         $word = $words[$step];
         $letters = mb_str_split($word->getContent());
         if ($word->getStudyLetter()) {
-            $position = $word->knowLetterPosition($letters);
+            $position = $word->knowLetterPosition();
         }
         if ($word->getMuteLetters()) {
             $muteLettersPositions = [];

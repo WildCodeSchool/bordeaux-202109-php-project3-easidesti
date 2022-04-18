@@ -32,7 +32,6 @@ class WordController extends AbstractController
         WordGenerator $wordGenerator
     ): Response {
         $url = substr($this->generateUrl('word_definition', ['word' => 'u']), 0, -1);
-        $serieRepository = $managerRegistry->getRepository(Serie::class);
         $letterRepository = $managerRegistry->getRepository(Letter::class);
         $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
         $word = new Word();
@@ -46,7 +45,7 @@ class WordController extends AbstractController
                 return $this->redirectToRoute('word_new');
             }
             $letter = $letterRepository->findOneBy(['content' => substr($letterData, -1)]);
-            $positionLetter = (int)substr($letterData,0, -2);
+            $positionLetter = (int)substr($letterData, 0, -2);
             $linkPosition = $wordGenerator->generateLetterPosition(
                 mb_str_split($word->getContent()),
                 $letter->getContent(),
