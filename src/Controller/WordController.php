@@ -166,6 +166,7 @@ class WordController extends AbstractController
                 $word->addEndpoint($endpoint);
             }
             $entityManager->flush();
+            $this->addFlash('success', 'Le mot a bien été modifié');
             return $this->redirectToRoute('admin_series_show', ['id' => $word->getSerie()->getId()]);
         }
         return $this->renderForm('admin/word/edit.html.twig', [

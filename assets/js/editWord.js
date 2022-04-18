@@ -44,14 +44,16 @@ window.addEventListener('load', () => {
                 const input = addPosition(letter, 'clickedLetterStudy', 'study-letter-selected', letter.innerText);
                 blockHidden.appendChild(input);
             }
-        })
-    })
+        });
+    });
     const allEndpoints = document.querySelectorAll('.positions');
     if (!blockHidden.dataset.endpoints == '') {
         const endpoints = blockHidden.dataset.endpoints.split(',');
-        for (let i = 0; i < endpoints.length; i++) {
-            const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters', 'endpoint-selected');
-            blockHidden.appendChild(endpoint);
+        for (let i = 0; i < endpoints.length; i ++) {
+            if (allEndpoints[endpoints[i]]) {
+                const endpoint = addPosition(allEndpoints[endpoints[i]], 'clickedLetters', 'endpoint-selected');
+                blockHidden.appendChild(endpoint);
+            }
         }
     }
     allEndpoints.forEach((endpoint) => {
