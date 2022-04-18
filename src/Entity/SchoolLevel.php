@@ -30,7 +30,7 @@ class SchoolLevel
     private $school;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="schoolLevel")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="schoolLevel", cascade={"persist", "remove"})
      */
     private $students;
 

@@ -74,4 +74,18 @@ class AdminSchoolController extends AbstractController
             'form'  => $form,
         ]);
     }
+
+    /**
+     * @Route("/suppression_etablissement/{id}", name="delete")
+     */
+    public function deleteSchool(School $school, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($school);
+        $entityManager->flush();
+        $this->addFlash(
+            'success',
+            'L\'établissement a bien été supprimé!'
+        );
+        return $this->redirectToRoute('admin_school_show_school');
+    }
 }
