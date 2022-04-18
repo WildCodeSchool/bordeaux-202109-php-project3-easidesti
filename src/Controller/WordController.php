@@ -110,7 +110,9 @@ class WordController extends AbstractController
         if ($word->getStudyLetter()) {
             $position = $word->getStudyLetter()->getPosition();
         }
-        $letter = $word->getSerie()->getLetter()->getContent();
+        if ($word->getSerie()) {
+            $letter = $word->getSerie()->getLetter()->getContent();
+        }
         $endPoints = [];
         foreach ($word->getEndpoints() as $endpoint) {
             $endPoints[] = $endpoint->getPosition();
@@ -171,7 +173,7 @@ class WordController extends AbstractController
             'form' => $form,
             'endpoints' => $endPoints,
             'muteLetters' => $muteLetters,
-            'letter' => $letter,
+            'letter' => $letter ?? '',
             'position' => $position ?? null,
             'url' => $url,
         ]);
@@ -186,8 +188,10 @@ class WordController extends AbstractController
         $managerRegistry->getManager()->flush();
         $this->addFlash('success', 'Le mot à bien été supprimer');
 
-        return $this->redirectToRoute('admin_series_show', [
-            'id' => $word->getSerie()->getId(),
-        ]);
+        if ($word->getSerie()) {
+            return $this->redirectToRoute('admin_series_show', ['id' => $word->getSerie()->getId()]);
+        } else {
+            return $this->redirectToRoute('admin_series');
+        }
     }
 }
