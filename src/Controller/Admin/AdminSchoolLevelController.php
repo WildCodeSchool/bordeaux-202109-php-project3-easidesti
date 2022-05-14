@@ -84,7 +84,7 @@ class AdminSchoolLevelController extends AbstractController
      * @Route("/suppression_classe/{id}", name="delete")
      */
     public function deleteSchoolLevel(
-        SchoolLevel $schoolLevel,
+        SchoolLevel $schoolLevel
     ): Response {
         $this->managerRegistry->getManager()->remove($schoolLevel);
         $this->managerRegistry->getManager()->flush();
