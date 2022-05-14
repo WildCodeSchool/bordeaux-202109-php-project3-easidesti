@@ -25,10 +25,38 @@ class AdminController extends AbstractController
 
     private WordRepository $wordRepository;
 
-    public function __construct(SerieRepository $serieRepository, WordRepository $wordRepository)
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(
+        SerieRepository $serieRepository,
+        WordRepository $wordRepository,
+        ManagerRegistry $managerRegistry
+    )
     {
         $this->serieRepository = $serieRepository;
         $this->wordRepository  = $wordRepository;
+        $this->managerRegistry = $managerRegistry;
+    }
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function homePage(): Response
+    {
+        return $this->render('admin/home.html.twig');
+    }
+
+    /**
+     * @Route("/reset_test", name="reset_test")
+     */
+    public function resetTest(): Response
+    {
+        $students = $this->getDoctrine()->getRepository(User::class)->findAll();
+        foreach ($students as $student) {
+            $student->setHasTest(0);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->redirectToRoute('admin_home');
     }
 
     /**
