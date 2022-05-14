@@ -43,7 +43,7 @@ class AdminRegistrationController extends AbstractController
     public function register(
         School $school,
         Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
+        UserPasswordHasherInterface $userPasswordHasher
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user, ['school' => $school]);
