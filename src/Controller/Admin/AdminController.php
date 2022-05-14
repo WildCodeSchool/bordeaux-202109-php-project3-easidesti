@@ -56,6 +56,7 @@ class AdminController extends AbstractController
             $student->setHasTest(0);
             $this->getDoctrine()->getManager()->flush();
         }
+        $this->addFlash('success', 'Les test ont été réinitialisés');
         return $this->redirectToRoute('admin_home');
     }
 
@@ -96,12 +97,12 @@ class AdminController extends AbstractController
     /**
      * @Route("/affichage/series/easi/{id}", name="series_show", methods={"GET", "POST"})
      */
-    public function show(Serie $serie, Request $request, ManagerRegistry $managerRegistry): Response
+    public function show(Serie $serie, Request $request): Response
     {
         $form = $this->createForm(SerieType::class, $serie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $managerRegistry->getManager()->flush();
+            $this->managerRegistry->getManager()->flush();
             return $this->redirectToRoute('admin_series_show', [
                 'id' => $serie->getId(),
             ]);
@@ -115,9 +116,9 @@ class AdminController extends AbstractController
     /**
      * @Route("/affichage/statistique/easi/ecoles", name="schools")
      */
-    public function showAllSchools(ManagerRegistry $managerRegistry): Response
+    public function showAllSchools(): Response
     {
-        $schoolRepository = $managerRegistry->getRepository(School::class);
+        $schoolRepository = $this->managerRegistry->getRepository(School::class);
         $schools = $schoolRepository->findAll();
         return $this->render('admin/school/index.html.twig', [
             'schools'   => $schools,

@@ -22,17 +22,23 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WordController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+
     /**
      * @Route("/ajout", name="new")
      */
     public function index(
         Request $request,
-        ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator
     ): Response {
         $url = substr($this->generateUrl('word_definition', ['word' => 'u']), 0, -1);
-        $letterRepository = $managerRegistry->getRepository(Letter::class);
-        $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
+        $letterRepository = $this->managerRegistry->getRepository(Letter::class);
+        $studyLetterRepository = $this->managerRegistry->getRepository(StudyLetter::class);
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
@@ -53,7 +59,7 @@ class WordController extends AbstractController
             $studyLetter = $studyLetterRepository->findOneBy(['audio' => $linkPosition]);
             $word->setLetter($letter);
             $word->setStudyLetter($studyLetter);
-            $entityManager = $managerRegistry->getManager();
+            $entityManager = $this->managerRegistry->getManager();
             $endpointLetters = $wordGenerator->generateEndpoint(
                 $word->getContent(),
                 $request->request->get('clickedLetters')
@@ -100,12 +106,11 @@ class WordController extends AbstractController
     public function update(
         Word $word,
         Request $request,
-        ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator
     ): Response {
         $url = $this->generateUrl('word_definition', ['word' => $word->getContent()]);
-        $studyLetterRepository = $managerRegistry->getRepository(StudyLetter::class);
-        $entityManager = $managerRegistry->getManager();
+        $studyLetterRepository = $this->managerRegistry->getRepository(StudyLetter::class);
+        $entityManager = $this->managerRegistry->getManager();
         if ($word->getStudyLetter()) {
             $position = $word->getStudyLetter()->getPosition();
         }

@@ -18,13 +18,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminRegistrationController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
 
     /**
      * @Route("/creation_eleve/selection_etablissement", name="select_school")
      */
-    public function selectSchoolForCreateStudent(ManagerRegistry $managerRegistry): Response
+    public function selectSchoolForCreateStudent(): Response
     {
-        $schools = $managerRegistry->getRepository(School::class)->findAll();
+        $schools = $this->managerRegistry->getRepository(School::class)->findAll();
 
         return $this->render('admin/registration/user/selectSchoolForCreateStudent.html.twig', [
             'schools' => $schools,
@@ -38,7 +44,6 @@ class AdminRegistrationController extends AbstractController
         School $school,
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user, ['school' => $school]);
@@ -48,8 +53,8 @@ class AdminRegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
             $user->setRoles(['ROLE_STUDENT']);
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->managerRegistry->getManager()->persist($user);
+            $this->managerRegistry->getManager()->flush();
             // do anything else you need here, like send an email
             $this->addFlash('success', 'L\'éléve a bien été inscrit');
             return $this->redirectToRoute('admin_series');
@@ -65,9 +70,9 @@ class AdminRegistrationController extends AbstractController
     /**
      * @Route("/modifiaction_eleve/selection_eleve/", name="select_student_for_edit_student")
      */
-    public function selectStudentForEditStudent(ManagerRegistry $managerRegistry): Response
+    public function selectStudentForEditStudent(): Response
     {
-        $students = $managerRegistry->getRepository(User::class)->findAll();
+        $students = $this->managerRegistry->getRepository(User::class)->findAll();
 
         return $this->render('admin/registration/user/selectStudentForEditStudent.html.twig', [
             'students' => $students,
@@ -77,12 +82,12 @@ class AdminRegistrationController extends AbstractController
     /**
      * @Route("/modification_eleve/eleve/{id}", name="edit_student")
      */
-    public function editStudent(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function editStudent(Request $request, User $user): Response
     {
         $form = $this->createForm(RegistrationFormType::class, $user, ['school' => $user->getSchoolLevel()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->managerRegistry->getManager()->flush();
             $this->addFlash(
                 'success',
                 'L\'élève a bien été modifié!'
@@ -99,15 +104,15 @@ class AdminRegistrationController extends AbstractController
     /**
      * @Route("/suppression_eleve/{id}", name="delete_student")
      */
-    public function deleteStudent(User $user, ManagerRegistry $managerRegistry): Response
+    public function deleteStudent(User $user): Response
     {
-        $managerRegistry->getManager()->remove($user);
-        $managerRegistry->getManager()->flush();
+        $this->managerRegistry->getManager()->remove($user);
+        $this->managerRegistry->getManager()->flush();
         $this->addFlash(
             'success',
             'L\'élève a bien été supprimé!'
         );
         return $this->redirectToRoute('admin_registration_select_student_for_edit_student   ', [], Response::HTTP_SEE_OTHER);
     }
-
 }
+

@@ -17,9 +17,11 @@ class AdminChangePasswordController extends AbstractController
 {
     private ManagerRegistry $doctrine;
     private UserPasswordHasherInterface $passwordHasher;
-    public function __construct(ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
-    {
-        $this->doctrine = $doctrine;
+    public function __construct(
+        ManagerRegistry $doctrine,
+        UserPasswordHasherInterface $passwordHasher
+    ) {
+        $this->doctrine       = $doctrine;
         $this->passwordHasher = $passwordHasher;
     }
     /**

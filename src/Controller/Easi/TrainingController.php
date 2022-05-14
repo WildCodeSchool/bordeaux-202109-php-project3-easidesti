@@ -19,6 +19,13 @@ use Symfony\UX\Chartjs\Model\Chart;
  */
 class TrainingController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+
     private array $letters = [
         'a',
         'e',
@@ -29,7 +36,7 @@ class TrainingController extends AbstractController
     /**
      * @Route("/{trainingNumber}", name="training")
      */
-    public function index(int $trainingNumber, SerieRepository $serieRepository, ManagerRegistry $manager): Response
+    public function index(int $trainingNumber, SerieRepository $serieRepository): Response
     {
         $training = new Training();
         $training->setScore(0);
@@ -42,8 +49,8 @@ class TrainingController extends AbstractController
                 $training->addWord($word);
             }
         }
-        $manager->getManager()->persist($training);
-        $manager->getManager()->flush();
+        $this->manager->getManager()->persist($training);
+        $this->manager->getManager()->flush();
 
         return $this->redirectToRoute('training_play', [
             'id' => $training->getId(),
@@ -56,8 +63,7 @@ class TrainingController extends AbstractController
     public function play(
         Training $training,
         HistoryTrainingRepository $historyTrainingRepository,
-        ChartBuilderInterface $chartBuilder,
-        ManagerRegistry $managerRegistry
+        ChartBuilderInterface $chartBuilder
     ) {
         $words = $training->getWords();
         if (!isset($words[$training->getStep()])) {
@@ -96,7 +102,7 @@ class TrainingController extends AbstractController
                 ($wordsCount['i'] - $letterErrors['i']) / $wordsCount['i'] * 100,
             ];
             $this->getUser()->setHasTest(1);
-            $managerRegistry->getManager()->flush();
+            $this->managerRegistry->getManager()->flush();
             $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
             $chart->setData([
                 'labels' => ['e', 'a', 's', 'i'],
@@ -173,10 +179,9 @@ class TrainingController extends AbstractController
     public function checkResponse(
         Training $training,
         Word $word,
-        string $picture,
-        ManagerRegistry $managerRegistry
+        string $picture
     ): Response {
-        $manager = $managerRegistry->getManager();
+        $manager = $this->managerRegistry->getManager();
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($correctPicture === $picture) {
             $training->setStep($training->getStep() + 1);

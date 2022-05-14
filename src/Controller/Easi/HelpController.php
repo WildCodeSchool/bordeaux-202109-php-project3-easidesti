@@ -18,15 +18,18 @@ class HelpController extends AbstractController
 {
     private SessionInterface $session;
 
-    public function __construct(RequestStack $requestStack)
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(RequestStack $requestStack, ManagerRegistry $managerRegistry)
     {
         $this->session = $requestStack->getSession();
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
      * @Route("/{game}/aide-1", name="helpOne")
      */
-    public function showHelpOne(Game $game, ManagerRegistry $managerRegistry): Response
+    public function showHelpOne(Game $game): Response
     {
         $word = $game->getSerie()->getWords()[$game->getStep()];
         if (!$this->hasEverRead($word, 1)) {
@@ -55,7 +58,7 @@ class HelpController extends AbstractController
             }
             $syllabes[] = mb_substr($word->getContent(), $position, $lenght);
         }
-        $managerRegistry->getManager()->flush();
+        $this->managerRegistry->getManager()->flush();
         return $this->render('easi/helpOne.html.twig', [
             'word' => $word,
             'letter' => $letter,
@@ -69,7 +72,7 @@ class HelpController extends AbstractController
      * @Route("/{game}/aide-2", name="helpTwo")
      *
      */
-    public function showHelpTwo(Game $game, ManagerRegistry $managerRegistry): Response
+    public function showHelpTwo(Game $game): Response
     {
         $word = $game->getSerie()->getWords()[$game->getStep()];
 
@@ -77,7 +80,7 @@ class HelpController extends AbstractController
             $this->handleSession($word, 2);
             $game->setHelpCount($game->getHelpCount() + 1);
         }
-        $managerRegistry->getManager()->flush();
+        $this->managerRegistry->getManager()->flush();
         return $this->render('easi/helpTwo.html.twig', [
             'word' => $word,
             'game' => $game,
@@ -87,14 +90,14 @@ class HelpController extends AbstractController
     /**
     * @Route("/{game}/aide-3", name="helpThree")
     */
-    public function showHelpThree(Game $game, ManagerRegistry $managerRegistry): Response
+    public function showHelpThree(Game $game): Response
     {
         $word = $game->getSerie()->getWords()[$game->getStep()];
         if (!$this->hasEverRead($word, 3)) {
             $this->handleSession($word, 3);
             $game->setHelpCount($game->getHelpCount() + 1);
         }
-        $managerRegistry->getManager()->flush();
+        $this->managerRegistry->getManager()->flush();
         return $this->render('easi/helpThree.html.twig', [
             'word'  => $word,
             'game'  => $game,
