@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EasiResultController extends AbstractController
 {
-     /**
-      * @Route("/resultat/{word}/game/{id}/{success}", defaults={"success"=false} , name="step")
-      */
+    /**
+    * @Route("/resultat/{word}/game/{id}/{success}", defaults={"success"=false} , name="step")
+    */
     public function showResultStep(Word $word, Game $game, $success): Response
     {
         return $this->render('easi/correction.html.twig', [

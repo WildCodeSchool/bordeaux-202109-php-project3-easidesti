@@ -47,7 +47,7 @@ class HomeController extends AbstractController
             in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ||
             in_array('ROLE_TEACHER', $this->getUser()->getRoles())
         ) {
-            return $this->redirectToRoute('admin_series');
+            return $this->redirectToRoute('admin_home');
         }
         return $this->render('home/games.html.twig');
     }
