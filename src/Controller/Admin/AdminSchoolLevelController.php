@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\SchoolLevel;
 use App\Form\SchoolLevelType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -86,7 +86,7 @@ class AdminSchoolLevelController extends AbstractController
         $entityManager->flush();
         $this->addFlash(
             'success',
-            'L\'établissement a bien été supprimé!'
+            'La classe a bien été supprimée!'
         );
         return $this->redirectToRoute('admin_school_level_select_school_level', [], Response::HTTP_SEE_OTHER);
     }

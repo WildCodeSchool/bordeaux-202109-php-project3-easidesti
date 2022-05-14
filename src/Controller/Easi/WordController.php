@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Easi;
 
 use App\Entity\Endpoint;
 use App\Entity\Letter;
 use App\Entity\MuteLetter;
-use App\Entity\Serie;
 use App\Entity\StudyLetter;
 use App\Entity\Word;
 use App\Form\WordType;
-use App\Service\WordGenerator;
 use App\Service\Definition;
+use App\Service\WordGenerator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Easi;
 
 use App\Entity\Game;
-use App\Entity\Letter;
 use App\Entity\Word;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -56,7 +53,7 @@ class HelpController extends AbstractController
                 $position = $endpoints[$i - 1] + 1;
                 $lenght = $endpoints[$i] - $endpoints[$i - 1];
             }
-            $syllabes[] = substr($word->getContent(), $position, $lenght);
+            $syllabes[] = mb_substr($word->getContent(), $position, $lenght);
         }
         $managerRegistry->getManager()->flush();
         return $this->render('easi/helpOne.html.twig', [

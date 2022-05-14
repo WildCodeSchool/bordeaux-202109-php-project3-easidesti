@@ -4,8 +4,7 @@
     {{ encore_entry_script_tags('edit_word') }}
     {{ encore_entry_script_tags('definition') }}
 {% endblock %}
-{% block body %}
-    {% include 'admin/admin_component/_nav.html.twig' %}
+{% block content %}
     <div class="container-fluid">
         <h1 class="text-center pt-5">{{ word.content }}</h1>
         <div id="form" class="col-10 col-sm-8 col-lg-5 mx-auto">

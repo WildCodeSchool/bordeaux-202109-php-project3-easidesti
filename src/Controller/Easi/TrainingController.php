@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Easi;
 
 use App\Entity\HistoryTraining;
 use App\Entity\Training;
@@ -126,9 +126,9 @@ class TrainingController extends AbstractController
                 'aspectRatio' => 3,
                     'scales' => [
                         'y' => [
-                          'grid' => [
-                              'display' => false,
-                          ]
+                            'grid' => [
+                                'display' => false,
+                            ]
                         ],
                         'x' => [
                             'ticks' => [

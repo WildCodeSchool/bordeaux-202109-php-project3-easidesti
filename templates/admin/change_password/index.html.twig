@@ -1,0 +1,15 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Changement de mot de passe{% endblock %}
+
+{% block content %}
+<div class="row mt-5">
+    <h1 class="text-center">Vous êtes sur le point de changer de mot de passe</h1>
+    <div class="col-lg-4 m-auto mt-5">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary" onclick="return confirm('Êtes-vous sur de vouloir changer le mot de passe')">Changer</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

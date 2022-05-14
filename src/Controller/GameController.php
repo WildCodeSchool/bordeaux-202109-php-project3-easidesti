@@ -48,7 +48,9 @@ class GameController extends AbstractController
             return $this->redirectToRoute('congralate');
         }
         $lastTraining = $this->getUser()->getLastTraining();
-        $workSerie = $workLetter->getSerieForResultTraining($lastTraining);
+        $lastGame = $managerRegistry->getRepository(Game::class)
+            ->findOneBy(['player' => $this->getUser()], ['id' => 'DESC']);
+        $workSerie = $workLetter->getSerieForResultTraining($lastTraining, $lastGame);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());

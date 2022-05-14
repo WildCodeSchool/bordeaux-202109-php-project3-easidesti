@@ -1,23 +1,15 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use App\Entity\Game;
-use App\Entity\Letter;
 use App\Entity\School;
 use App\Entity\SchoolLevel;
 use App\Entity\Serie;
 use App\Entity\User;
-use App\Entity\Word;
-use App\Form\SchoolLevelType;
-use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
