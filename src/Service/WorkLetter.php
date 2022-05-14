@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Game;
 use App\Entity\HistoryTraining;
 use App\Entity\Letter;
 use App\Entity\Serie;
@@ -28,7 +29,7 @@ class WorkLetter
         $this->letterRepository = $managerRegistry->getRepository(Letter::class);
     }
 
-    public function getSerieForResultTraining(Training $training): Serie
+    public function getSerieForResultTraining(Training $training, Game $lastGame): Serie
     {
         $datas = [];
         $totalErrors = count($this->historyRepository->findBy(['training' => $training]));
@@ -42,7 +43,7 @@ class WorkLetter
         }
         $level = $this->getLevelForLetterWork($this->getRandomLetterWork($datas), $training);
         $letter = $this->letterRepository->findOneBy(['content' => $this->getRandomLetterWork($datas)]);
-        $series = $this->serieRepository->findBy(['letter' => $letter, 'level' => $level]);
+        $series = $this->serieRepository->findSerieWork($letter, $level, $lastGame);
         return $series[array_rand($series)];
     }
 

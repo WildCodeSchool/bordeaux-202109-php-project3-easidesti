@@ -27,18 +27,21 @@ class GameController extends AbstractController
 
     private SessionInterface $session;
 
-    public function __construct(RequestStack $requestStack)
+    private ManagerRegistry $doctrine;
+
+    public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine)
     {
-        $this->session = $requestStack->getSession();
+        $this->session = $requestStack->getCurrentRequest()->getSession();
+        $this->doctrine = $doctrine;
     }
 
     /**
      * @Route("/game", name="game_init")
      */
-    public function initEasiGame(ManagerRegistry $managerRegistry, WorkLetter $workLetter): Response
+    public function initEasiGame(WorkLetter $workLetter): Response
     {
         $this->session->remove('helps');
-        $entityManager = $managerRegistry->getManager();
+        $entityManager = $this->managerRegistry->getManager();
         if ($this->getUser()->getHasTest() === false) {
             return $this->redirectToRoute('training_training', [
                 'trainingNumber' => self::TRAINING_START,
@@ -48,7 +51,9 @@ class GameController extends AbstractController
             return $this->redirectToRoute('congralate');
         }
         $lastTraining = $this->getUser()->getLastTraining();
-        $workSerie = $workLetter->getSerieForResultTraining($lastTraining);
+        $lastGame = $this->managerRegistry->getRepository(Game::class)
+            ->findOneBy(['player' => $this->getUser()], ['id' => 'DESC']);
+        $workSerie = $workLetter->getSerieForResultTraining($lastTraining, $lastGame);
         $game = new Game();
         $game->setIsEasi(true);
         $game->setPlayer($this->getUser());
@@ -100,7 +105,7 @@ class GameController extends AbstractController
     /**
      * @Route("/easi/game/{id}/mot/{word}/prononciation/{picture}", name="check_response")
      */
-    public function checkResponse(Game $game, Word $word, string $picture, ManagerRegistry $managerRegistry): Response
+    public function checkResponse(Game $game, Word $word, string $picture): Response
     {
         $correctPicture = $word->getPronunciation()->getPicture();
         if ($game->getErrorStep() === (self::MAX_ERROR_ALLOWED - 1) && $correctPicture !== $picture) {
@@ -117,7 +122,7 @@ class GameController extends AbstractController
             $game->setErrorCount($game->getErrorCount() + 1);
             $successType = false;
         }
-        $managerRegistry->getManager()->flush();
+        $this->managerRegistry->getManager()->flush();
         return $this->redirectToRoute('easiresult_step', [
             'word'    => $word->getId(),
             'id'      => $game->getId(),

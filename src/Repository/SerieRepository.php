@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Endpoint;
+use App\Entity\Game;
+use App\Entity\Letter;
 use App\Entity\Serie;
 use App\Entity\Word;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -32,6 +34,20 @@ class SerieRepository extends ServiceEntityRepository
             ->setParameter('serie', $serie)
             ->getQuery()
             ->getSingleScalarResult()
+            ;
+    }
+
+    public function findSerieWork(Letter $letter, int $level, Game $lastGame)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.letter = :letter')
+            ->andWhere('s.level = :level')
+            ->andWhere('s.id != :lastGame')
+            ->setParameter('letter', $letter)
+            ->setParameter('level', $level)
+            ->setParameter('lastGame', $lastGame)
+            ->getQuery()
+            ->getResult()
             ;
     }
     // /**

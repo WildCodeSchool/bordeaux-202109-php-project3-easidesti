@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\School;
 use App\Form\SchoolType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminSchoolController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+
     /**
      * @Route("/creation", name="new_school")
      */
@@ -26,9 +33,8 @@ class AdminSchoolController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $school = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($school);
-            $entityManager->flush();
+            $this->managerRegistry->getManager()->persist($school);
+            $this->managerRegistry->getManager()->flush();
             $this->addFlash(
                 'success',
                 'L\'établissement a bien été créé!'
@@ -43,9 +49,9 @@ class AdminSchoolController extends AbstractController
     /**
      * @Route("/liste_des_etablissements", name="show_school")
      */
-    public function showSchoolForEdit(ManagerRegistry $managerRegistry): Response
+    public function showSchoolForEdit(): Response
     {
-        $schools = $managerRegistry->getRepository(School::class)->findAll();
+        $schools = $this->managerRegistry->getRepository(School::class)->findAll();
 
         return $this->render('admin/registration/school/showSchool.html.twig', [
             'schools' => $schools,
@@ -55,13 +61,13 @@ class AdminSchoolController extends AbstractController
     /**
      * @Route("/modification_etablissement/{id}", name="edit")
      */
-    public function editSchool(Request $request, School $school, EntityManagerInterface $entityManager): Response
+    public function editSchool(Request $request, School $school): Response
     {
         $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->managerRegistry->getManager()->flush();
             $this->addFlash(
                 'success',
                 'L\'établissement a bien été modifié!'
@@ -78,10 +84,10 @@ class AdminSchoolController extends AbstractController
     /**
      * @Route("/suppression_etablissement/{id}", name="delete")
      */
-    public function deleteSchool(School $school, EntityManagerInterface $entityManager): Response
+    public function deleteSchool(School $school): Response
     {
-        $entityManager->remove($school);
-        $entityManager->flush();
+        $this->managerRegistry->getManager()->remove($school);
+        $this->managerRegistry->getManager()->flush();
         $this->addFlash(
             'success',
             'L\'établissement a bien été supprimé!'

@@ -1,0 +1,17 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title 'Acceuil admin' %}
+
+{% block content %}
+
+    <div class="row">
+        <h1 class="text-center">Bienvenue {{ app.user.nickname }} sur la page d'accueil</h1>
+
+        <div class="col-lg-6 m-auto mt-5">
+            <h3 class="text-center">
+                <a href="{{ path('admin_reset_test')}}" class="btn btn-danger btn-lg btn-block" onclick="return confirm('Êtes-vous sûr de vouloir réinitialiser les test ?')">Relancer les tests de positionnements pour tous les élèves</a>
+            </h3>
+        </div>
+    </div>
+
+{% endblock %}

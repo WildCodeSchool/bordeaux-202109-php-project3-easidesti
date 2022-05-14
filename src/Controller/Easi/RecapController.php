@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Easi;
 
 use App\Entity\Game;
 use App\Entity\HelpStat;
@@ -17,6 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RecapController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+
     /**
      * @Route("/recap/{game}", name="recap_game")
      */
@@ -24,10 +31,9 @@ class RecapController extends AbstractController
         Game $game,
         RequestStack $requestStack,
         WordRepository $wordRepository,
-        ManagerRegistry $managerRegistry,
         WordGenerator $wordGenerator
     ): Response {
-        $entityManager = $managerRegistry->getManager();
+        $entityManager = $this->managerRegistry->getManager();
         $letter = $game->getFirstWord()->getLetter()->getContent();
         $word = $game->getFirstWord();
         if ($requestStack->getSession()->get('helps')) {

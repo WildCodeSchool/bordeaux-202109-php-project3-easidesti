@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\SchoolLevel;
 use App\Form\SchoolLevelType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminSchoolLevelController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+
     /**
      * @Route("/creation", name="new")
      */
@@ -26,9 +33,8 @@ class AdminSchoolLevelController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $schoolLevel = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($schoolLevel);
-            $entityManager->flush();
+            $this->managerRegistry->getManager()->persist($schoolLevel);
+            $this->managerRegistry->getManager()->flush();
             $this->addFlash(
                 'success',
                 'La classe a bien été créé!'
@@ -42,9 +48,9 @@ class AdminSchoolLevelController extends AbstractController
     /**
      * @Route("/selection_classe", name="select_school_level")
      */
-    public function selectSchoolLevelForEdit(ManagerRegistry $managerRegistry): Response
+    public function selectSchoolLevelForEdit(): Response
     {
-        $schoolLevels = $managerRegistry->getRepository(SchoolLevel::class)->findAll();
+        $schoolLevels = $this->managerRegistry->getRepository(SchoolLevel::class)->findAll();
 
         return $this->render('admin/registration/schoolLevel/selectSchoolLevel.html.twig', [
             'schoolLevels' => $schoolLevels,
@@ -55,14 +61,13 @@ class AdminSchoolLevelController extends AbstractController
      */
     public function editSchoolLevel(
         Request $request,
-        SchoolLevel $schoolLevel,
-        EntityManagerInterface $entityManager
+        SchoolLevel $schoolLevel
     ): Response {
         $form = $this->createForm(SchoolLevelType::class, $schoolLevel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->managerRegistry->getManager()->flush();
             $this->addFlash(
                 'success',
                 'L\'établissement a bien été modifié!'
@@ -80,13 +85,12 @@ class AdminSchoolLevelController extends AbstractController
      */
     public function deleteSchoolLevel(
         SchoolLevel $schoolLevel,
-        EntityManagerInterface $entityManager
     ): Response {
-        $entityManager->remove($schoolLevel);
-        $entityManager->flush();
+        $this->managerRegistry->getManager()->remove($schoolLevel);
+        $this->managerRegistry->getManager()->flush();
         $this->addFlash(
             'success',
-            'L\'établissement a bien été supprimé!'
+            'La classe a bien été supprimée!'
         );
         return $this->redirectToRoute('admin_school_level_select_school_level', [], Response::HTTP_SEE_OTHER);
     }

@@ -1,23 +1,15 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use App\Entity\Game;
-use App\Entity\Letter;
 use App\Entity\School;
 use App\Entity\SchoolLevel;
 use App\Entity\Serie;
 use App\Entity\User;
-use App\Entity\Word;
-use App\Form\SchoolLevelType;
-use App\Form\SchoolType;
 use App\Form\SearchWordType;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use App\Repository\WordRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,10 +25,39 @@ class AdminController extends AbstractController
 
     private WordRepository $wordRepository;
 
-    public function __construct(SerieRepository $serieRepository, WordRepository $wordRepository)
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(
+        SerieRepository $serieRepository,
+        WordRepository $wordRepository,
+        ManagerRegistry $managerRegistry
+    )
     {
         $this->serieRepository = $serieRepository;
         $this->wordRepository  = $wordRepository;
+        $this->managerRegistry = $managerRegistry;
+    }
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function homePage(): Response
+    {
+        return $this->render('admin/home.html.twig');
+    }
+
+    /**
+     * @Route("/reset_test", name="reset_test")
+     */
+    public function resetTest(): Response
+    {
+        $students = $this->getDoctrine()->getRepository(User::class)->findAll();
+        foreach ($students as $student) {
+            $student->setHasTest(0);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        $this->addFlash('success', 'Les test ont été réinitialisés');
+        return $this->redirectToRoute('admin_home');
     }
 
     /**
@@ -76,12 +97,12 @@ class AdminController extends AbstractController
     /**
      * @Route("/affichage/series/easi/{id}", name="series_show", methods={"GET", "POST"})
      */
-    public function show(Serie $serie, Request $request, ManagerRegistry $managerRegistry): Response
+    public function show(Serie $serie, Request $request): Response
     {
         $form = $this->createForm(SerieType::class, $serie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $managerRegistry->getManager()->flush();
+            $this->managerRegistry->getManager()->flush();
             return $this->redirectToRoute('admin_series_show', [
                 'id' => $serie->getId(),
             ]);
@@ -95,9 +116,9 @@ class AdminController extends AbstractController
     /**
      * @Route("/affichage/statistique/easi/ecoles", name="schools")
      */
-    public function showAllSchools(ManagerRegistry $managerRegistry): Response
+    public function showAllSchools(): Response
     {
-        $schoolRepository = $managerRegistry->getRepository(School::class);
+        $schoolRepository = $this->managerRegistry->getRepository(School::class);
         $schools = $schoolRepository->findAll();
         return $this->render('admin/school/index.html.twig', [
             'schools'   => $schools,
