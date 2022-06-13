@@ -27,12 +27,12 @@ class GameController extends AbstractController
 
     private SessionInterface $session;
 
-    private ManagerRegistry $doctrine;
+    private ManagerRegistry $managerRegistry;
 
     public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine)
     {
         $this->session = $requestStack->getCurrentRequest()->getSession();
-        $this->doctrine = $doctrine;
+        $this->managerRegistry = $doctrine;
     }
 
     /**

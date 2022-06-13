@@ -49,8 +49,8 @@ class TrainingController extends AbstractController
                 $training->addWord($word);
             }
         }
-        $this->manager->getManager()->persist($training);
-        $this->manager->getManager()->flush();
+        $this->managerRegistry->getManager()->persist($training);
+        $this->managerRegistry->getManager()->flush();
 
         return $this->redirectToRoute('training_play', [
             'id' => $training->getId(),
